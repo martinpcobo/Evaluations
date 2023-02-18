@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function (spModal) {
+	/* widget controller */
+	var c = this;
+
+	c.sendQuiz = function (metric_type_sys_id, user_sys_id) {
+		c.confirmed = 'asking';
+		spModal.confirm('Are you sure?').then(function (confirmed) {
+			if (confirmed) {
+				c.server.get({
+					action: 'send_quiz',
+					metric_type_sys_id: metric_type_sys_id,
+					user_sys_id: user_sys_id,
+				});
+			}
+		});
+	};
+};
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.failed-score {&#13;
+  color: #FF0000 !important;&#13;
+  font-weight: 600;&#13;
+}&#13;
+.passed-score {&#13;
+  color: #4C9A2A !important;&#13;
+  font-weight: 600;&#13;
+}&#13;
+&#13;
+&#13;
+$font-size-large : 20px !default;&#13;
+$font-size-small : 12px !default;&#13;
+$font-size-h3 : 20px !default;&#13;
+$font-size-h2 : 24px !default;&#13;
+$font-size-base : 16px !default;&#13;
+$font-size-xs : 12px !default;&#13;
+$headings-font-weight : 600 !default;&#13;
+&#13;
+$sp-space--xxs: 2px !default;&#13;
+$sp-space--sm : 8px !default;&#13;
+$sp-space--xs : 4px !default;&#13;
+$sp-space--xl : 24px !default;&#13;
+&#13;
+$padding-small-horizontal : 12px !default;&#13;
+$padding-base-vertical : 6px !default;&#13;
+$padding-large-vertical : 8px !default;&#13;
+$padding-xs-horizontal : 8px !default;&#13;
+$padding-base-horizontal : 16px !default;&#13;
+$padding-small-vertical : 4px !default;&#13;
+&#13;
+$link-color : #3c59e7 !default;&#13;
+$link-hover-color : #263994 !default;&#13;
+&#13;
+$border-radius-base : 4px !default;&#13;
+$border-radius-small: 2px !default;&#13;
+&#13;
+$label-margin-bottom : 4px !default;&#13;
+&#13;
+$text-primary : #181A1F !default;&#13;
+$text-secondary : #474D5A !default;&#13;
+$text-tertiary : #656E81 !default;&#13;
+&#13;
+$background-primary : #ffffff !default;&#13;
+$background-secondary : #f6f6f8 !default; &#13;
+$background-tertiary : #F0F1F5 !default;&#13;
+&#13;
+$border-secondary : #ACB2BE !default;&#13;
+$border-tertiary : #DADDE2 !default;&#13;
+$color-sp-separator: #EAEAEA;&#13;
+&#13;
+$sp-panel-box-shadow : 0 4px 8px 0 rgba(23,40,52,0.08) !default;&#13;
+&#13;
+.my-items-container {&#13;
+  box-shadow: $sp-panel-box-shadow;&#13;
+  min-height: 20rem;&#13;
+  background-color: $background-primary;&#13;
+  margin-bottom: 1rem;&#13;
+  border: 1px solid #ddd;&#13;
+  .widget-header {&#13;
+    border-bottom: 1px solid $color-sp-separator;&#13;
+    padding: $padding-small-horizontal;&#13;
+    .title {&#13;
+      font-weight: 600;&#13;
+      font-size: $font-size-large;&#13;
+      color: $text-primary;&#13;
+      margin: 1rem;&#13;
+    }&#13;
+    p {&#13;
+      margin: 0 1rem 0 1rem;&#13;
+    }&#13;
+  }&#13;
+  .no-primary-activity {&#13;
+    margin-top: $padding-small-horizontal !important;&#13;
+  }&#13;
+  .my-items-body {&#13;
+    display: flex;&#13;
+    flex-wrap: wrap;&#13;
+    margin-top: $sp-space--xl;&#13;
+    padding-right: $sp-space--xl;&#13;
+    padding-top: 0px;&#13;
+    .text-grey {&#13;
+      * {&#13;
+        color: $text-tertiary !important;&#13;
+      }&#13;
+    }&#13;
+    .activity-check {&#13;
+      text-align: center;&#13;
+      width: 100%;&#13;
+      margin-right: $sp-space--xl;&#13;
+    }&#13;
+    .no-items {&#13;
+      font-size: $font-size-small;&#13;
+      color: $text-primary;&#13;
+    }&#13;
+    .summary-view {&#13;
+      display: flex;&#13;
+      flex-direction: column;&#13;
+      margin-bottom: 1.8rem;&#13;
+      padding-left: $sp-space--xl;&#13;
+      .primary:hover {&#13;
+        box-shadow: $sp-panel-box-shadow;&#13;
+      }&#13;
+      .primary {&#13;
+        padding: $padding-base-vertical;&#13;
+        background: $background-primary;&#13;
+        border: 1px solid $border-tertiary;&#13;
+        border-radius: $border-radius-base;&#13;
+        height: 7.6rem;&#13;
+        min-width: 218px;&#13;
+        align-items: center;&#13;
+        justify-content: center;&#13;
+      }&#13;
+      .primary-activity {&#13;
+        display: flex;&#13;
+        flex-direction: column;&#13;
+        align-items: center;&#13;
+        justify-content: center;&#13;
+        height: 100%;&#13;
+      }&#13;
+      .primary-item-count {&#13;
+        margin: 0rem;&#13;
+        font-size: $font-size-h2;&#13;
+        color: $link-color;&#13;
+      }&#13;
+      .primary-item-name {&#13;
+        color: $text-primary;&#13;
+        font-size: $font-size-base;&#13;
+        overflow: hidden;&#13;
+        line-height: 1.68rem;&#13;
+        margin: 0rem;&#13;
+        white-space: nowrap;&#13;
+        max-width:240px;&#13;
+        text-overflow:ellipsis&#13;
+      }&#13;
+      .secondary-width {&#13;
+        width: none;&#13;
+      }&#13;
+    }&#13;
+    .secondary {&#13;
+      display: grid;&#13;
+      grid-template-columns: repeat(2,minmax(104px,1fr));&#13;
+      grid-gap: 10px;&#13;
+      padding-top: 10px;&#13;
+      .activity-container {	&#13;
+        .secondary-activity:hover {&#13;
+          box-shadow: $sp-panel-box-shadow;&#13;
+        }&#13;
+        .secondary-activity {&#13;
+          background: $background-primary;&#13;
+          border: 1px solid $border-tertiary;&#13;
+          border-radius: $border-radius-base;&#13;
+          height: 3.4rem;&#13;
+          padding-left: $padding-small-horizontal;&#13;
+          padding-right: $padding-small-vertical;&#13;
+          display: flex;&#13;
+          align-items: center;&#13;
+          min-width: 104px;&#13;
+        }&#13;
+        .secondary-item-count {&#13;
+          margin: 0rem;&#13;
+          font-size: $font-size-base;&#13;
+          color: $link-color;&#13;
+          padding-right: $padding-base-vertical;&#13;
+        }&#13;
+        .secondary-item-name {&#13;
+          color: $text-primary;&#13;
+          font-size: $font-size-small;&#13;
+          overflow: hidden;&#13;
+          text-overflow: ellipsis;&#13;
+          height: 2rem;&#13;
+          line-height: 2rem;&#13;
+          margin: 0rem;&#13;
+          white-space: nowrap;&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+    .secondary-large {&#13;
+      display: grid;&#13;
+      grid-template-columns: repeat(1,minmax(104px,1fr));&#13;
+      grid-gap: 10px;&#13;
+      padding-top: 10px;&#13;
+      .activity-container {&#13;
+        .secondary-activity:hover {&#13;
+          box-shadow: $sp-panel-box-shadow;&#13;
+        }&#13;
+        .secondary-activity {&#13;
+          display: grid;&#13;
+          grid-template-columns: 1fr min-content;&#13;
+          grid-gap: 5px;&#13;
+          align-items: center;&#13;
+&#13;
+          background: $background-primary;&#13;
+          border: 1px solid $border-tertiary;&#13;
+          border-radius: $border-radius-base;&#13;
+          height: 3.4rem;&#13;
+          padding-left: $padding-small-horizontal;&#13;
+          padding-right: $padding-small-vertical;&#13;
+          min-width: 104px;&#13;
+        }&#13;
+        .secondary-item-count {&#13;
+          margin: 0rem;&#13;
+          font-size: $font-size-base;&#13;
+          color: $link-color;&#13;
+          padding-right: $padding-base-vertical;&#13;
+        }&#13;
+        .secondary-item-name {&#13;
+          color: $text-primary;&#13;
+          font-size: $font-size-small;&#13;
+          overflow: hidden;&#13;
+          text-overflow: ellipsis;&#13;
+          height: 2rem;&#13;
+          line-height: 2rem;&#13;
+          margin: 0rem;&#13;
+          white-space: nowrap;&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+    .divider {&#13;
+      height: 0;&#13;
+      border: $border-radius-small solid #F6F6F6;&#13;
+      margin-right: $sp-space--xl;&#13;
+      margin-bottom: 1.8rem;&#13;
+      width: 100%;&#13;
+    }&#13;
+    .list-view {&#13;
+      flex: 1 0 242px;&#13;
+      padding-left: $sp-space--xl;&#13;
+      .view-all {&#13;
+        color: $link-color;&#13;
+        justify-items: flex-end;&#13;
+        font-size: $font-size-small;&#13;
+        height: fit-content;&#13;
+        height: -moz-fit-content;&#13;
+        padding: $sp-space--xxs;&#13;
+        min-width: 63px;&#13;
+      }&#13;
+      .view-all:hover {&#13;
+        color: $link-hover-color;&#13;
+      }&#13;
+      .header {&#13;
+        display: flex;&#13;
+        .list-header {&#13;
+          font-size: $font-size-large;&#13;
+          margin-top: 0rem;&#13;
+          color: $text-primary;&#13;
+          flex-grow: 1;&#13;
+          margin-bottom: 1.8rem;&#13;
+        }&#13;
+      }&#13;
+      .card-container {&#13;
+        display: grid;&#13;
+        grid-template-columns: repeat(auto-fit,minmax(218px,1fr));&#13;
+        grid-column-gap: 1.8rem;&#13;
+        .flex-item-card:hover {&#13;
+          box-shadow: $sp-panel-box-shadow;&#13;
+        }&#13;
+        .flex-item-card {&#13;
+          border: 1px solid $border-tertiary;&#13;
+          background: $background-primary;&#13;
+          border-radius: $border-radius-base;&#13;
+          min-height: 136px;&#13;
+          padding: $padding-base-horizontal;&#13;
+          margin-bottom: 1.8rem;&#13;
+          p {&#13;
+            margin-bottom: 0px;&#13;
+          }&#13;
+          .item-badge {&#13;
+            padding: $sp-space--xxs $sp-space--xs;&#13;
+            border-radius: $border-radius-small;&#13;
+            height: $font-size-large;&#13;
+            min-height: $font-size-large;&#13;
+            font-size: $font-size-xs;&#13;
+            font-weight: normal;&#13;
+          }&#13;
+          .item-title {&#13;
+            min-height: 2rem;&#13;
+            color: $text-primary;&#13;
+            font-size: $font-size-base;&#13;
+            font-weight: $headings-font-weight;&#13;
+            margin-bottom: $padding-base-vertical;&#13;
+            margin-top: -3px;&#13;
+          }&#13;
+          .item-description {&#13;
+            min-height: $font-size-large;&#13;
+            color: $text-secondary;&#13;
+            font-size: $font-size-xs;&#13;
+            font-weight: normal;&#13;
+          }&#13;
+          .item-field {&#13;
+            font-size: $font-size-xs;&#13;
+            color: $text-tertiary;&#13;
+          }&#13;
+          .item-value {&#13;
+            font-size: $font-size-xs;&#13;
+            color: $text-primary;&#13;
+          }&#13;
+          .text-ellipsis {&#13;
+            overflow: hidden;&#13;
+            text-overflow: ellipsis;&#13;
+            display: -webkit-box;&#13;
+            -webkit-box-orient: vertical;&#13;
+            word-break: break-word;&#13;
+          }&#13;
+          .text-ellipsis-two-line {&#13;
+            -webkit-line-clamp: 2;&#13;
+          }&#13;
+          .card-image {&#13;
+            display: flex;&#13;
+            justify-content: flex-start;&#13;
+            margin-top: $padding-base-horizontal;&#13;
+            .card-text-container {&#13;
+              padding-left: $padding-base-horizontal;&#13;
+            }&#13;
+            .image-item {&#13;
+              height: 70px;&#13;
+              width: 70px;&#13;
+              min-width: 70px;&#13;
+            }&#13;
+          }&#13;
+          .field-name {&#13;
+            display: flex;&#13;
+            margin-top: $padding-small-horizontal;&#13;
+          }&#13;
+          .field-value {&#13;
+            display: flex;&#13;
+            margin-top: $sp-space--xxs;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.fix-width {&#13;
+  width: 50%;	&#13;
+}	&#13;
+.full-fix-width {	&#13;
+  width: 100%;	&#13;
+}&#13;
+&#13;
+.field-container {&#13;
+  padding-right: 1.0rem;&#13;
+  word-break: break-word;&#13;
+  -webkit-line-clamp: 1;&#13;
+}&#13;
+&#13;
+/* IE specific Class to override */&#13;
+@media screen and (-ms-high-contrast: active),&#13;
+  (-ms-high-contrast: none) and (min-width: 992px, (max-width: 380px)){&#13;
+    .my-items-container{&#13;
+      min-width: auto !important;&#13;
+      .summary-view{&#13;
+        flex: 1 1 288px !important;&#13;
+        .primary{&#13;
+          min-width: 220px !important;&#13;
+        }&#13;
+        .secondary{&#13;
+          .activity-container{&#13;
+            flex: 1 1 110px !important;&#13;
+            .secondary-activity{&#13;
+              min-width: 110px !important;&#13;
+            }&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+      .list-view{&#13;
+        flex: 1 1 278px !important;&#13;
+        .card-container{&#13;
+          justify-content: flex-start !important;&#13;
+          .flex-item-card{&#13;
+            flex: 1 1 242px !important;&#13;
+            .card-image &gt; div{&#13;
+              width: 100% !important;&#13;
+            }&#13;
+            .text-ellipsis{&#13;
+              width: auto !important;&#13;
+            }&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+}&#13;
+@media screen and (-ms-high-contrast: active),&#13;
+  (-ms-high-contrast: none) {&#13;
+    .my-items-container{&#13;
+      min-width: 362px;&#13;
+      .summary-view{&#13;
+        .secondary{&#13;
+          display: inline-flex;&#13;
+          flex-flow: row wrap;&#13;
+          padding-top: 10px;&#13;
+          margin: -10px 0 0 -10px;&#13;
+          .activity-container{&#13;
+            margin: 10px 0 0 10px;&#13;
+            flex: 1 0 139px;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+      .list-view{&#13;
+        .view-all{&#13;
+          height: 22px;&#13;
+        }&#13;
+      }&#13;
+      .card-container{&#13;
+        display: flex;&#13;
+        flex-flow: row wrap;&#13;
+        justify-content: space-around;&#13;
+        .flex-item-card{&#13;
+          p {&#13;
+            display: inline;&#13;
+          }&#13;
+          width: 312px;&#13;
+          .card-text-container{&#13;
+            .text-ellipsis{&#13;
+              width: 203px;&#13;
+            }&#13;
+          }&#13;
+          .text-ellipsis{&#13;
+            white-space: nowrap;&#13;
+            width: 278px;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+}&#13;
+&#13;
+.actions-container {&#13;
+  display: grid;&#13;
+  grid-template-columns: min-content min-content;&#13;
+  column-gap: 1rem;&#13;
+  padding: 2rem;&#13;
+&#13;
+  background-color: white;&#13;
+  border: 1px solid #ddd;&#13;
+  box-shadow: $sp-panel-box-shadow;&#13;
+&#13;
+  .actions-container__action {&#13;
+    border-radius: 0;&#13;
+    p {&#13;
+      grid-column: 2 / 3;&#13;
+      margin: 0;&#13;
+    }&#13;
+  }&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id/>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Evaluation Instance Details</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function () {
+	// ! Input/Actions Handling
+	if(input) {
+		if(input.action == "send_quiz") {
+			new EvaluationsUtils().sendUsersQuiz(input.user_sys_id, input.metric_type_sys_id);
+		}
+		return;
+	}
+
+	// ! Parameter Validation
+	var eval_instance_sys_id = $sp.getParameter('sys_id');
+	data.is_admin = gs.getUser().hasRole('admin');
+
+	data.metric_type = {};
+
+	var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+	if (!eval_instance_gr.get(eval_instance_sys_id)) {
+		gs.addErrorMessage('Please provide a valid Evaluation Instance ID');
+		data.evaluation.valid = false;
+		return;
+	}
+
+	// ! Business Logic
+	var evaluations_utils = new EvaluationsUtils();
+
+	var	eval_instance_categories = evaluations_utils.getEvaluationInstanceCategories(eval_instance_gr.getValue('assessment_instance'));
+	var evaluation_details = evaluations_utils.getEvaluationDetails(eval_instance_gr.getValue('evaluation'));
+
+	data.payload = {
+		valid: true,
+		metric_type: {
+			sys_id: eval_instance_gr.getValue('metric_type'),
+			name: evaluation_details.name,
+			categories: eval_instance_categories.categories,
+		},
+		evaluation: {
+			scoring: {
+				score_measured: eval_instance_gr.evaluation.score_measured.toString() == 'true',
+				passing_mark: eval_instance_gr.evaluation.passing_mark.toString(),
+			}
+		},
+		evaluation_instance: {
+			user: {
+				sys_id: eval_instance_gr.assessment_instance.user.toString(),
+				name: eval_instance_gr.assessment_instance.user.name.toString(),
+			},
+			score: eval_instance_gr.getValue('score'),
+			taken_on: eval_instance_gr.assessment_instance.taken_on.toString()
+		}
+	};
+	data.items = [
+		{
+			name: 'Questions',
+			count: evaluation_details.questions,
+		},
+		{
+			name: 'Unanswered',
+			count: eval_instance_gr.getValue('unanswered_questions'),
+		},
+		{
+			name: 'Correct',
+			count: eval_instance_gr.getValue('correct_answers'),
+		},
+		{
+			name: 'Incorrect',
+			count: eval_instance_gr.getValue('incorrect_answers'),
+		}
+	];
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 22:30:27</sys_created_on>
+        <sys_id>27b102bc1b81e550f78820662a4bcbb6</sys_id>
+        <sys_mod_count>17</sys_mod_count>
+        <sys_name>Evaluation Instance Details</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_27b102bc1b81e550f78820662a4bcbb6</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:23:22</sys_updated_on>
+        <template><![CDATA[<div ng-if="c.data.payload.valid">
+	<div class="my-items-container">
+		<div class="widget-header">
+			<h3 class="title">{{c.data.payload.metric_type.name}}</h3>
+			<p><b>Taken by:</b> <i>{{c.data.payload.evaluation_instance.user.name}}</i></p>
+			<p><b>Taken on:</b> <i>{{c.data.payload.evaluation_instance.taken_on}}</i></p>
+		</div>
+		<div class="my-items-body">
+			<div class="summary-view" style="flex: 1 0 242px">
+				<div class="primary" ng-if="c.data.payload.evaluation.scoring.score_measured">
+					<div class="primary-activity">
+						<h3
+							class="primary-item-count"
+							ng-class="c.data.payload.evaluation_instance.score >= c.data.payload.evaluation.scoring.passing_mark ? 'passed-score' : 'failed-score'"
+						>
+							{{c.data.payload.evaluation_instance.score ? c.data.payload.evaluation_instance.score : 0}}%
+						</h3>
+						<span class="primary-item-name">Average Score</span>
+					</div>
+				</div>
+				<div class="secondary" ng-class="true ? 'primary-width' : 'secondary-width'">
+					<div class="activity-container" ng-repeat="item in c.data.items">
+						<div class="secondary-activity" ng-class="item.items.length == 0 ? 'text-grey' : ''">
+							<span class="secondary-item-count">{{item.count}}</span>
+							<span
+								class="secondary-item-name"
+								ec-multiline-ellipsis-tooltip
+								ec-ellipsis-tooltip-title="{{item.name}}"
+								>{{item.name}}</span
+							>
+						</div>
+					</div>
+				</div>
+				<div class="secondary-large" ng-class="true ? 'primary-width' : 'secondary-width'">
+					<div class="activity-container" ng-repeat="category in c.data.payload.metric_type.categories">
+						<div class="secondary-activity" ng-class="category.questions.length == 0 ? 'text-grey' : ''">
+							<span
+								class="secondary-item-name"
+								ec-multiline-ellipsis-tooltip
+								ec-ellipsis-tooltip-title="{{item.name}}"
+								>{{category.name}}</span
+							>
+							<span
+								class="secondary-item-count"
+								ng-class="category.score == 0 ? 'text-grey' : category.score < 75 && category.score ? 'failed-score' : 'passed-score'"
+								>{{category.score}}%</span
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="actions-container" style="height: fit-content !important" ng-if="c.data.is_admin">
+		<button
+			class="actions-container__action btn btn-default btn-primary"
+			type="button"
+			ng-click="c.sendQuiz(c.data.payload.metric_type, c.data.payload.user.sys_id)"
+		>
+			<p>Resend Evaluation</p>
+		</button>
+	</div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

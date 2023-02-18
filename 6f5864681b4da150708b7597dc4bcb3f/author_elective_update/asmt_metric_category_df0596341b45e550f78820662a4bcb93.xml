@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category">
+    <asmt_metric_category action="DELETE">
+        <create_stakeholders>false</create_stakeholders>
+        <description/>
+        <details/>
+        <filter table="asmt_metric_type">sys_id=290512301b45e550f78820662a4bcbd9^EQ<item endquery="false" field="sys_id" goto="false" newquery="false" operator="=" or="false" value="290512301b45e550f78820662a4bcbd9"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter>
+        <metric_type display_value="CSA Tokyo - Exam 02">290512301b45e550f78820662a4bcbd9</metric_type>
+        <name>Database Management</name>
+        <order>1</order>
+        <qb_evaluation_method/>
+        <roles/>
+        <scoring_type>percent</scoring_type>
+        <sys_class_name>asmt_metric_category</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:54:49</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>df0596341b45e550f78820662a4bcb93</sys_id>
+        <sys_mod_count>26</sys_mod_count>
+        <sys_name>Database Management</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_category_df0596341b45e550f78820662a4bcb93</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:04:40</sys_updated_on>
+        <table>asmt_metric_type</table>
+        <total_metrics>6</total_metrics>
+        <u_client/>
+        <u_journey/>
+        <u_personas/>
+        <u_phases/>
+        <u_stakeholders/>
+        <u_survey>false</u_survey>
+        <weight>10</weight>
+    </asmt_metric_category>
+    <sys_translated_text action="DELETE" query="documentkey=df0596341b45e550f78820662a4bcb93"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_category_df0596341b45e550f78820662a4bcb93</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category"><asmt_metric_category action="INSERT_OR_UPDATE"><create_stakeholders>false</create_stakeholders><description/><details/><filter table="asmt_metric_type">sys_id=290512301b45e550f78820662a4bcbd9^EQ<item endquery="false" field="sys_id" goto="false" newquery="false" operator="=" or="false" value="290512301b45e550f78820662a4bcbd9"/><item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/></filter><metric_type display_value="CSA Tokyo - Exam 02">290512301b45e550f78820662a4bcbd9</metric_type><name>Database Management</name><order>1</order><qb_evaluation_method/><roles/><scoring_type>percent</scoring_type><sys_class_name>asmt_metric_category</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-13 23:54:49</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>df0596341b45e550f78820662a4bcb93</sys_id><sys_mod_count>26</sys_mod_count><sys_name>Database Management</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_category_df0596341b45e550f78820662a4bcb93</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-17 03:04:40</sys_updated_on><table>asmt_metric_type</table><total_metrics>6</total_metrics><u_client/><u_journey/><u_personas/><u_phases/><u_stakeholders/><u_survey>false</u_survey><weight>10</weight></asmt_metric_category><sys_translated_text action="delete_multiple" query="documentkey=df0596341b45e550f78820662a4bcb93"/></record_update>]]></payload>
+        <payload_hash>1518572703</payload_hash>
+        <record_name>Database Management</record_name>
+        <reverted_from/>
+        <source>b99cdab51b892d50708b7597dc4bcbae</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:04:40</sys_created_on>
+        <sys_id>ad4d96791b892d50708b7597dc4bcbc4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1865d54bf0e0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:04:40</sys_updated_on>
+        <type>Metric Category</type>
+        <update_guid>654d9679ff892d5091d5afb783394cc4</update_guid>
+        <update_guid_history>654d9679ff892d5091d5afb783394cc4:1518572703,b52d9e3979892d50ab7b2e7f2c9427f0:556947488,a92d9e39b7892d50f813d1d45129ed5b:-404677727,152d9e3951892d5027fb20318e9f8d37:-1366302942,552d9e3993892d509b68c7359c2c2416:1167736196,df1dda399f892d50f6955c13c30eedb7:206110981,c91d5a39e6892d50301df316c537c14b:-755514234,741d5a39c3892d502abac3bfc0609c31:-1717139449,760d963974892d5038c045fce28321e4:1616202632,ea0d9639a6892d50f7742881331be191:654577417,38151a340745e550fffa7266a934a889:-307047798,28151a349745e55016e730c51802b279:654577417,ac151a34ad45e55079361c25e9223566:1616202632,ac151a347445e550e699bb40d002c756:-1717139449,10151a340145e55009a0729558a41e2e:-755514234,18151a34ae45e550e6fe215445bf1002:206110981,1815d6346e45e5503bfe1e9a0b6af8f2:1167736196,0415d634d245e5509659c78d5c5a37dd:-1366302942,0415d6348045e550a05ff7bf51e759cd:-404677727,0415d634e845e550c55051c932bd2486:556947488,3b05d6343b45e550e11f342040f78444:1518572703,3705d6340d45e5503602e46de04c0c2f:-1814769378,6f05d634c745e55094f68614ec792712:-853144163,a70596343945e550008b278b37c377f6:108481052,2b059634cd45e550d0079aa35ec10bde:1070106267,930596342545e550965d86889d13b19a:2031731482,d30596349845e55077abcaac3fc9f496:401732397</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Database Management">aabed27d1b892d50708b7597dc4bcb6f</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:11:01</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_category">asmt_metric_category</sys_db_object>
+        <sys_id>6d571b90db7f47508c4dc82d23878649</sys_id>
+        <sys_metadata>df0596341b45e550f78820662a4bcb93</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Database Management</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_category_df0596341b45e550f78820662a4bcb93</sys_update_name>
+        <sys_update_version display_value="asmt_metric_category_df0596341b45e550f78820662a4bcb93">ad4d96791b892d50708b7597dc4bcbc4</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:11:01</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition">
+    <asmt_metric_definition action="DELETE">
+        <display>Because Cascade-cleanup of orphan dependent CIs across the CMDB might take several days to complete</display>
+        <metric display_value="">b3749eb01b45e550f78820662a4bcb29</metric>
+        <normalization_input>0</normalization_input>
+        <order/>
+        <selected_image/>
+        <sys_class_name>asmt_metric_definition</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:52:24</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>0c849eb01b45e550f78820662a4bcb3a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Because Cascade-cleanup of orphan dependent CIs across the CMDB might take several days to complete</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_definition_0c849eb01b45e550f78820662a4bcb3a</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:52:24</sys_updated_on>
+        <unselected_image/>
+        <value>5</value>
+    </asmt_metric_definition>
+    <sys_translated_text action="DELETE" query="documentkey=0c849eb01b45e550f78820662a4bcb3a"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_definition_0c849eb01b45e550f78820662a4bcb3a</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition"><asmt_metric_definition action="INSERT_OR_UPDATE"><display>Because Cascade-cleanup of orphan dependent CIs across the CMDB might take several days to complete</display><metric display_value="">b3749eb01b45e550f78820662a4bcb29</metric><normalization_input>0</normalization_input><order/><selected_image/><sys_class_name>asmt_metric_definition</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-13 23:52:24</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>0c849eb01b45e550f78820662a4bcb3a</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Because Cascade-cleanup of orphan dependent CIs across the CMDB might take several days to complete</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_definition_0c849eb01b45e550f78820662a4bcb3a</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-13 23:52:24</sys_updated_on><unselected_image/><value>5</value></asmt_metric_definition><sys_translated_text action="delete_multiple" query="documentkey=0c849eb01b45e550f78820662a4bcb3a"/></record_update>]]></payload>
+        <payload_hash>27395672</payload_hash>
+        <record_name>Because Cascade-cleanup of orphan dependent CIs across the CMDB might take several days to complete</record_name>
+        <reverted_from/>
+        <source>b35864681b4da150708b7597dc4bcb42</source>
+        <source_table>sys_update_set</source_table>
+        <state>backedout</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:52:25</sys_created_on>
+        <sys_id>cc849eb01b45e550f78820662a4bcb3c</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>1864d31a6cb0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:13:56</sys_updated_on>
+        <type>Assessment Metric Definition</type>
+        <update_guid>04849eb0ab45e550af8487990a4b793c</update_guid>
+        <update_guid_history>04849eb0ab45e550af8487990a4b793c:27395672</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Because Cascade-cleanup of orphan dependent CIs across the CMDB might take sever">485d5a791b892d50708b7597dc4bcb98</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:04:50</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_definition">asmt_metric_definition</sys_db_object>
+        <sys_id>2a8c86ad96b74888af59e16a1537f840</sys_id>
+        <sys_metadata>0c849eb01b45e550f78820662a4bcb3a</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Because Cascade-cleanup of orphan dependent CIs across the CMDB might take several days to complete</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_definition_0c849eb01b45e550f78820662a4bcb3a</sys_update_name>
+        <sys_update_version display_value="asmt_metric_definition_0c849eb01b45e550f78820662a4bcb3a">cc849eb01b45e550f78820662a4bcb3c</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:04:50</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

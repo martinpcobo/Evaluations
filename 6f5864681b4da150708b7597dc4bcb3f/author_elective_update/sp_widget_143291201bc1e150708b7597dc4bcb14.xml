@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="DELETE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {
+  /* widget controller */
+  var c = this;
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.text-success {&#13;
+  color: #4C9A2A !important&#13;
+}&#13;
+&#13;
+.text-danger {&#13;
+  color: #e25d3f !important&#13;
+}&#13;
+&#13;
+.correct-answer {&#13;
+  //background-color: #90ff90 !important;&#13;
+  background-color: hsla(101.786, 57%, 38%, .60) !important;&#13;
+}&#13;
+&#13;
+.incorrect-answer {&#13;
+  //background-color: #ff9f9f !important;&#13;
+  background-color: hsl(0, 100%, 50%, .60) !important;&#13;
+}&#13;
+&#13;
+.missed-answer {&#13;
+  background-color: #f7ec8b !important;&#13;
+  //background-color: hsl(60, 100%, 50%, .45) !important;&#13;
+}&#13;
+&#13;
+.question_container {&#13;
+  padding: 2rem;&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  row-gap: 2rem;&#13;
+}&#13;
+&#13;
+.question {&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  grid-template-rows: 2fr;&#13;
+  align-items: flex-start;&#13;
+  justify-content: center;&#13;
+  &#13;
+  border: 0;&#13;
+  border-radius: 0px;&#13;
+&#13;
+  .question__header {&#13;
+    background-color: white;&#13;
+    border: 0;&#13;
+&#13;
+    display: flex;&#13;
+    flex-flow: column nowrap;&#13;
+    justify-content: center;&#13;
+    align-items: flex-start;&#13;
+&#13;
+    p {&#13;
+      font-size: 1.6rem;&#13;
+      margin: 0;&#13;
+      padding: 0;&#13;
+    }&#13;
+&#13;
+    .question__header__name {&#13;
+      font-weight: bold;&#13;
+    }&#13;
+  }&#13;
+&#13;
+  .question__answers_container {&#13;
+    padding: 1rem;&#13;
+&#13;
+    grid-column: 1 / 2;&#13;
+    grid-row: 2 / 3;&#13;
+&#13;
+    font-size: var(--now-global-font-size--md);&#13;
+&#13;
+    display: grid;&#13;
+    grid-template-columns: 1fr;&#13;
+    row-gap: 2px;&#13;
+&#13;
+    .question__answers {&#13;
+      width: 100%;&#13;
+&#13;
+      display: grid;&#13;
+      grid-template-columns: 1fr;&#13;
+      row-gap: 5px;&#13;
+      justify-content: flex-start;&#13;
+      align-items: center;&#13;
+&#13;
+      .question__answers__ans {&#13;
+        display: grid;&#13;
+        grid-template-rows: 1fr;&#13;
+        justify-content: flex-start;&#13;
+        align-items: center;&#13;
+        column-gap: 5px;&#13;
+&#13;
+        font-style: italic;&#13;
+        p {&#13;
+          margin: 0;&#13;
+        }&#13;
+      }&#13;
+&#13;
+      .question__answers__ind {&#13;
+        padding-right: .5rem;&#13;
+        padding-left: .5rem;&#13;
+&#13;
+        border: black 1px solid;&#13;
+        border-radius: 0px;&#13;
+        padding: 10px 15px;&#13;
+&#13;
+        // Display&#13;
+        display: grid;&#13;
+        grid-template-columns: 25px 1fr auto;&#13;
+        grid-template-rows: 1fr;&#13;
+        column-gap: 3px;&#13;
+        justify-content: flex-start;&#13;
+        align-items: center;&#13;
+        column-gap: 1.3rem;&#13;
+&#13;
+        .question__answers__ind__value {&#13;
+          grid-column: 2 / 3;&#13;
+          grid-row: 1 / 2;&#13;
+          margin: 0;&#13;
+          padding: 0;&#13;
+&#13;
+          font-size: 1.6rem;&#13;
+          font-weight: bold;&#13;
+        }&#13;
+&#13;
+        .question__answers__ind__checkbox {          &#13;
+          grid-column: 1 / 2;&#13;
+          grid-row: 1 / 2;&#13;
+          margin: 0;&#13;
+          padding: 0;&#13;
+        }&#13;
+        &#13;
+        .question__answers__ind__user_answer {&#13;
+          grid-column: 3 / 4;&#13;
+          grid-row: 1 / 2;&#13;
+          margin: 0;&#13;
+          padding: 0;&#13;
+          font-weight: bold;&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.category {&#13;
+  border-radius: 0px;&#13;
+&#13;
+  .category__heading {&#13;
+    background-color: white;&#13;
+    border-bottom-width: 0;&#13;
+    // Display&#13;
+    display: flex;&#13;
+    justify-content: space-between;&#13;
+    align-items: center;&#13;
+&#13;
+    .category__heading__name {&#13;
+      margin: 0;&#13;
+      font-weight: 400;&#13;
+    }&#13;
+&#13;
+    .category__heading__score {&#13;
+      font-size: 1.6rem;&#13;
+      font-weight: 700;&#13;
+    }&#13;
+  }&#13;
+&#13;
+  .category__questions {&#13;
+  }&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>evaluation_results</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Evaluation Results</name>
+        <option_schema/>
+        <public>false</public>
+        <roles>admin</roles>
+        <script><![CDATA[(function () {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+	data.valid = true;
+
+	var quiz_gr = new GlideRecord('asmt_assessment_instance');
+	if (!quiz_gr.get($sp.getParameter('sys_id'))) {
+		data.valid = false;
+		return;
+	}
+	
+	console.log(new NewJoinerUtils().getMetricInstanceDetails(quiz_gr.getUniqueValue()).categories);
+	data.categories = new NewJoinerUtils().getMetricInstanceDetails(quiz_gr.getUniqueValue()).categories;
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 00:24:14</sys_created_on>
+        <sys_id>143291201bc1e150708b7597dc4bcb14</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Evaluation Results</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_143291201bc1e150708b7597dc4bcb14</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 00:26:31</sys_updated_on>
+        <template><![CDATA[<div ng-if="c.data.valid">
+	<div class="panel panel-collapsable panel-default category" ng-repeat="category in c.data.categories">
+		<div class="panel-heading category__heading" data-toggle="collapse" data-target="#panel-body-{{category.sys_id}}" aria-expanded="true">
+			<h3 class="category__heading__name">{{category.name}}</h3>
+			<div>
+				<span ng-if="category.score >= 75" class="text-success category__heading__score"
+					>Passed: {{category.score}}%</span
+				>
+				<span ng-if="category.score < 75" class="text-danger category__heading__score"
+					>Failed: {{category.score}}%</span
+				>
+			</div>
+		</div>
+		<div class="panel-body category__questions collapse" id="panel-body-{{category.sys_id}}">
+			<div
+				class="question panel"
+				ng-repeat="question in category.questions"
+				ng-class="{'text-muted': !question.user_answer.answered}"
+			>
+				<div class="panel-heading question__header">
+					<div class="question__header__number">
+						<p>
+							Question {{category.questions.indexOf(question) + 1}}:
+							<span
+								ng-if="question.user_answer.answered && question.user_answer.correct"
+								class="text-success"
+								style="font-weight: bold"
+								>Correct</span
+							>
+							<span
+								ng-if="question.user_answer.answered && !question.user_answer.correct"
+								class="text-danger"
+								style="font-weight: bold"
+								>Incorrect</span
+							>
+							<span ng-if="!question.user_answer.answered" style="font-weight: bold">Unanswered</span>
+						</p>
+					</div>
+					<div class="question__header__name">
+						<p>{{question.question}}</p>
+					</div>
+				</div>
+				<div class="panel-body question__answers_container">
+					<div
+						class="question__answers"
+						ng-if="question.datatype == 'multiplecheckbox' || question.datatype == 'choice'"
+					>
+						<div
+							class="question__answers__ind"
+							ng-repeat="def in question.definitions"
+							ng-class="{
+                             'correct-answer': question.user_answer.value.indexOf(def.value) != -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1,
+                             'incorrect-answer': question.user_answer.value.indexOf(def.value) != -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) == -1,
+                             'missed-answer': question.user_answer.value.indexOf(def.value) == -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1
+                             }"
+						>
+							<svg
+								ng-if="question.user_answer.value.indexOf(def.value) != -1"
+								class="question__answers__ind__checkbox"
+								width="25"
+								height="25"
+								viewBox="0 0 25 25"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<rect x="1" y="1" width="23" height="23" fill="black" stroke="black" stroke-width="2" />
+								<line
+									x1="5.64018"
+									y1="12.2318"
+									x2="11.6402"
+									y2="17.2318"
+									stroke="white"
+									stroke-width="2"
+								/>
+								<line
+									x1="10.2567"
+									y1="17.331"
+									x2="19.2567"
+									y2="7.33104"
+									stroke="white"
+									stroke-width="2"
+								/>
+							</svg>
+							<svg
+								ng-if="question.user_answer.value.indexOf(def.value) == -1"
+								class="question__answers__ind__checkbox"
+								width="25"
+								height="25"
+								viewBox="0 0 25 25"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<rect x="1" y="1" width="23" height="23" stroke="black" stroke-width="2" />
+							</svg>
+							<p class="question__answers__ind__value">{{def.display}}</p>
+							<p
+								class="question__answers__ind__user_answer text-success"
+								ng-if="question.user_answer.value.indexOf(def.value) != -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1"
+							>
+								(Correct)
+							</p>
+							<p
+								class="question__answers__ind__user_answer text-danger"
+								ng-if="question.user_answer.value.indexOf(def.value) != -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) == -1"
+							>
+								(Incorrect)
+							</p>
+							<p
+								class="question__answers__ind__user_answer text-muted"
+								ng-if="question.user_answer.value.indexOf(def.value) == -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1"
+							>
+								(Missed)
+							</p>
+						</div>
+						<div class="question__answers__ans">
+							<p>
+								<u>Correct Answer(s)</u>:
+								{{question.correct_answer.correct_answer_choice.display.join(', ')}}
+							</p>
+						</div>
+					</div>
+					<div
+						class="question__answers"
+						ng-if="question.datatype == 'boolean' || question.datatype == 'checkbox'"
+					>
+						<div
+							class="question__answers__ind"
+							ng-class="{
+                             'correct-answer': ((question.user_answer.value == question.correct_answer.correct_answer_yesno && question.datatype == 'boolean' && question.correct_answer.correct_answer_yesno == true) || (question.user_answer.value == question.correct_answer.correct_answer && question.datatype == 'checkbox' && question.correct_answer.correct_answer == true)),
+                             'incorrect-answer': ((question.user_answer.value != question.correct_answer.correct_answer_yesno && question.datatype == 'boolean' && question.correct_answer.correct_answer_yesno == true) || (question.user_answer.value != question.correct_answer.correct_answer && question.datatype == 'checkbox' && question.correct_answer.correct_answer == true))
+                             }"
+						>
+							<input
+								type="checkbox"
+								name="checkbox-{{question.sys_id}}"
+								disabled="disabled"
+								ng-checked="question.user_answer.value == true"
+							/>
+							<label for="checkbox-{{question.sys_id}}">True</label>
+						</div>
+						<div
+							class="question__answers__ind"
+							ng-class="{
+                    'correct-answer': ((question.user_answer.value == question.correct_answer.correct_answer_yesno && question.datatype == 'boolean' && question.correct_answer.correct_answer_yesno == false) || (question.user_answer.value == question.correct_answer.correct_answer && question.datatype == 'checkbox' && question.correct_answer.correct_answer == false)),
+                             'incorrect-answer': ((question.user_answer.value != question.correct_answer.correct_answer_yesno && question.datatype == 'boolean' && question.correct_answer.correct_answer_yesno == false) || (question.user_answer.value != question.correct_answer.correct_answer && question.datatype == 'checkbox' && question.correct_answer.correct_answer == false))
+                             }"
+						>
+							<input
+								type="checkbox"
+								name="checkbox-{{question.sys_id}}"
+								disabled="disabled"
+								ng-checked="question.user_answer.value == false"
+							/>
+							<label for="checkbox-{{question.sys_id}}">False</label>
+						</div>
+						<div class="question__answers__ans">
+							<p>
+								<u>Correct Answer</u>: {{(question.datatype == 'boolean' &&
+								question.correct_answer.correct_answer_yesno == true || question.datatype == 'checkbox'
+								&& question.correct_answer.correct_answer == true).toString()}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+]]></template>
+    </sp_widget>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>sp_widget_143291201bc1e150708b7597dc4bcb14</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sp_widget"&gt;&lt;sp_widget action="INSERT_OR_UPDATE"&gt;&lt;category&gt;custom&lt;/category&gt;&lt;client_script&gt;&lt;![CDATA[api.controller=function() {
+  /* widget controller */
+  var c = this;
+};]]&gt;&lt;/client_script&gt;&lt;controller_as&gt;c&lt;/controller_as&gt;&lt;css&gt;.text-success {&amp;#13;
+  color: #4C9A2A !important&amp;#13;
+}&amp;#13;
+&amp;#13;
+.text-danger {&amp;#13;
+  color: #e25d3f !important&amp;#13;
+}&amp;#13;
+&amp;#13;
+.correct-answer {&amp;#13;
+  //background-color: #90ff90 !important;&amp;#13;
+  background-color: hsla(101.786, 57%, 38%, .60) !important;&amp;#13;
+}&amp;#13;
+&amp;#13;
+.incorrect-answer {&amp;#13;
+  //background-color: #ff9f9f !important;&amp;#13;
+  background-color: hsl(0, 100%, 50%, .60) !important;&amp;#13;
+}&amp;#13;
+&amp;#13;
+.missed-answer {&amp;#13;
+  background-color: #f7ec8b !important;&amp;#13;
+  //background-color: hsl(60, 100%, 50%, .45) !important;&amp;#13;
+}&amp;#13;
+&amp;#13;
+.question_container {&amp;#13;
+  padding: 2rem;&amp;#13;
+  display: grid;&amp;#13;
+  grid-template-columns: 1fr;&amp;#13;
+  row-gap: 2rem;&amp;#13;
+}&amp;#13;
+&amp;#13;
+.question {&amp;#13;
+  display: grid;&amp;#13;
+  grid-template-columns: 1fr;&amp;#13;
+  grid-template-rows: 2fr;&amp;#13;
+  align-items: flex-start;&amp;#13;
+  justify-content: center;&amp;#13;
+  &amp;#13;
+  border: 0;&amp;#13;
+  border-radius: 0px;&amp;#13;
+&amp;#13;
+  .question__header {&amp;#13;
+    background-color: white;&amp;#13;
+    border: 0;&amp;#13;
+&amp;#13;
+    display: flex;&amp;#13;
+    flex-flow: column nowrap;&amp;#13;
+    justify-content: center;&amp;#13;
+    align-items: flex-start;&amp;#13;
+&amp;#13;
+    p {&amp;#13;
+      font-size: 1.6rem;&amp;#13;
+      margin: 0;&amp;#13;
+      padding: 0;&amp;#13;
+    }&amp;#13;
+&amp;#13;
+    .question__header__name {&amp;#13;
+      font-weight: bold;&amp;#13;
+    }&amp;#13;
+  }&amp;#13;
+&amp;#13;
+  .question__answers_container {&amp;#13;
+    padding: 1rem;&amp;#13;
+&amp;#13;
+    grid-column: 1 / 2;&amp;#13;
+    grid-row: 2 / 3;&amp;#13;
+&amp;#13;
+    font-size: var(--now-global-font-size--md);&amp;#13;
+&amp;#13;
+    display: grid;&amp;#13;
+    grid-template-columns: 1fr;&amp;#13;
+    row-gap: 2px;&amp;#13;
+&amp;#13;
+    .question__answers {&amp;#13;
+      width: 100%;&amp;#13;
+&amp;#13;
+      display: grid;&amp;#13;
+      grid-template-columns: 1fr;&amp;#13;
+      row-gap: 5px;&amp;#13;
+      justify-content: flex-start;&amp;#13;
+      align-items: center;&amp;#13;
+&amp;#13;
+      .question__answers__ans {&amp;#13;
+        display: grid;&amp;#13;
+        grid-template-rows: 1fr;&amp;#13;
+        justify-content: flex-start;&amp;#13;
+        align-items: center;&amp;#13;
+        column-gap: 5px;&amp;#13;
+&amp;#13;
+        font-style: italic;&amp;#13;
+        p {&amp;#13;
+          margin: 0;&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+&amp;#13;
+      .question__answers__ind {&amp;#13;
+        padding-right: .5rem;&amp;#13;
+        padding-left: .5rem;&amp;#13;
+&amp;#13;
+        border: black 1px solid;&amp;#13;
+        border-radius: 0px;&amp;#13;
+        padding: 10px 15px;&amp;#13;
+&amp;#13;
+        // Display&amp;#13;
+        display: grid;&amp;#13;
+        grid-template-columns: 25px 1fr auto;&amp;#13;
+        grid-template-rows: 1fr;&amp;#13;
+        column-gap: 3px;&amp;#13;
+        justify-content: flex-start;&amp;#13;
+        align-items: center;&amp;#13;
+        column-gap: 1.3rem;&amp;#13;
+&amp;#13;
+        .question__answers__ind__value {&amp;#13;
+          grid-column: 2 / 3;&amp;#13;
+          grid-row: 1 / 2;&amp;#13;
+          margin: 0;&amp;#13;
+          padding: 0;&amp;#13;
+&amp;#13;
+          font-size: 1.6rem;&amp;#13;
+          font-weight: bold;&amp;#13;
+        }&amp;#13;
+&amp;#13;
+        .question__answers__ind__checkbox {          &amp;#13;
+          grid-column: 1 / 2;&amp;#13;
+          grid-row: 1 / 2;&amp;#13;
+          margin: 0;&amp;#13;
+          padding: 0;&amp;#13;
+        }&amp;#13;
+        &amp;#13;
+        .question__answers__ind__user_answer {&amp;#13;
+          grid-column: 3 / 4;&amp;#13;
+          grid-row: 1 / 2;&amp;#13;
+          margin: 0;&amp;#13;
+          padding: 0;&amp;#13;
+          font-weight: bold;&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+    }&amp;#13;
+  }&amp;#13;
+}&amp;#13;
+&amp;#13;
+.category {&amp;#13;
+  border-radius: 0px;&amp;#13;
+&amp;#13;
+  .category__heading {&amp;#13;
+    background-color: white;&amp;#13;
+    border-bottom-width: 0;&amp;#13;
+    // Display&amp;#13;
+    display: flex;&amp;#13;
+    justify-content: space-between;&amp;#13;
+    align-items: center;&amp;#13;
+&amp;#13;
+    .category__heading__name {&amp;#13;
+      margin: 0;&amp;#13;
+      font-weight: 400;&amp;#13;
+    }&amp;#13;
+&amp;#13;
+    .category__heading__score {&amp;#13;
+      font-size: 1.6rem;&amp;#13;
+      font-weight: 700;&amp;#13;
+    }&amp;#13;
+  }&amp;#13;
+&amp;#13;
+  .category__questions {&amp;#13;
+  }&amp;#13;
+}&lt;/css&gt;&lt;data_table&gt;sp_instance&lt;/data_table&gt;&lt;demo_data/&gt;&lt;description/&gt;&lt;docs/&gt;&lt;field_list/&gt;&lt;has_preview&gt;false&lt;/has_preview&gt;&lt;id&gt;evaluation_results&lt;/id&gt;&lt;internal&gt;false&lt;/internal&gt;&lt;link&gt;&lt;![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]&gt;&lt;/link&gt;&lt;name&gt;Evaluation Results&lt;/name&gt;&lt;option_schema/&gt;&lt;public&gt;false&lt;/public&gt;&lt;roles&gt;admin&lt;/roles&gt;&lt;script&gt;&lt;![CDATA[(function () {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+	data.valid = true;
+
+	var quiz_gr = new GlideRecord('asmt_assessment_instance');
+	if (!quiz_gr.get($sp.getParameter('sys_id'))) {
+		data.valid = false;
+		return;
+	}
+	
+	console.log(new NewJoinerUtils().getMetricInstanceDetails(quiz_gr.getUniqueValue()).categories);
+	data.categories = new NewJoinerUtils().getMetricInstanceDetails(quiz_gr.getUniqueValue()).categories;
+})();
+]]&gt;&lt;/script&gt;&lt;servicenow&gt;false&lt;/servicenow&gt;&lt;sys_class_name&gt;sp_widget&lt;/sys_class_name&gt;&lt;sys_created_by&gt;martin.perez.cobo@pwc.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-02-13 00:24:14&lt;/sys_created_on&gt;&lt;sys_id&gt;143291201bc1e150708b7597dc4bcb14&lt;/sys_id&gt;&lt;sys_mod_count&gt;4&lt;/sys_mod_count&gt;&lt;sys_name&gt;Evaluation Results&lt;/sys_name&gt;&lt;sys_package display_value="Evaluations" source="x_487112_eval"&gt;6f5864681b4da150708b7597dc4bcb3f&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Evaluations"&gt;6f5864681b4da150708b7597dc4bcb3f&lt;/sys_scope&gt;&lt;sys_update_name&gt;sp_widget_143291201bc1e150708b7597dc4bcb14&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;martin.perez.cobo@pwc.com&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-02-13 00:26:31&lt;/sys_updated_on&gt;&lt;template&gt;&lt;![CDATA[&lt;div ng-if="c.data.valid"&gt;
+	&lt;div class="panel panel-collapsable panel-default category" ng-repeat="category in c.data.categories"&gt;
+		&lt;div class="panel-heading category__heading" data-toggle="collapse" data-target="#panel-body-{{category.sys_id}}" aria-expanded="true"&gt;
+			&lt;h3 class="category__heading__name"&gt;{{category.name}}&lt;/h3&gt;
+			&lt;div&gt;
+				&lt;span ng-if="category.score &gt;= 75" class="text-success category__heading__score"
+					&gt;Passed: {{category.score}}%&lt;/span
+				&gt;
+				&lt;span ng-if="category.score &lt; 75" class="text-danger category__heading__score"
+					&gt;Failed: {{category.score}}%&lt;/span
+				&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+		&lt;div class="panel-body category__questions collapse" id="panel-body-{{category.sys_id}}"&gt;
+			&lt;div
+				class="question panel"
+				ng-repeat="question in category.questions"
+				ng-class="{'text-muted': !question.user_answer.answered}"
+			&gt;
+				&lt;div class="panel-heading question__header"&gt;
+					&lt;div class="question__header__number"&gt;
+						&lt;p&gt;
+							Question {{category.questions.indexOf(question) + 1}}:
+							&lt;span
+								ng-if="question.user_answer.answered &amp;&amp; question.user_answer.correct"
+								class="text-success"
+								style="font-weight: bold"
+								&gt;Correct&lt;/span
+							&gt;
+							&lt;span
+								ng-if="question.user_answer.answered &amp;&amp; !question.user_answer.correct"
+								class="text-danger"
+								style="font-weight: bold"
+								&gt;Incorrect&lt;/span
+							&gt;
+							&lt;span ng-if="!question.user_answer.answered" style="font-weight: bold"&gt;Unanswered&lt;/span&gt;
+						&lt;/p&gt;
+					&lt;/div&gt;
+					&lt;div class="question__header__name"&gt;
+						&lt;p&gt;{{question.question}}&lt;/p&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class="panel-body question__answers_container"&gt;
+					&lt;div
+						class="question__answers"
+						ng-if="question.datatype == 'multiplecheckbox' || question.datatype == 'choice'"
+					&gt;
+						&lt;div
+							class="question__answers__ind"
+							ng-repeat="def in question.definitions"
+							ng-class="{
+                             'correct-answer': question.user_answer.value.indexOf(def.value) != -1 &amp;&amp; question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1,
+                             'incorrect-answer': question.user_answer.value.indexOf(def.value) != -1 &amp;&amp; question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) == -1,
+                             'missed-answer': question.user_answer.value.indexOf(def.value) == -1 &amp;&amp; question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1
+                             }"
+						&gt;
+							&lt;svg
+								ng-if="question.user_answer.value.indexOf(def.value) != -1"
+								class="question__answers__ind__checkbox"
+								width="25"
+								height="25"
+								viewBox="0 0 25 25"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							&gt;
+								&lt;rect x="1" y="1" width="23" height="23" fill="black" stroke="black" stroke-width="2" /&gt;
+								&lt;line
+									x1="5.64018"
+									y1="12.2318"
+									x2="11.6402"
+									y2="17.2318"
+									stroke="white"
+									stroke-width="2"
+								/&gt;
+								&lt;line
+									x1="10.2567"
+									y1="17.331"
+									x2="19.2567"
+									y2="7.33104"
+									stroke="white"
+									stroke-width="2"
+								/&gt;
+							&lt;/svg&gt;
+							&lt;svg
+								ng-if="question.user_answer.value.indexOf(def.value) == -1"
+								class="question__answers__ind__checkbox"
+								width="25"
+								height="25"
+								viewBox="0 0 25 25"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							&gt;
+								&lt;rect x="1" y="1" width="23" height="23" stroke="black" stroke-width="2" /&gt;
+							&lt;/svg&gt;
+							&lt;p class="question__answers__ind__value"&gt;{{def.display}}&lt;/p&gt;
+							&lt;p
+								class="question__answers__ind__user_answer text-success"
+								ng-if="question.user_answer.value.indexOf(def.value) != -1 &amp;&amp; question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1"
+							&gt;
+								(Correct)
+							&lt;/p&gt;
+							&lt;p
+								class="question__answers__ind__user_answer text-danger"
+								ng-if="question.user_answer.value.indexOf(def.value) != -1 &amp;&amp; question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) == -1"
+							&gt;
+								(Incorrect)
+							&lt;/p&gt;
+							&lt;p
+								class="question__answers__ind__user_answer text-muted"
+								ng-if="question.user_answer.value.indexOf(def.value) == -1 &amp;&amp; question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1"
+							&gt;
+								(Missed)
+							&lt;/p&gt;
+						&lt;/div&gt;
+						&lt;div class="question__answers__ans"&gt;
+							&lt;p&gt;
+								&lt;u&gt;Correct Answer(s)&lt;/u&gt;:
+								{{question.correct_answer.correct_answer_choice.display.join(', ')}}
+							&lt;/p&gt;
+						&lt;/div&gt;
+					&lt;/div&gt;
+					&lt;div
+						class="question__answers"
+						ng-if="question.datatype == 'boolean' || question.datatype == 'checkbox'"
+					&gt;
+						&lt;div
+							class="question__answers__ind"
+							ng-class="{
+                             'correct-answer': ((question.user_answer.value == question.correct_answer.correct_answer_yesno &amp;&amp; question.datatype == 'boolean' &amp;&amp; question.correct_answer.correct_answer_yesno == true) || (question.user_answer.value == question.correct_answer.correct_answer &amp;&amp; question.datatype == 'checkbox' &amp;&amp; question.correct_answer.correct_answer == true)),
+                             'incorrect-answer': ((question.user_answer.value != question.correct_answer.correct_answer_yesno &amp;&amp; question.datatype == 'boolean' &amp;&amp; question.correct_answer.correct_answer_yesno == true) || (question.user_answer.value != question.correct_answer.correct_answer &amp;&amp; question.datatype == 'checkbox' &amp;&amp; question.correct_answer.correct_answer == true))
+                             }"
+						&gt;
+							&lt;input
+								type="checkbox"
+								name="checkbox-{{question.sys_id}}"
+								disabled="disabled"
+								ng-checked="question.user_answer.value == true"
+							/&gt;
+							&lt;label for="checkbox-{{question.sys_id}}"&gt;True&lt;/label&gt;
+						&lt;/div&gt;
+						&lt;div
+							class="question__answers__ind"
+							ng-class="{
+                    'correct-answer': ((question.user_answer.value == question.correct_answer.correct_answer_yesno &amp;&amp; question.datatype == 'boolean' &amp;&amp; question.correct_answer.correct_answer_yesno == false) || (question.user_answer.value == question.correct_answer.correct_answer &amp;&amp; question.datatype == 'checkbox' &amp;&amp; question.correct_answer.correct_answer == false)),
+                             'incorrect-answer': ((question.user_answer.value != question.correct_answer.correct_answer_yesno &amp;&amp; question.datatype == 'boolean' &amp;&amp; question.correct_answer.correct_answer_yesno == false) || (question.user_answer.value != question.correct_answer.correct_answer &amp;&amp; question.datatype == 'checkbox' &amp;&amp; question.correct_answer.correct_answer == false))
+                             }"
+						&gt;
+							&lt;input
+								type="checkbox"
+								name="checkbox-{{question.sys_id}}"
+								disabled="disabled"
+								ng-checked="question.user_answer.value == false"
+							/&gt;
+							&lt;label for="checkbox-{{question.sys_id}}"&gt;False&lt;/label&gt;
+						&lt;/div&gt;
+						&lt;div class="question__answers__ans"&gt;
+							&lt;p&gt;
+								&lt;u&gt;Correct Answer&lt;/u&gt;: {{(question.datatype == 'boolean' &amp;&amp;
+								question.correct_answer.correct_answer_yesno == true || question.datatype == 'checkbox'
+								&amp;&amp; question.correct_answer.correct_answer == true).toString()}}
+							&lt;/p&gt;
+						&lt;/div&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+]]&gt;&lt;/template&gt;&lt;/sp_widget&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1480031167</payload_hash>
+        <record_name>Evaluation Results</record_name>
+        <reverted_from/>
+        <source>361dec601b8da150708b7597dc4bcba3</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 00:26:31</sys_created_on>
+        <sys_id>8eb291601bc1e150708b7597dc4bcb1c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>186482a864e0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 00:26:31</sys_updated_on>
+        <type>Widget</type>
+        <update_guid>46b29160a4c1e15003e3662b9b563d1c</update_guid>
+        <update_guid_history>46b29160a4c1e15003e3662b9b563d1c:1480031167,64921d20c0c1e15045ee880f2ed65b36:86041239,05821d202cc1e1507b39c5021ec50c21:-1398286969,b942d12041c1e15023ff8063a9a1c938:424746902,1432912023c1e150c83da10f41b85f16:118928336</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Evaluation Results">0805d9241bc1e150708b7597dc4bcba6</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 00:36:29</sys_created_on>
+        <sys_db_object display_value="" name="sp_widget">sp_widget</sys_db_object>
+        <sys_id>012b032f66f94dac800647adc0555644</sys_id>
+        <sys_metadata>143291201bc1e150708b7597dc4bcb14</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Evaluation Results</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>sp_widget_143291201bc1e150708b7597dc4bcb14</sys_update_name>
+        <sys_update_version display_value="sp_widget_143291201bc1e150708b7597dc4bcb14">8eb291601bc1e150708b7597dc4bcb1c</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 00:36:29</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

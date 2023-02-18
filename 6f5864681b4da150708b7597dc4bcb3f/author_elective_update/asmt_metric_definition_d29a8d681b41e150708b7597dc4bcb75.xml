@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition">
+    <asmt_metric_definition action="DELETE">
+        <display>Service table is a Base table</display>
+        <metric display_value="">d69a8d681b41e150708b7597dc4bcb17</metric>
+        <normalization_input>0</normalization_input>
+        <order/>
+        <selected_image/>
+        <sys_class_name>asmt_metric_definition</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:51:03</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>d29a8d681b41e150708b7597dc4bcb75</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Service table is a Base table</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_definition_d29a8d681b41e150708b7597dc4bcb75</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-12 23:51:03</sys_updated_on>
+        <unselected_image/>
+        <value>8</value>
+    </asmt_metric_definition>
+    <sys_translated_text action="DELETE" query="documentkey=d29a8d681b41e150708b7597dc4bcb75"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_definition_d29a8d681b41e150708b7597dc4bcb75</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition"><asmt_metric_definition action="INSERT_OR_UPDATE"><display>Service table is a Base table</display><metric display_value="">d69a8d681b41e150708b7597dc4bcb17</metric><normalization_input>0</normalization_input><order/><selected_image/><sys_class_name>asmt_metric_definition</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-12 23:51:03</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>d29a8d681b41e150708b7597dc4bcb75</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Service table is a Base table</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_definition_d29a8d681b41e150708b7597dc4bcb75</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-12 23:51:03</sys_updated_on><unselected_image/><value>8</value></asmt_metric_definition><sys_translated_text action="delete_multiple" query="documentkey=d29a8d681b41e150708b7597dc4bcb75"/></record_update>]]></payload>
+        <payload_hash>1488889084</payload_hash>
+        <record_name>Service table is a Base table</record_name>
+        <reverted_from/>
+        <source>896a4de41b41e150708b7597dc4bcbd9</source>
+        <source_table>sys_update_set</source_table>
+        <state>backedout</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:51:03</sys_created_on>
+        <sys_id>9a9a8d681b41e150708b7597dc4bcb77</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>186480a0b370000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:45:12</sys_updated_on>
+        <type>Assessment Metric Definition</type>
+        <update_guid>de9a8d68a541e150019927d010153276</update_guid>
+        <update_guid_history>de9a8d68a541e150019927d010153276:1488889084</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Service table is a Base table">ead2de301b456550708b7597dc4bcb96</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:45:12</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_definition">asmt_metric_definition</sys_db_object>
+        <sys_id>17502586db7742988889f10f9b58d589</sys_id>
+        <sys_metadata>d29a8d681b41e150708b7597dc4bcb75</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Service table is a Base table</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_definition_d29a8d681b41e150708b7597dc4bcb75</sys_update_name>
+        <sys_update_version display_value="asmt_metric_definition_d29a8d681b41e150708b7597dc4bcb75">9a9a8d681b41e150708b7597dc4bcb77</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:45:12</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

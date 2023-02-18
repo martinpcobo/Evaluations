@@ -1,0 +1,1229 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="DELETE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function (spModal) {
+	/* widget controller */
+	var c = this;
+
+	c.sendQuiz = function (metric_type_sys_id, user_sys_id) {
+		c.confirmed = 'asking';
+		spModal.confirm('Are you sure?').then(function (confirmed) {
+			if (confirmed) {
+				c.server.get({
+					action: 'send_quiz',
+					metric_type_sys_id: metric_type_sys_id,
+					user_sys_id: user_sys_id,
+				});
+			}
+		});
+	};
+};
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.failed-score {&#13;
+  color: #FF0000 !important;&#13;
+  font-weight: 600;&#13;
+}&#13;
+.passed-score {&#13;
+  color: #4C9A2A !important;&#13;
+  font-weight: 600;&#13;
+}&#13;
+&#13;
+&#13;
+$font-size-large : 20px !default;&#13;
+$font-size-small : 12px !default;&#13;
+$font-size-h3 : 20px !default;&#13;
+$font-size-h2 : 24px !default;&#13;
+$font-size-base : 16px !default;&#13;
+$font-size-xs : 12px !default;&#13;
+$headings-font-weight : 600 !default;&#13;
+&#13;
+$sp-space--xxs: 2px !default;&#13;
+$sp-space--sm : 8px !default;&#13;
+$sp-space--xs : 4px !default;&#13;
+$sp-space--xl : 24px !default;&#13;
+&#13;
+$padding-small-horizontal : 12px !default;&#13;
+$padding-base-vertical : 6px !default;&#13;
+$padding-large-vertical : 8px !default;&#13;
+$padding-xs-horizontal : 8px !default;&#13;
+$padding-base-horizontal : 16px !default;&#13;
+$padding-small-vertical : 4px !default;&#13;
+&#13;
+$link-color : #3c59e7 !default;&#13;
+$link-hover-color : #263994 !default;&#13;
+&#13;
+$border-radius-base : 4px !default;&#13;
+$border-radius-small: 2px !default;&#13;
+&#13;
+$label-margin-bottom : 4px !default;&#13;
+&#13;
+$text-primary : #181A1F !default;&#13;
+$text-secondary : #474D5A !default;&#13;
+$text-tertiary : #656E81 !default;&#13;
+&#13;
+$background-primary : #ffffff !default;&#13;
+$background-secondary : #f6f6f8 !default; &#13;
+$background-tertiary : #F0F1F5 !default;&#13;
+&#13;
+$border-secondary : #ACB2BE !default;&#13;
+$border-tertiary : #DADDE2 !default;&#13;
+$color-sp-separator: #EAEAEA;&#13;
+&#13;
+$sp-panel-box-shadow : 0 4px 8px 0 rgba(23,40,52,0.08) !default;&#13;
+&#13;
+&#13;
+.my-items-container {&#13;
+  box-shadow: $sp-panel-box-shadow;&#13;
+  min-height: 20rem;&#13;
+  background-color: $background-primary;&#13;
+  margin-bottom: 1rem;&#13;
+  border-radius: $border-radius-large;&#13;
+  .widget-header {&#13;
+    border-bottom: 1px solid $color-sp-separator;&#13;
+    padding: $padding-small-horizontal;&#13;
+    .title {&#13;
+      font-weight: 600;&#13;
+      font-size: $font-size-large;&#13;
+      color: $text-primary;&#13;
+      margin-top: $padding-small-horizontal;&#13;
+      margin-left: $padding-small-horizontal;&#13;
+    }&#13;
+  }&#13;
+  .no-primary-activity {&#13;
+    margin-top: $padding-small-horizontal !important;&#13;
+  }&#13;
+  .my-items-body {&#13;
+    display: flex;&#13;
+    flex-wrap: wrap;&#13;
+    margin-top: $sp-space--xl;&#13;
+    padding-right: $sp-space--xl;&#13;
+    padding-top: 0px;&#13;
+    .text-grey {&#13;
+      * {&#13;
+        color: $text-tertiary !important;&#13;
+      }&#13;
+    }&#13;
+    .activity-check {&#13;
+      text-align: center;&#13;
+      width: 100%;&#13;
+      margin-right: $sp-space--xl;&#13;
+    }&#13;
+    .no-items {&#13;
+      font-size: $font-size-small;&#13;
+      color: $text-primary;&#13;
+    }&#13;
+    .summary-view {&#13;
+      display: flex;&#13;
+      flex-direction: column;&#13;
+      margin-bottom: 1.8rem;&#13;
+      padding-left: $sp-space--xl;&#13;
+      .primary:hover {&#13;
+        box-shadow: $sp-panel-box-shadow;&#13;
+      }&#13;
+      .primary {&#13;
+        padding: $padding-base-vertical;&#13;
+        background: $background-primary;&#13;
+        border: 1px solid $border-tertiary;&#13;
+        border-radius: $border-radius-base;&#13;
+        height: 7.6rem;&#13;
+        min-width: 218px;&#13;
+        align-items: center;&#13;
+        justify-content: center;&#13;
+      }&#13;
+      .primary-activity {&#13;
+        display: flex;&#13;
+        flex-direction: column;&#13;
+        align-items: center;&#13;
+        justify-content: center;&#13;
+        height: 100%;&#13;
+      }&#13;
+      .primary-item-count {&#13;
+        margin: 0rem;&#13;
+        font-size: $font-size-h2;&#13;
+        color: $link-color;&#13;
+      }&#13;
+      .primary-item-name {&#13;
+        color: $text-primary;&#13;
+        font-size: $font-size-base;&#13;
+        overflow: hidden;&#13;
+        line-height: 1.68rem;&#13;
+        margin: 0rem;&#13;
+        white-space: nowrap;&#13;
+        max-width:240px;&#13;
+        text-overflow:ellipsis&#13;
+      }&#13;
+      .secondary-width {&#13;
+        width: none;&#13;
+      }&#13;
+    }&#13;
+    .secondary {&#13;
+      display: grid;&#13;
+      grid-template-columns: repeat(2,minmax(104px,1fr));&#13;
+      grid-gap: 10px;&#13;
+      padding-top: 10px;&#13;
+      .activity-container {	&#13;
+        .secondary-activity:hover {&#13;
+          box-shadow: $sp-panel-box-shadow;&#13;
+        }&#13;
+        .secondary-activity {&#13;
+          background: $background-primary;&#13;
+          border: 1px solid $border-tertiary;&#13;
+          border-radius: $border-radius-base;&#13;
+          height: 3.4rem;&#13;
+          padding-left: $padding-small-horizontal;&#13;
+          padding-right: $padding-small-vertical;&#13;
+          display: flex;&#13;
+          align-items: center;&#13;
+          min-width: 104px;&#13;
+        }&#13;
+        .secondary-item-count {&#13;
+          margin: 0rem;&#13;
+          font-size: $font-size-base;&#13;
+          color: $link-color;&#13;
+          padding-right: $padding-base-vertical;&#13;
+        }&#13;
+        .secondary-item-name {&#13;
+          color: $text-primary;&#13;
+          font-size: $font-size-small;&#13;
+          overflow: hidden;&#13;
+          text-overflow: ellipsis;&#13;
+          height: 2rem;&#13;
+          line-height: 2rem;&#13;
+          margin: 0rem;&#13;
+          white-space: nowrap;&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+    .secondary-large {&#13;
+      display: grid;&#13;
+      grid-template-columns: repeat(1,minmax(104px,1fr));&#13;
+      grid-gap: 10px;&#13;
+      padding-top: 10px;&#13;
+      .activity-container {&#13;
+        .secondary-activity:hover {&#13;
+          box-shadow: $sp-panel-box-shadow;&#13;
+        }&#13;
+        .secondary-activity {&#13;
+          display: grid;&#13;
+          grid-template-columns: 80% 20%;&#13;
+          grid-gap: 5px;&#13;
+          align-items: center;&#13;
+&#13;
+          background: $background-primary;&#13;
+          border: 1px solid $border-tertiary;&#13;
+          border-radius: $border-radius-base;&#13;
+          height: 3.4rem;&#13;
+          padding-left: $padding-small-horizontal;&#13;
+          padding-right: $padding-small-vertical;&#13;
+          min-width: 104px;&#13;
+        }&#13;
+        .secondary-item-count {&#13;
+          margin: 0rem;&#13;
+          font-size: $font-size-base;&#13;
+          color: $link-color;&#13;
+          padding-right: $padding-base-vertical;&#13;
+        }&#13;
+        .secondary-item-name {&#13;
+          color: $text-primary;&#13;
+          font-size: $font-size-small;&#13;
+          overflow: hidden;&#13;
+          text-overflow: ellipsis;&#13;
+          height: 2rem;&#13;
+          line-height: 2rem;&#13;
+          margin: 0rem;&#13;
+          white-space: nowrap;&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+    .divider {&#13;
+      height: 0;&#13;
+      border: $border-radius-small solid #F6F6F6;&#13;
+      margin-right: $sp-space--xl;&#13;
+      margin-bottom: 1.8rem;&#13;
+      width: 100%;&#13;
+    }&#13;
+    .list-view {&#13;
+      flex: 1 0 242px;&#13;
+      padding-left: $sp-space--xl;&#13;
+      .view-all {&#13;
+        color: $link-color;&#13;
+        justify-items: flex-end;&#13;
+        font-size: $font-size-small;&#13;
+        height: fit-content;&#13;
+        height: -moz-fit-content;&#13;
+        padding: $sp-space--xxs;&#13;
+        min-width: 63px;&#13;
+      }&#13;
+      .view-all:hover {&#13;
+        color: $link-hover-color;&#13;
+      }&#13;
+      .header {&#13;
+        display: flex;&#13;
+        .list-header {&#13;
+          font-size: $font-size-large;&#13;
+          margin-top: 0rem;&#13;
+          color: $text-primary;&#13;
+          flex-grow: 1;&#13;
+          margin-bottom: 1.8rem;&#13;
+        }&#13;
+      }&#13;
+      .card-container {&#13;
+        display: grid;&#13;
+        grid-template-columns: repeat(auto-fit,minmax(218px,1fr));&#13;
+        grid-column-gap: 1.8rem;&#13;
+        .flex-item-card:hover {&#13;
+          box-shadow: $sp-panel-box-shadow;&#13;
+        }&#13;
+        .flex-item-card {&#13;
+          border: 1px solid $border-tertiary;&#13;
+          background: $background-primary;&#13;
+          border-radius: $border-radius-base;&#13;
+          min-height: 136px;&#13;
+          padding: $padding-base-horizontal;&#13;
+          margin-bottom: 1.8rem;&#13;
+          p {&#13;
+            margin-bottom: 0px;&#13;
+          }&#13;
+          .item-badge {&#13;
+            padding: $sp-space--xxs $sp-space--xs;&#13;
+            border-radius: $border-radius-small;&#13;
+            height: $font-size-large;&#13;
+            min-height: $font-size-large;&#13;
+            font-size: $font-size-xs;&#13;
+            font-weight: normal;&#13;
+          }&#13;
+          .item-title {&#13;
+            min-height: 2rem;&#13;
+            color: $text-primary;&#13;
+            font-size: $font-size-base;&#13;
+            font-weight: $headings-font-weight;&#13;
+            margin-bottom: $padding-base-vertical;&#13;
+            margin-top: -3px;&#13;
+          }&#13;
+          .item-description {&#13;
+            min-height: $font-size-large;&#13;
+            color: $text-secondary;&#13;
+            font-size: $font-size-xs;&#13;
+            font-weight: normal;&#13;
+          }&#13;
+          .item-field {&#13;
+            font-size: $font-size-xs;&#13;
+            color: $text-tertiary;&#13;
+          }&#13;
+          .item-value {&#13;
+            font-size: $font-size-xs;&#13;
+            color: $text-primary;&#13;
+          }&#13;
+          .text-ellipsis {&#13;
+            overflow: hidden;&#13;
+            text-overflow: ellipsis;&#13;
+            display: -webkit-box;&#13;
+            -webkit-box-orient: vertical;&#13;
+            word-break: break-word;&#13;
+          }&#13;
+          .text-ellipsis-two-line {&#13;
+            -webkit-line-clamp: 2;&#13;
+          }&#13;
+          .card-image {&#13;
+            display: flex;&#13;
+            justify-content: flex-start;&#13;
+            margin-top: $padding-base-horizontal;&#13;
+            .card-text-container {&#13;
+              padding-left: $padding-base-horizontal;&#13;
+            }&#13;
+            .image-item {&#13;
+              height: 70px;&#13;
+              width: 70px;&#13;
+              min-width: 70px;&#13;
+            }&#13;
+          }&#13;
+          .field-name {&#13;
+            display: flex;&#13;
+            margin-top: $padding-small-horizontal;&#13;
+          }&#13;
+          .field-value {&#13;
+            display: flex;&#13;
+            margin-top: $sp-space--xxs;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.fix-width {&#13;
+  width: 50%;	&#13;
+}	&#13;
+.full-fix-width {	&#13;
+  width: 100%;	&#13;
+}&#13;
+&#13;
+.field-container {&#13;
+  padding-right: 1.0rem;&#13;
+  word-break: break-word;&#13;
+  -webkit-line-clamp: 1;&#13;
+}&#13;
+&#13;
+/* IE specific Class to override */&#13;
+@media screen and (-ms-high-contrast: active),&#13;
+  (-ms-high-contrast: none) and (min-width: 992px, (max-width: 380px)){&#13;
+    .my-items-container{&#13;
+      min-width: auto !important;&#13;
+      .summary-view{&#13;
+        flex: 1 1 288px !important;&#13;
+        .primary{&#13;
+          min-width: 220px !important;&#13;
+        }&#13;
+        .secondary{&#13;
+          .activity-container{&#13;
+            flex: 1 1 110px !important;&#13;
+            .secondary-activity{&#13;
+              min-width: 110px !important;&#13;
+            }&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+      .list-view{&#13;
+        flex: 1 1 278px !important;&#13;
+        .card-container{&#13;
+          justify-content: flex-start !important;&#13;
+          .flex-item-card{&#13;
+            flex: 1 1 242px !important;&#13;
+            .card-image &gt; div{&#13;
+              width: 100% !important;&#13;
+            }&#13;
+            .text-ellipsis{&#13;
+              width: auto !important;&#13;
+            }&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+}&#13;
+@media screen and (-ms-high-contrast: active),&#13;
+  (-ms-high-contrast: none) {&#13;
+    .my-items-container{&#13;
+      min-width: 362px;&#13;
+      .summary-view{&#13;
+        .secondary{&#13;
+          display: inline-flex;&#13;
+          flex-flow: row wrap;&#13;
+          padding-top: 10px;&#13;
+          margin: -10px 0 0 -10px;&#13;
+          .activity-container{&#13;
+            margin: 10px 0 0 10px;&#13;
+            flex: 1 0 139px;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+      .list-view{&#13;
+        .view-all{&#13;
+          height: 22px;&#13;
+        }&#13;
+      }&#13;
+      .card-container{&#13;
+        display: flex;&#13;
+        flex-flow: row wrap;&#13;
+        justify-content: space-around;&#13;
+        .flex-item-card{&#13;
+          p {&#13;
+            display: inline;&#13;
+          }&#13;
+          width: 312px;&#13;
+          .card-text-container{&#13;
+            .text-ellipsis{&#13;
+              width: 203px;&#13;
+            }&#13;
+          }&#13;
+          .text-ellipsis{&#13;
+            white-space: nowrap;&#13;
+            width: 278px;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+}&#13;
+&#13;
+.actions-container {&#13;
+  display: grid;&#13;
+  grid-template-columns: min-content min-content;&#13;
+  padding: 2rem;&#13;
+&#13;
+  box-shadow: $sp-panel-box-shadow;&#13;
+  background-color: white;&#13;
+  border-radius: $border-radius-large;&#13;
+&#13;
+  column-gap: 1rem;&#13;
+&#13;
+  border: 1px solid $color-sp-separator;&#13;
+&#13;
+  .actions-container__action {&#13;
+    display: grid;&#13;
+    grid-template-columns min-content min-content;&#13;
+    column-gap: .5rem;&#13;
+&#13;
+    i {&#13;
+      grid-column: 1 / 2;&#13;
+      margin: 0;&#13;
+    }&#13;
+    p {&#13;
+      grid-column: 2 / 3;&#13;
+      margin: 0;&#13;
+    }&#13;
+  }&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>evaluation_instance_details</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Evaluation Instance Details</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function () {
+	if(input) {
+		if(input.action == "send_quiz") {
+			new NewJoinerUtils().sendQuizAgain(input.metric_type_sys_id, input.user_sys_id);
+		}
+		return;
+	}
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+	var quiz_sys_id = $sp.getParameter('sys_id');
+	data.is_admin = gs.getUser().hasRole('x_487112_newjoiner.admin');
+	console.log(data.is_admin);
+
+	data.metric_type = {};
+
+	var quiz_gr = new GlideRecord('asmt_assessment_instance');
+	if (!quiz_gr.get(quiz_sys_id)) {
+		gs.addErrorMessage('Please provide a valid Quiz ID');
+		data.quiz.valid = false;
+		return;
+	}
+
+	var new_joiner_utils = new NewJoinerUtils();
+
+	var	metric_instance_details = new_joiner_utils.getMetricInstanceDetails(quiz_sys_id);
+	var metric_type_details = new_joiner_utils.getMetricTypeDetails(quiz_gr.getValue('metric_type'));
+	var quiz_instance_details = new_joiner_utils.getQuizScore(quiz_sys_id);
+
+	data.quiz = {
+		valid: true,
+		// Metric Type Details
+		metric_type: quiz_gr.getValue('metric_type'),
+		metric_name: metric_type_details.name,
+		// Quiz Instance
+		user: quiz_instance_details.user,
+		score: quiz_instance_details.score,
+		categories: metric_instance_details.categories,
+	};
+	data.items = [
+		{
+			name: 'Questions',
+			count: metric_type_details.questions,
+		},
+		{
+			name: 'Unanswered',
+			count: quiz_instance_details.unanswered.amount,
+		},
+		{
+			name: 'Correct',
+			count: quiz_instance_details.correct.amount,
+		},
+		{
+			name: 'Incorrect',
+			count: quiz_instance_details.incorrect.amount,
+		}
+	];
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 22:03:47</sys_created_on>
+        <sys_id>74abfdb81b816550708b7597dc4bcb75</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Evaluation Instance Details</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_74abfdb81b816550708b7597dc4bcb75</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 22:04:09</sys_updated_on>
+        <template><![CDATA[<div ng-if="c.data.quiz.valid">
+<div class="my-items-container">
+	<div class="widget-header">
+		<h3 class="title">{{c.data.quiz.metric_name}}</h3>
+	</div>
+	<div class="my-items-body">
+		<div class="summary-view" style="flex: 1 0 242px">
+			<div class="primary">
+				<div class="primary-activity">
+					<h3 class="primary-item-count" ng-class="c.data.quiz.score >= 75 && c.data.quiz.score != null ? 'passed-score' : 'failed-score'">{{c.data.quiz.score ? c.data.quiz.score : 100}}%</h3>
+					<span class="primary-item-name"> Average Score </span>
+				</div>
+			</div>
+			<div class="secondary" ng-class="true ? 'primary-width' : 'secondary-width'">
+				<div class="activity-container" ng-repeat="item in c.data.items">
+					<div class="secondary-activity" ng-class="item.items.length == 0 ? 'text-grey' : ''">
+						<span class="secondary-item-count">{{item.count}}</span>
+						<span
+							class="secondary-item-name"
+							ec-multiline-ellipsis-tooltip
+							ec-ellipsis-tooltip-title="{{item.name}}"
+							>{{item.name}}</span
+						>
+					</div>
+				</div>
+			</div>
+      <div class="secondary-large" ng-class="true ? 'primary-width' : 'secondary-width'">
+				<div class="activity-container" ng-repeat="category in c.data.quiz.categories">
+					<div class="secondary-activity" ng-class="category.questions.length == 0 ? 'text-grey' : ''">
+						<span
+							class="secondary-item-name"
+							ec-multiline-ellipsis-tooltip
+							ec-ellipsis-tooltip-title="{{item.name}}"
+							>{{category.name}}</span
+						>
+            <span class="secondary-item-count" ng-class="category.score == 0 ? 'text-grey' : category.score < 75 && category.score ? 'failed-score' : 'passed-score'">{{category.score}}%</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="actions-container" style="height: fit-content !important" ng-if="c.data.is_admin">
+    <button class="actions-container__action btn btn-default btn-primary" type="button" ng-click="c.sendQuiz(c.data.quiz.metric_type, c.data.quiz.user.sys_id)"><i class="glyphicon glyphicon-share"></i><p>Send Quiz</p></button>
+  </div>
+</div>
+]]></template>
+    </sp_widget>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>sp_widget_74abfdb81b816550708b7597dc4bcb75</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sp_widget"&gt;&lt;sp_widget action="INSERT_OR_UPDATE"&gt;&lt;category&gt;custom&lt;/category&gt;&lt;client_script&gt;&lt;![CDATA[api.controller = function (spModal) {
+	/* widget controller */
+	var c = this;
+
+	c.sendQuiz = function (metric_type_sys_id, user_sys_id) {
+		c.confirmed = 'asking';
+		spModal.confirm('Are you sure?').then(function (confirmed) {
+			if (confirmed) {
+				c.server.get({
+					action: 'send_quiz',
+					metric_type_sys_id: metric_type_sys_id,
+					user_sys_id: user_sys_id,
+				});
+			}
+		});
+	};
+};
+]]&gt;&lt;/client_script&gt;&lt;controller_as&gt;c&lt;/controller_as&gt;&lt;css&gt;.failed-score {&amp;#13;
+  color: #FF0000 !important;&amp;#13;
+  font-weight: 600;&amp;#13;
+}&amp;#13;
+.passed-score {&amp;#13;
+  color: #4C9A2A !important;&amp;#13;
+  font-weight: 600;&amp;#13;
+}&amp;#13;
+&amp;#13;
+&amp;#13;
+$font-size-large : 20px !default;&amp;#13;
+$font-size-small : 12px !default;&amp;#13;
+$font-size-h3 : 20px !default;&amp;#13;
+$font-size-h2 : 24px !default;&amp;#13;
+$font-size-base : 16px !default;&amp;#13;
+$font-size-xs : 12px !default;&amp;#13;
+$headings-font-weight : 600 !default;&amp;#13;
+&amp;#13;
+$sp-space--xxs: 2px !default;&amp;#13;
+$sp-space--sm : 8px !default;&amp;#13;
+$sp-space--xs : 4px !default;&amp;#13;
+$sp-space--xl : 24px !default;&amp;#13;
+&amp;#13;
+$padding-small-horizontal : 12px !default;&amp;#13;
+$padding-base-vertical : 6px !default;&amp;#13;
+$padding-large-vertical : 8px !default;&amp;#13;
+$padding-xs-horizontal : 8px !default;&amp;#13;
+$padding-base-horizontal : 16px !default;&amp;#13;
+$padding-small-vertical : 4px !default;&amp;#13;
+&amp;#13;
+$link-color : #3c59e7 !default;&amp;#13;
+$link-hover-color : #263994 !default;&amp;#13;
+&amp;#13;
+$border-radius-base : 4px !default;&amp;#13;
+$border-radius-small: 2px !default;&amp;#13;
+&amp;#13;
+$label-margin-bottom : 4px !default;&amp;#13;
+&amp;#13;
+$text-primary : #181A1F !default;&amp;#13;
+$text-secondary : #474D5A !default;&amp;#13;
+$text-tertiary : #656E81 !default;&amp;#13;
+&amp;#13;
+$background-primary : #ffffff !default;&amp;#13;
+$background-secondary : #f6f6f8 !default; &amp;#13;
+$background-tertiary : #F0F1F5 !default;&amp;#13;
+&amp;#13;
+$border-secondary : #ACB2BE !default;&amp;#13;
+$border-tertiary : #DADDE2 !default;&amp;#13;
+$color-sp-separator: #EAEAEA;&amp;#13;
+&amp;#13;
+$sp-panel-box-shadow : 0 4px 8px 0 rgba(23,40,52,0.08) !default;&amp;#13;
+&amp;#13;
+&amp;#13;
+.my-items-container {&amp;#13;
+  box-shadow: $sp-panel-box-shadow;&amp;#13;
+  min-height: 20rem;&amp;#13;
+  background-color: $background-primary;&amp;#13;
+  margin-bottom: 1rem;&amp;#13;
+  border-radius: $border-radius-large;&amp;#13;
+  .widget-header {&amp;#13;
+    border-bottom: 1px solid $color-sp-separator;&amp;#13;
+    padding: $padding-small-horizontal;&amp;#13;
+    .title {&amp;#13;
+      font-weight: 600;&amp;#13;
+      font-size: $font-size-large;&amp;#13;
+      color: $text-primary;&amp;#13;
+      margin-top: $padding-small-horizontal;&amp;#13;
+      margin-left: $padding-small-horizontal;&amp;#13;
+    }&amp;#13;
+  }&amp;#13;
+  .no-primary-activity {&amp;#13;
+    margin-top: $padding-small-horizontal !important;&amp;#13;
+  }&amp;#13;
+  .my-items-body {&amp;#13;
+    display: flex;&amp;#13;
+    flex-wrap: wrap;&amp;#13;
+    margin-top: $sp-space--xl;&amp;#13;
+    padding-right: $sp-space--xl;&amp;#13;
+    padding-top: 0px;&amp;#13;
+    .text-grey {&amp;#13;
+      * {&amp;#13;
+        color: $text-tertiary !important;&amp;#13;
+      }&amp;#13;
+    }&amp;#13;
+    .activity-check {&amp;#13;
+      text-align: center;&amp;#13;
+      width: 100%;&amp;#13;
+      margin-right: $sp-space--xl;&amp;#13;
+    }&amp;#13;
+    .no-items {&amp;#13;
+      font-size: $font-size-small;&amp;#13;
+      color: $text-primary;&amp;#13;
+    }&amp;#13;
+    .summary-view {&amp;#13;
+      display: flex;&amp;#13;
+      flex-direction: column;&amp;#13;
+      margin-bottom: 1.8rem;&amp;#13;
+      padding-left: $sp-space--xl;&amp;#13;
+      .primary:hover {&amp;#13;
+        box-shadow: $sp-panel-box-shadow;&amp;#13;
+      }&amp;#13;
+      .primary {&amp;#13;
+        padding: $padding-base-vertical;&amp;#13;
+        background: $background-primary;&amp;#13;
+        border: 1px solid $border-tertiary;&amp;#13;
+        border-radius: $border-radius-base;&amp;#13;
+        height: 7.6rem;&amp;#13;
+        min-width: 218px;&amp;#13;
+        align-items: center;&amp;#13;
+        justify-content: center;&amp;#13;
+      }&amp;#13;
+      .primary-activity {&amp;#13;
+        display: flex;&amp;#13;
+        flex-direction: column;&amp;#13;
+        align-items: center;&amp;#13;
+        justify-content: center;&amp;#13;
+        height: 100%;&amp;#13;
+      }&amp;#13;
+      .primary-item-count {&amp;#13;
+        margin: 0rem;&amp;#13;
+        font-size: $font-size-h2;&amp;#13;
+        color: $link-color;&amp;#13;
+      }&amp;#13;
+      .primary-item-name {&amp;#13;
+        color: $text-primary;&amp;#13;
+        font-size: $font-size-base;&amp;#13;
+        overflow: hidden;&amp;#13;
+        line-height: 1.68rem;&amp;#13;
+        margin: 0rem;&amp;#13;
+        white-space: nowrap;&amp;#13;
+        max-width:240px;&amp;#13;
+        text-overflow:ellipsis&amp;#13;
+      }&amp;#13;
+      .secondary-width {&amp;#13;
+        width: none;&amp;#13;
+      }&amp;#13;
+    }&amp;#13;
+    .secondary {&amp;#13;
+      display: grid;&amp;#13;
+      grid-template-columns: repeat(2,minmax(104px,1fr));&amp;#13;
+      grid-gap: 10px;&amp;#13;
+      padding-top: 10px;&amp;#13;
+      .activity-container {	&amp;#13;
+        .secondary-activity:hover {&amp;#13;
+          box-shadow: $sp-panel-box-shadow;&amp;#13;
+        }&amp;#13;
+        .secondary-activity {&amp;#13;
+          background: $background-primary;&amp;#13;
+          border: 1px solid $border-tertiary;&amp;#13;
+          border-radius: $border-radius-base;&amp;#13;
+          height: 3.4rem;&amp;#13;
+          padding-left: $padding-small-horizontal;&amp;#13;
+          padding-right: $padding-small-vertical;&amp;#13;
+          display: flex;&amp;#13;
+          align-items: center;&amp;#13;
+          min-width: 104px;&amp;#13;
+        }&amp;#13;
+        .secondary-item-count {&amp;#13;
+          margin: 0rem;&amp;#13;
+          font-size: $font-size-base;&amp;#13;
+          color: $link-color;&amp;#13;
+          padding-right: $padding-base-vertical;&amp;#13;
+        }&amp;#13;
+        .secondary-item-name {&amp;#13;
+          color: $text-primary;&amp;#13;
+          font-size: $font-size-small;&amp;#13;
+          overflow: hidden;&amp;#13;
+          text-overflow: ellipsis;&amp;#13;
+          height: 2rem;&amp;#13;
+          line-height: 2rem;&amp;#13;
+          margin: 0rem;&amp;#13;
+          white-space: nowrap;&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+    }&amp;#13;
+    .secondary-large {&amp;#13;
+      display: grid;&amp;#13;
+      grid-template-columns: repeat(1,minmax(104px,1fr));&amp;#13;
+      grid-gap: 10px;&amp;#13;
+      padding-top: 10px;&amp;#13;
+      .activity-container {&amp;#13;
+        .secondary-activity:hover {&amp;#13;
+          box-shadow: $sp-panel-box-shadow;&amp;#13;
+        }&amp;#13;
+        .secondary-activity {&amp;#13;
+          display: grid;&amp;#13;
+          grid-template-columns: 80% 20%;&amp;#13;
+          grid-gap: 5px;&amp;#13;
+          align-items: center;&amp;#13;
+&amp;#13;
+          background: $background-primary;&amp;#13;
+          border: 1px solid $border-tertiary;&amp;#13;
+          border-radius: $border-radius-base;&amp;#13;
+          height: 3.4rem;&amp;#13;
+          padding-left: $padding-small-horizontal;&amp;#13;
+          padding-right: $padding-small-vertical;&amp;#13;
+          min-width: 104px;&amp;#13;
+        }&amp;#13;
+        .secondary-item-count {&amp;#13;
+          margin: 0rem;&amp;#13;
+          font-size: $font-size-base;&amp;#13;
+          color: $link-color;&amp;#13;
+          padding-right: $padding-base-vertical;&amp;#13;
+        }&amp;#13;
+        .secondary-item-name {&amp;#13;
+          color: $text-primary;&amp;#13;
+          font-size: $font-size-small;&amp;#13;
+          overflow: hidden;&amp;#13;
+          text-overflow: ellipsis;&amp;#13;
+          height: 2rem;&amp;#13;
+          line-height: 2rem;&amp;#13;
+          margin: 0rem;&amp;#13;
+          white-space: nowrap;&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+    }&amp;#13;
+    .divider {&amp;#13;
+      height: 0;&amp;#13;
+      border: $border-radius-small solid #F6F6F6;&amp;#13;
+      margin-right: $sp-space--xl;&amp;#13;
+      margin-bottom: 1.8rem;&amp;#13;
+      width: 100%;&amp;#13;
+    }&amp;#13;
+    .list-view {&amp;#13;
+      flex: 1 0 242px;&amp;#13;
+      padding-left: $sp-space--xl;&amp;#13;
+      .view-all {&amp;#13;
+        color: $link-color;&amp;#13;
+        justify-items: flex-end;&amp;#13;
+        font-size: $font-size-small;&amp;#13;
+        height: fit-content;&amp;#13;
+        height: -moz-fit-content;&amp;#13;
+        padding: $sp-space--xxs;&amp;#13;
+        min-width: 63px;&amp;#13;
+      }&amp;#13;
+      .view-all:hover {&amp;#13;
+        color: $link-hover-color;&amp;#13;
+      }&amp;#13;
+      .header {&amp;#13;
+        display: flex;&amp;#13;
+        .list-header {&amp;#13;
+          font-size: $font-size-large;&amp;#13;
+          margin-top: 0rem;&amp;#13;
+          color: $text-primary;&amp;#13;
+          flex-grow: 1;&amp;#13;
+          margin-bottom: 1.8rem;&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+      .card-container {&amp;#13;
+        display: grid;&amp;#13;
+        grid-template-columns: repeat(auto-fit,minmax(218px,1fr));&amp;#13;
+        grid-column-gap: 1.8rem;&amp;#13;
+        .flex-item-card:hover {&amp;#13;
+          box-shadow: $sp-panel-box-shadow;&amp;#13;
+        }&amp;#13;
+        .flex-item-card {&amp;#13;
+          border: 1px solid $border-tertiary;&amp;#13;
+          background: $background-primary;&amp;#13;
+          border-radius: $border-radius-base;&amp;#13;
+          min-height: 136px;&amp;#13;
+          padding: $padding-base-horizontal;&amp;#13;
+          margin-bottom: 1.8rem;&amp;#13;
+          p {&amp;#13;
+            margin-bottom: 0px;&amp;#13;
+          }&amp;#13;
+          .item-badge {&amp;#13;
+            padding: $sp-space--xxs $sp-space--xs;&amp;#13;
+            border-radius: $border-radius-small;&amp;#13;
+            height: $font-size-large;&amp;#13;
+            min-height: $font-size-large;&amp;#13;
+            font-size: $font-size-xs;&amp;#13;
+            font-weight: normal;&amp;#13;
+          }&amp;#13;
+          .item-title {&amp;#13;
+            min-height: 2rem;&amp;#13;
+            color: $text-primary;&amp;#13;
+            font-size: $font-size-base;&amp;#13;
+            font-weight: $headings-font-weight;&amp;#13;
+            margin-bottom: $padding-base-vertical;&amp;#13;
+            margin-top: -3px;&amp;#13;
+          }&amp;#13;
+          .item-description {&amp;#13;
+            min-height: $font-size-large;&amp;#13;
+            color: $text-secondary;&amp;#13;
+            font-size: $font-size-xs;&amp;#13;
+            font-weight: normal;&amp;#13;
+          }&amp;#13;
+          .item-field {&amp;#13;
+            font-size: $font-size-xs;&amp;#13;
+            color: $text-tertiary;&amp;#13;
+          }&amp;#13;
+          .item-value {&amp;#13;
+            font-size: $font-size-xs;&amp;#13;
+            color: $text-primary;&amp;#13;
+          }&amp;#13;
+          .text-ellipsis {&amp;#13;
+            overflow: hidden;&amp;#13;
+            text-overflow: ellipsis;&amp;#13;
+            display: -webkit-box;&amp;#13;
+            -webkit-box-orient: vertical;&amp;#13;
+            word-break: break-word;&amp;#13;
+          }&amp;#13;
+          .text-ellipsis-two-line {&amp;#13;
+            -webkit-line-clamp: 2;&amp;#13;
+          }&amp;#13;
+          .card-image {&amp;#13;
+            display: flex;&amp;#13;
+            justify-content: flex-start;&amp;#13;
+            margin-top: $padding-base-horizontal;&amp;#13;
+            .card-text-container {&amp;#13;
+              padding-left: $padding-base-horizontal;&amp;#13;
+            }&amp;#13;
+            .image-item {&amp;#13;
+              height: 70px;&amp;#13;
+              width: 70px;&amp;#13;
+              min-width: 70px;&amp;#13;
+            }&amp;#13;
+          }&amp;#13;
+          .field-name {&amp;#13;
+            display: flex;&amp;#13;
+            margin-top: $padding-small-horizontal;&amp;#13;
+          }&amp;#13;
+          .field-value {&amp;#13;
+            display: flex;&amp;#13;
+            margin-top: $sp-space--xxs;&amp;#13;
+          }&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+    }&amp;#13;
+  }&amp;#13;
+}&amp;#13;
+&amp;#13;
+.fix-width {&amp;#13;
+  width: 50%;	&amp;#13;
+}	&amp;#13;
+.full-fix-width {	&amp;#13;
+  width: 100%;	&amp;#13;
+}&amp;#13;
+&amp;#13;
+.field-container {&amp;#13;
+  padding-right: 1.0rem;&amp;#13;
+  word-break: break-word;&amp;#13;
+  -webkit-line-clamp: 1;&amp;#13;
+}&amp;#13;
+&amp;#13;
+/* IE specific Class to override */&amp;#13;
+@media screen and (-ms-high-contrast: active),&amp;#13;
+  (-ms-high-contrast: none) and (min-width: 992px, (max-width: 380px)){&amp;#13;
+    .my-items-container{&amp;#13;
+      min-width: auto !important;&amp;#13;
+      .summary-view{&amp;#13;
+        flex: 1 1 288px !important;&amp;#13;
+        .primary{&amp;#13;
+          min-width: 220px !important;&amp;#13;
+        }&amp;#13;
+        .secondary{&amp;#13;
+          .activity-container{&amp;#13;
+            flex: 1 1 110px !important;&amp;#13;
+            .secondary-activity{&amp;#13;
+              min-width: 110px !important;&amp;#13;
+            }&amp;#13;
+          }&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+      .list-view{&amp;#13;
+        flex: 1 1 278px !important;&amp;#13;
+        .card-container{&amp;#13;
+          justify-content: flex-start !important;&amp;#13;
+          .flex-item-card{&amp;#13;
+            flex: 1 1 242px !important;&amp;#13;
+            .card-image &amp;gt; div{&amp;#13;
+              width: 100% !important;&amp;#13;
+            }&amp;#13;
+            .text-ellipsis{&amp;#13;
+              width: auto !important;&amp;#13;
+            }&amp;#13;
+          }&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+    }&amp;#13;
+}&amp;#13;
+@media screen and (-ms-high-contrast: active),&amp;#13;
+  (-ms-high-contrast: none) {&amp;#13;
+    .my-items-container{&amp;#13;
+      min-width: 362px;&amp;#13;
+      .summary-view{&amp;#13;
+        .secondary{&amp;#13;
+          display: inline-flex;&amp;#13;
+          flex-flow: row wrap;&amp;#13;
+          padding-top: 10px;&amp;#13;
+          margin: -10px 0 0 -10px;&amp;#13;
+          .activity-container{&amp;#13;
+            margin: 10px 0 0 10px;&amp;#13;
+            flex: 1 0 139px;&amp;#13;
+          }&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+      .list-view{&amp;#13;
+        .view-all{&amp;#13;
+          height: 22px;&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+      .card-container{&amp;#13;
+        display: flex;&amp;#13;
+        flex-flow: row wrap;&amp;#13;
+        justify-content: space-around;&amp;#13;
+        .flex-item-card{&amp;#13;
+          p {&amp;#13;
+            display: inline;&amp;#13;
+          }&amp;#13;
+          width: 312px;&amp;#13;
+          .card-text-container{&amp;#13;
+            .text-ellipsis{&amp;#13;
+              width: 203px;&amp;#13;
+            }&amp;#13;
+          }&amp;#13;
+          .text-ellipsis{&amp;#13;
+            white-space: nowrap;&amp;#13;
+            width: 278px;&amp;#13;
+          }&amp;#13;
+        }&amp;#13;
+      }&amp;#13;
+    }&amp;#13;
+}&amp;#13;
+&amp;#13;
+.actions-container {&amp;#13;
+  display: grid;&amp;#13;
+  grid-template-columns: min-content min-content;&amp;#13;
+  padding: 2rem;&amp;#13;
+&amp;#13;
+  box-shadow: $sp-panel-box-shadow;&amp;#13;
+  background-color: white;&amp;#13;
+  border-radius: $border-radius-large;&amp;#13;
+&amp;#13;
+  column-gap: 1rem;&amp;#13;
+&amp;#13;
+  border: 1px solid $color-sp-separator;&amp;#13;
+&amp;#13;
+  .actions-container__action {&amp;#13;
+    display: grid;&amp;#13;
+    grid-template-columns min-content min-content;&amp;#13;
+    column-gap: .5rem;&amp;#13;
+&amp;#13;
+    i {&amp;#13;
+      grid-column: 1 / 2;&amp;#13;
+      margin: 0;&amp;#13;
+    }&amp;#13;
+    p {&amp;#13;
+      grid-column: 2 / 3;&amp;#13;
+      margin: 0;&amp;#13;
+    }&amp;#13;
+  }&amp;#13;
+}&lt;/css&gt;&lt;data_table&gt;sp_instance&lt;/data_table&gt;&lt;demo_data/&gt;&lt;description/&gt;&lt;docs/&gt;&lt;field_list/&gt;&lt;has_preview&gt;false&lt;/has_preview&gt;&lt;id&gt;evaluation_instance_details&lt;/id&gt;&lt;internal&gt;false&lt;/internal&gt;&lt;link&gt;&lt;![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]&gt;&lt;/link&gt;&lt;name&gt;Evaluation Instance Details&lt;/name&gt;&lt;option_schema/&gt;&lt;public&gt;false&lt;/public&gt;&lt;roles/&gt;&lt;script&gt;&lt;![CDATA[(function () {
+	if(input) {
+		if(input.action == "send_quiz") {
+			new NewJoinerUtils().sendQuizAgain(input.metric_type_sys_id, input.user_sys_id);
+		}
+		return;
+	}
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+	var quiz_sys_id = $sp.getParameter('sys_id');
+	data.is_admin = gs.getUser().hasRole('x_487112_newjoiner.admin');
+	console.log(data.is_admin);
+
+	data.metric_type = {};
+
+	var quiz_gr = new GlideRecord('asmt_assessment_instance');
+	if (!quiz_gr.get(quiz_sys_id)) {
+		gs.addErrorMessage('Please provide a valid Quiz ID');
+		data.quiz.valid = false;
+		return;
+	}
+
+	var new_joiner_utils = new NewJoinerUtils();
+
+	var	metric_instance_details = new_joiner_utils.getMetricInstanceDetails(quiz_sys_id);
+	var metric_type_details = new_joiner_utils.getMetricTypeDetails(quiz_gr.getValue('metric_type'));
+	var quiz_instance_details = new_joiner_utils.getQuizScore(quiz_sys_id);
+
+	data.quiz = {
+		valid: true,
+		// Metric Type Details
+		metric_type: quiz_gr.getValue('metric_type'),
+		metric_name: metric_type_details.name,
+		// Quiz Instance
+		user: quiz_instance_details.user,
+		score: quiz_instance_details.score,
+		categories: metric_instance_details.categories,
+	};
+	data.items = [
+		{
+			name: 'Questions',
+			count: metric_type_details.questions,
+		},
+		{
+			name: 'Unanswered',
+			count: quiz_instance_details.unanswered.amount,
+		},
+		{
+			name: 'Correct',
+			count: quiz_instance_details.correct.amount,
+		},
+		{
+			name: 'Incorrect',
+			count: quiz_instance_details.incorrect.amount,
+		}
+	];
+})();
+]]&gt;&lt;/script&gt;&lt;servicenow&gt;false&lt;/servicenow&gt;&lt;sys_class_name&gt;sp_widget&lt;/sys_class_name&gt;&lt;sys_created_by&gt;martin.perez.cobo@pwc.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-02-13 22:03:47&lt;/sys_created_on&gt;&lt;sys_id&gt;74abfdb81b816550708b7597dc4bcb75&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name&gt;Evaluation Instance Details&lt;/sys_name&gt;&lt;sys_package display_value="Evaluations" source="x_487112_eval"&gt;6f5864681b4da150708b7597dc4bcb3f&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Evaluations"&gt;6f5864681b4da150708b7597dc4bcb3f&lt;/sys_scope&gt;&lt;sys_update_name&gt;sp_widget_74abfdb81b816550708b7597dc4bcb75&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;martin.perez.cobo@pwc.com&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-02-13 22:04:09&lt;/sys_updated_on&gt;&lt;template&gt;&lt;![CDATA[&lt;div ng-if="c.data.quiz.valid"&gt;
+&lt;div class="my-items-container"&gt;
+	&lt;div class="widget-header"&gt;
+		&lt;h3 class="title"&gt;{{c.data.quiz.metric_name}}&lt;/h3&gt;
+	&lt;/div&gt;
+	&lt;div class="my-items-body"&gt;
+		&lt;div class="summary-view" style="flex: 1 0 242px"&gt;
+			&lt;div class="primary"&gt;
+				&lt;div class="primary-activity"&gt;
+					&lt;h3 class="primary-item-count" ng-class="c.data.quiz.score &gt;= 75 &amp;&amp; c.data.quiz.score != null ? 'passed-score' : 'failed-score'"&gt;{{c.data.quiz.score ? c.data.quiz.score : 100}}%&lt;/h3&gt;
+					&lt;span class="primary-item-name"&gt; Average Score &lt;/span&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div class="secondary" ng-class="true ? 'primary-width' : 'secondary-width'"&gt;
+				&lt;div class="activity-container" ng-repeat="item in c.data.items"&gt;
+					&lt;div class="secondary-activity" ng-class="item.items.length == 0 ? 'text-grey' : ''"&gt;
+						&lt;span class="secondary-item-count"&gt;{{item.count}}&lt;/span&gt;
+						&lt;span
+							class="secondary-item-name"
+							ec-multiline-ellipsis-tooltip
+							ec-ellipsis-tooltip-title="{{item.name}}"
+							&gt;{{item.name}}&lt;/span
+						&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+      &lt;div class="secondary-large" ng-class="true ? 'primary-width' : 'secondary-width'"&gt;
+				&lt;div class="activity-container" ng-repeat="category in c.data.quiz.categories"&gt;
+					&lt;div class="secondary-activity" ng-class="category.questions.length == 0 ? 'text-grey' : ''"&gt;
+						&lt;span
+							class="secondary-item-name"
+							ec-multiline-ellipsis-tooltip
+							ec-ellipsis-tooltip-title="{{item.name}}"
+							&gt;{{category.name}}&lt;/span
+						&gt;
+            &lt;span class="secondary-item-count" ng-class="category.score == 0 ? 'text-grey' : category.score &lt; 75 &amp;&amp; category.score ? 'failed-score' : 'passed-score'"&gt;{{category.score}}%&lt;/span&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="actions-container" style="height: fit-content !important" ng-if="c.data.is_admin"&gt;
+    &lt;button class="actions-container__action btn btn-default btn-primary" type="button" ng-click="c.sendQuiz(c.data.quiz.metric_type, c.data.quiz.user.sys_id)"&gt;&lt;i class="glyphicon glyphicon-share"&gt;&lt;/i&gt;&lt;p&gt;Send Quiz&lt;/p&gt;&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+]]&gt;&lt;/template&gt;&lt;/sp_widget&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1195404946</payload_hash>
+        <record_name>Evaluation Instance Details</record_name>
+        <reverted_from/>
+        <source>361dec601b8da150708b7597dc4bcba3</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 22:04:09</sys_created_on>
+        <sys_id>dabb35f81b816550708b7597dc4bcb48</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1864cce8b630000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 22:04:09</sys_updated_on>
+        <type>Widget</type>
+        <update_guid>92bb35f83e816550a245c28ece4db248</update_guid>
+        <update_guid_history>92bb35f83e816550a245c28ece4db248:1195404946,30abb1f89e816550c8e9666fc7f85b49:1816714623</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Evaluation Instance Details">0e3542b81bc16550708b7597dc4bcbc0</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 22:45:38</sys_created_on>
+        <sys_db_object display_value="" name="sp_widget">sp_widget</sys_db_object>
+        <sys_id>2f0e6985461f493e834e10514a16d6e1</sys_id>
+        <sys_metadata>74abfdb81b816550708b7597dc4bcb75</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Evaluation Instance Details</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>sp_widget_74abfdb81b816550708b7597dc4bcb75</sys_update_name>
+        <sys_update_version display_value="sp_widget_74abfdb81b816550708b7597dc4bcb75">dabb35f81b816550708b7597dc4bcb48</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 22:45:38</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

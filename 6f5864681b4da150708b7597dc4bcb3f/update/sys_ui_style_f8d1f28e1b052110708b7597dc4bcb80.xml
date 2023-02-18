@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_style">
+    <sys_ui_style action="INSERT_OR_UPDATE">
+        <alt/>
+        <element/>
+        <name>x_487112_eval_evaluation_instance_16393dc21b85ad50708b7597dc4bcb1c</name>
+        <style>
+background-color: lightgreen;</style>
+        <sys_class_name>sys_ui_style</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 23:12:57</sys_created_on>
+        <sys_id>f8d1f28e1b052110708b7597dc4bcb80</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_487112_eval_evaluation_instance_16393dc21b85ad50708b7597dc4bcb1c</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sys_ui_style_f8d1f28e1b052110708b7597dc4bcb80</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 23:12:57</sys_updated_on>
+        <value/>
+    </sys_ui_style>
+    <sys_translated_text action="delete_multiple" query="documentkey=f8d1f28e1b052110708b7597dc4bcb80"/>
+</record_update>

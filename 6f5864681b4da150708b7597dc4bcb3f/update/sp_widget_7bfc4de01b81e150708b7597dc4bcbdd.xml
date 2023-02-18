@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {
+	/* widget controller */
+	var c = this;
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.text-success {&#13;
+	color: #28a745 !important&#13;
+}&#13;
+&#13;
+.text-danger {&#13;
+	color: #dc3545 !important&#13;
+}&#13;
+&#13;
+&#13;
+// ! evaluation Component Styles&#13;
+// * Media Queries&#13;
+// Small - Medium&#13;
+@media screen and (max-width: 768px) {&#13;
+	.evaluation__container {&#13;
+		grid-template-columns: repeat(2, 1fr);&#13;
+	}&#13;
+}&#13;
+&#13;
+// Small&#13;
+@media screen and (max-width: 576px) {&#13;
+	.evaluation__container {&#13;
+		grid-template-columns: repeat(1, 1fr);&#13;
+	}&#13;
+}&#13;
+&#13;
+// Medium forward&#13;
+@media screen and (min-width: 768px) {&#13;
+	.evaluation__container {&#13;
+		grid-template-columns: repeat(3, 1fr);&#13;
+	}&#13;
+}&#13;
+&#13;
+.evaluation__container {&#13;
+	display: grid;&#13;
+	column-gap: 2rem;&#13;
+	row-gap: 2rem;&#13;
+	margin: 2rem;&#13;
+}&#13;
+&#13;
+.inactive-item {&#13;
+  p {&#13;
+  	color: #999999 !important;&#13;
+  }&#13;
+}&#13;
+.evaluation {&#13;
+	display: flex;&#13;
+	flex-flow: column nowrap;&#13;
+	justify-content: flex-start;&#13;
+	align-items: flex-start;&#13;
+	background-color: white;&#13;
+	border: #dfdfdf solid 2px;&#13;
+	box-shadow: 0 .4rem .8rem 0 rgba(23, 40, 52, .08);&#13;
+	padding: 1rem;&#13;
+&#13;
+	.evaluation__header {&#13;
+		p {&#13;
+			margin: 0;&#13;
+			font-size: 1.5rem;&#13;
+			font-weight: 700;&#13;
+		}&#13;
+	}&#13;
+&#13;
+	.evaluation__body {&#13;
+		display: flex;&#13;
+		flex-flow: column nowrap;&#13;
+		justify-content: flex-start;&#13;
+		align-items: flex-start;&#13;
+&#13;
+		p {&#13;
+			margin: 0;&#13;
+			margin-right: 1rem;&#13;
+		}&#13;
+&#13;
+		.evaluation__body__stats {&#13;
+			display: flex;&#13;
+			flex-flow: row nowrap;&#13;
+			justify-content: flex-start;&#13;
+			align-items: center;&#13;
+		}&#13;
+&#13;
+		.evaluation__body__body {}&#13;
+	}&#13;
+}&#13;
+&#13;
+// ! Icons&#13;
+.glyphicon {&#13;
+	margin-right: 5px;&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>true</has_preview>
+        <id>evaluations_dashboard</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Evaluations Dashboard</name>
+        <option_schema/>
+        <public>false</public>
+        <roles>admin</roles>
+        <script><![CDATA[(function () {
+	// Evaluations Tab
+	data.evaluations = {
+		all: [],
+		my_evaluations: [],
+		other_evaluations: [],
+	};
+
+	var eval_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+	eval_gr.orderBy('sys_created_one');
+	eval_gr.query();
+
+	while (eval_gr.next()) {
+		var metric_type_stats = new EvaluationsUtils().getEvaluationDetails(eval_gr.getUniqueValue());
+		data.evaluations.all.push({
+			name: metric_type_stats.name,
+			questions: metric_type_stats.questions,
+			owners: metric_type_stats.owners,
+			instances: metric_type_stats.instances,
+			publish_state: metric_type_stats.publish_state,
+			avg_score: metric_type_stats.avg_score,
+			url:
+				gs.getProperty('glide.servlet.uri') +
+				Constants.SERVICE_PORTAL.PREFIX +
+				'?id=' +
+				Constants.SERVICE_PORTAL.PAGES.EVAL_OVERVIEW +
+				'&sys_id=' +
+				eval_gr.getUniqueValue(),
+		});
+	}
+
+	data.evaluations.all.forEach(function (q) {
+		if (
+			q.owners.indexOf(gs.getUserDisplayName()) != -1
+		) {
+			data.evaluations.my_evaluations.push(q);
+		} else {
+			data.evaluations.other_evaluations.push(q);
+		}
+	});
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 00:01:32</sys_created_on>
+        <sys_id>7bfc4de01b81e150708b7597dc4bcbdd</sys_id>
+        <sys_mod_count>18</sys_mod_count>
+        <sys_name>Evaluations Dashboard</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_7bfc4de01b81e150708b7597dc4bcbdd</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 22:02:52</sys_updated_on>
+        <template><![CDATA[<div class="" ng-if="c.data.evaluations.my_evaluations.length > 0">
+	<h4>My Evaluations</h4>
+	<div class="evaluation__container">
+		<a
+			class="evaluation"
+			ng-repeat="evaluation in c.data.evaluations.my_evaluations"
+			href="{{evaluation.url}}"
+			style="color: black !important"
+			ng-class="evaluation.publish_state == 'draft' ? 'inactive-item' : ''"
+		>
+			<div class="evaluation__header">
+				<p class="text-primary">{{evaluation.name}}</p>
+			</div>
+			<div class="evaluation__body">
+				<div class="evaluation__body__stats">
+					<p ng-if="evaluation.avg_score"><b>Average</b>: {{evaluation.avg_score}}%</p>
+					<p><b>Closed</b>: {{evaluation.instances.closed.length}} <b>Open</b>: {{evaluation.instances.open.length}}</p>
+				</div>
+				<div class="evaluation__body__owners" ng-if="evaluation.owners.length > 0">
+					<p><b>Owners</b>: {{evaluation.owners}}</p>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+<div ng-if="c.data.evaluations.length == 0">
+	<p class="table-font-size">You are not the owner of any evaluation.</p>
+</div>
+<div class="" ng-if="c.data.evaluations.other_evaluations.length > 0">
+	<h4>Other Evaluations</h4>
+	<div class="evaluation__container">
+		<a
+			class="evaluation"
+			ng-repeat="evaluation in c.data.evaluations.other_evaluations"
+			href="{{evaluation.url}}"
+			style="color: black !important"
+			ng-class="evaluation.publish_state == 'draft' ? 'inactive-item' : ''"
+		>
+			<div class="evaluation__header">
+				<p class="text-primary">{{evaluation.name}}</p>
+			</div>
+			<div class="evaluation__body">
+				<div class="evaluation__body__stats">
+					<p ng-if="evaluation.avg_score"><b>Average</b>: {{evaluation.avg_score}}%</p>
+					<p><b>Closed</b>: {{evaluation.instances.closed.length}} <b>Open</b>: {{evaluation.instances.open.length}}</p>
+				</div>
+				<div class="evaluation__body__owners" ng-if="evaluation.owners.join(', ').length > 0">
+					<p><b>Owners</b>: {{evaluation.owners.join(', ')}}</p>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

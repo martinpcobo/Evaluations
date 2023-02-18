@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="a09968e81b4da150708b7597dc4bcbd9" label="Evaluation Instances" max_length="40" name="x_487112_eval_evaluation_instance" type="collection">
+        <element label="Assessment Instance" max_length="32" name="assessment_instance" reference="asmt_assessment_instance" type="reference"/>
+        <element default="0" label="Correct answers" max_length="40" name="correct_answers" read_only="true" type="integer"/>
+        <element label="Evaluation" max_length="32" name="evaluation" reference="x_487112_eval_evaluation" type="reference"/>
+        <element default="0" label="Incorrect answers" max_length="40" name="incorrect_answers" read_only="true" type="integer"/>
+        <element label="Score" max_length="38" name="score" type="percent_complete"/>
+        <element default="0" label="Unanswered Questions" max_length="40" name="unanswered_questions" read_only="true" type="integer"/>
+        <index name="index">
+            <element name="assessment_instance"/>
+        </index>
+        <index name="index2">
+            <element name="evaluation"/>
+        </index>
+    </element>
+</database>

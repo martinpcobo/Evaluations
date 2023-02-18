@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function ($scope, $rootScope, spModal, spUtil) {
+	/* widget controller */
+	var c = this;
+
+	c.answerListModal = function (question) {
+		var incorrect_answers = '';
+		question.user_answers.incorrect.forEach(function (user) {
+			incorrect_answers += '<p>' + '> ' + user.name + '</p>';
+		});
+		var correct_answers = '';
+		question.user_answers.correct.forEach(function (user) {
+			correct_answers += '<p>' + '> ' + user.name + '</p>';
+		});
+
+		var message = '';
+		message += '<table class="table" style="width: fit-content !important"><thead>';
+		message += correct_answers.length > 0 ? '<th>Answered Correctly</th>' : '';
+		message += incorrect_answers.length > 0 ? '<th>Answered Incorrectly</th>' : '';
+		message += '</thead><tbody><tr>';
+		message += correct_answers.length > 0 ? '<td>' + correct_answers + '</td>' : '';
+		message += incorrect_answers.length > 0 ? '<td>' + incorrect_answers + '</td>' : '';
+		message += '</tr></tbody></table>';
+
+		spModal
+			.open({
+				title: 'Question Answers',
+				message: message,
+				buttons: [],
+			})
+			.then(function () {});
+	};
+	c.cancelQuiz = function (quiz_sys_id) {
+		spModal
+			.open({
+				title: 'Cancel this Quiz?',
+				message:
+					'<i class="fa fa-warning" aria-hidden="true"></i> Note that open Quizzes will be set to Cancelled and the Closed ones, which the user has already provided their answers, can still be recovered by an Evaluations Admin but its Evaluation Instance record will be deleted.',
+			})
+			.then(function (confirmed) {
+				if (confirmed) {
+					c.server
+						.get({
+							action: 'cancel_quiz',
+							instance_sys_id: quiz_sys_id,
+						})
+						.then(function () {
+							spUtil.update($scope);
+						});
+				}
+			});
+	};
+	c.questionChange = function (sys_id) {
+		if (c.data.selected_metrics.indexOf(sys_id) != -1) {
+			c.data.selected_metrics = c.data.selected_metrics.filter(function (q) {
+				return q != sys_id;
+			});
+		} else {
+			c.data.selected_metrics.push(sys_id);
+		}
+		$rootScope.$broadcast('quizQuestionSelected', c.data.selected_metrics);
+	};
+};
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css>// ! Scores&#13;
+.failed-score {&#13;
+  color: #FF0000;&#13;
+  font-weight: 600;&#13;
+}&#13;
+.passed-score {&#13;
+  color: #4C9A2A;&#13;
+  font-weight: 600;&#13;
+}&#13;
+// ! Icons&#13;
+.glyphicon {&#13;
+  margin-right: 5px;&#13;
+}&#13;
+.glyphicon-cog {&#13;
+  color: black;&#13;
+}&#13;
+// ! Utils&#13;
+.text-muted {&#13;
+  color: #656E81 !important&#13;
+    .glyphicon-cog {&#13;
+      color: #656E81 !important&#13;
+        }&#13;
+}&#13;
+// ! Container&#13;
+.quiz_dashboard {&#13;
+  box-shadow: 0 4px 8px 0 rgba(23,40,52,0.08);&#13;
+  background-color: white;&#13;
+  border: 1px solid #EAEAEA;&#13;
+  padding: 2rem;&#13;
+  min-height: 50vh;&#13;
+}&#13;
+&#13;
+// ! Tabs&#13;
+.nav-tabs &gt; li.active &gt; a{&#13;
+  border: 0;&#13;
+  border-bottom: 3px solid $primary;&#13;
+  background-color: transparent;&#13;
+}&#13;
+&#13;
+.nav-tabs{&#13;
+  //border-bottom: none;&#13;
+  border-radius: 3px 3px 0 0;&#13;
+}&#13;
+&#13;
+.nav-tabs &gt; li &gt; a {&#13;
+  border-radius: 0;&#13;
+  border: none;&#13;
+  border-bottom: 3px solid transparent;&#13;
+  min-width: 124px;&#13;
+  text-align: center;&#13;
+  font-size: 1.6rem;&#13;
+  margin: 0;&#13;
+}&#13;
+&#13;
+.nav-tabs &gt; li.active &gt; a:hover {&#13;
+  border: 0;&#13;
+  border-bottom: 3px solid $primary;&#13;
+  color: inherit;&#13;
+}&#13;
+&#13;
+.nav-tabs &gt; li &gt; a:hover {&#13;
+  color: $primary;&#13;
+  border-bottom-color: $nav-tabs-justified-link-border-color;&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>evaluation_metric_type_results</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Evaluation Metric Type Results</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function () {
+	// ! Constant/Variable Definition & Parameter Gathering
+	var widget_constants = {
+		assessments: {
+			open_states: ['ready', 'wip'],
+		},
+	};
+
+	data.selected_metrics = [];
+	data.evaluation = {};
+
+	// ! Parameter Validation
+	var eval_sys_id = $sp.getParameter('sys_id');
+	var eval_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+	if (!eval_gr.get(eval_sys_id)) {
+		gs.addErrorMessage('Please provide a valid Evaluation SYS_ID');
+		data.evaluation.valid = false;
+		return;
+	}
+
+	// ! Input Validation
+	if (input && input.action == 'cancel_quiz' && input.instance_sys_id) {
+		var quiz_instance_gr = new GlideRecord('asmt_assessment_instance');
+		if (!quiz_instance_gr.get(input.instance_sys_id)) {
+			return;
+		}
+
+		if (['complete', 'canceled'].indexOf(quiz_instance_gr.getValue('state')) == -1) {
+			var asmt_assessment_instance_question_gr = new GlideRecord('asmt_assessment_instance_question');
+			asmt_assessment_instance_question_gr.addQuery('instance', quiz_instance_gr.getUniqueValue());
+			asmt_assessment_instance_question_gr.query();
+			while (asmt_assessment_instance_question_gr.next()) {
+				asmt_assessment_instance_question_gr.deleteRecord();
+			}
+		} else {
+			var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+			if (!eval_instance_gr.get('assessment_instance', quiz_instance_gr.getUniqueValue())) {
+				return;
+			}
+			eval_instance_gr.deleteRecord();
+		}
+
+		quiz_instance_gr.setValue('state', 'canceled');
+		quiz_instance_gr.update();
+	}
+
+	// ! Data Operations
+	var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+	eval_instance_gr.addQuery('evaluation', eval_gr.getUniqueValue());
+	eval_instance_gr.orderBy('assessment_instance.taken_on');
+	eval_instance_gr.query();
+
+	var completed_instances = [];
+
+	while (eval_instance_gr.next()) {
+		completed_instances.push({
+			sys_id: eval_instance_gr.getValue('assessment_instance'),
+			user: {
+				assigned_to: eval_instance_gr.assessment_instance.user.toString(),
+				name: eval_instance_gr.assessment_instance.user.name.toString(),
+			},
+			number: eval_instance_gr.assessment_instance.number.toString(),
+			link:
+				Constants.SERVICE_PORTAL.PREFIX +
+				'?id=' +
+				Constants.SERVICE_PORTAL.PAGES.EVAL_RESULT +
+				'&sys_id=' +
+				eval_instance_gr.getUniqueValue(),
+			scoring: {
+				score_measured: eval_instance_gr.evaluation.getRefRecord().getValue('score_measured'),
+				passing_mark: eval_instance_gr.evaluation.getRefRecord().getValue('passing_mark'),
+				score: eval_instance_gr.getValue('score'),
+			},
+			correct_answers: eval_instance_gr.getValue('correct_answers'),
+			incorrect_answers: eval_instance_gr.getValue('incorrect_answers'),
+			unanswered_questions: eval_instance_gr.getValue('unanswered_questions'),
+			taken_on: eval_instance_gr.assessment_instance.getRefRecord().getValue('taken_on'),
+		});
+	}
+
+	var open_instances = [];
+
+	var asmt_instance_gr = new GlideRecord('asmt_assessment_instance');
+	asmt_instance_gr.addQuery('metric_type', eval_gr.getValue('metric_type'));
+	asmt_instance_gr.addQuery('state', 'IN', widget_constants.assessments.open_states.join(','));
+	asmt_instance_gr.orderByDesc('sys_created_on');
+	asmt_instance_gr.query();
+
+	while (asmt_instance_gr.next()) {
+		open_instances.push({
+			sys_id: asmt_instance_gr.getUniqueValue(),
+			user: {
+				assigned_to: asmt_instance_gr.getValue('assigned_to'),
+				name: asmt_instance_gr.user.name.toString(),
+			},
+			number: asmt_instance_gr.getValue('number'),
+			state: asmt_instance_gr.getDisplayValue('state'),
+			sys_created_on: asmt_instance_gr.getValue('sys_created_on'),
+		});
+	}
+
+	data.evaluation = {
+		name: eval_gr.getValue('name'),
+		valid: true,
+		completed_instances: completed_instances,
+		open_instances: open_instances,
+		scoring: {
+			passing_mark: eval_gr.getValue('passing_mark'),
+			score_measured: eval_gr.getValue('score_measured'),
+		},
+	};
+
+	data.question_ranking = new EvaluationsUtils().getEvaluationQuestionRanking(eval_gr.getUniqueValue());
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 00:37:03</sys_created_on>
+        <sys_id>18259d241bc1e150708b7597dc4bcb03</sys_id>
+        <sys_mod_count>52</sys_mod_count>
+        <sys_name>Evaluation Metric Type Results</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_18259d241bc1e150708b7597dc4bcb03</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 06:47:54</sys_updated_on>
+        <template><![CDATA[<div class="quiz_dashboard">
+	<uib-tabset ng-if="c.data.evaluation.valid">
+		<uib-tab index="0">
+			<uib-tab-heading><i class="glyphicon glyphicon-list-alt"></i>Evaluation Details</uib-tab-heading>
+			<div style="margin: 2rem">
+				<h4>Closed Evaluations</h4>
+				<div
+					ng-if="c.data.evaluation.completed_instances.length == 0"
+					ng-class="{'text-muted': c.data.evaluation.completed_instances.length == 0}"
+					class="text-muted"
+				>
+					<p>There are no completed instances of this Evaluation</p>
+				</div>
+				<div class="table-responsive" ng-if="c.data.evaluation.completed_instances.length > 0">
+					<table class="table table-hover">
+						<thead>
+							<th style="width: 5%"></th>
+							<th style="width: 15%">Number</th>
+							<th style="width: 25%">Assigned To</th>
+							<th style="width: 10%">Score</th>
+							<th style="width: 10%">Correct</th>
+							<th style="width: 10%">Incorrect</th>
+							<th style="width: 25%">Taken on</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="instance in c.data.evaluation.completed_instances">
+								<td>
+									<i
+										class="glyphicon glyphicon-remove-circle"
+										ng-click="c.cancelQuiz(instance.sys_id)"
+									></i>
+								</td>
+								<th><a href="{{instance.link}}">{{instance.number}}</a></th>
+								<td>{{instance.user.name}}</td>
+								<td
+									ng-if="c.data.evaluation.scoring.score_measured"
+									ng-class="instance.scoring.score >= c.data.evaluation.scoring.passing_mark ? 'passed-score' : 'failed-score'"
+								>
+									{{instance.scoring.score}}%
+								</td>
+								<td>{{instance.correct_answers}}</td>
+								<td>{{instance.incorrect_answers}}</td>
+								<td>{{instance.taken_on}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div style="margin: 2rem">
+				<h4>Open Evaluations</h4>
+				<div
+					ng-if="c.data.evaluation.open_instances.length == 0"
+					ng-class="{'text-muted': c.data.evaluation.open_instances.length == 0}"
+				>
+					<p>There are no open instances of this Quiz</p>
+				</div>
+				<div class="table-responsive" ng-if="c.data.evaluation.open_instances.length > 0">
+					<table class="table table-hover">
+						<thead>
+							<th style="width: 5%"></th>
+							<th style="width: 15%">Number</th>
+							<th style="width: 25%">Assigned To</th>
+							<th style="width: 20%">State</th>
+							<th style="width: 20%">Created on</th>
+						</thead>
+						<tbody>
+							<tr
+								ng-repeat="instance in c.data.evaluation.open_instances"
+								ng-class="instance.state != 'Ready to take' ? '' : 'text-muted'"
+							>
+								<td>
+									<i
+										class="glyphicon glyphicon-remove-circle"
+										ng-click="c.cancelQuiz(instance.sys_id)"
+									></i>
+								</td>
+								<th>{{instance.number}}</th>
+								<td>{{instance.user.name}}</td>
+								<td>{{instance.state}}</td>
+								<td>{{instance.sys_created_on}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab index="1">
+			<uib-tab-heading>
+				<i class="glyphicon glyphicon-sort-by-attributes-alt"></i>Answers Ranking
+			</uib-tab-heading>
+			<div class="text-muted" style="margin: 2rem" ng-if="c.data.evaluation.completed_instances.length == 0">
+				<p>There are no completed instances of this quiz.</p>
+			</div>
+			<div class="table-responsive" ng-if="c.data.evaluation.completed_instances.length > 0">
+				<table class="table table-hover">
+					<thead>
+						<th style="width: 0%"></th>
+						<th style="width: 40%">Question Name</th>
+						<th style="width: 10%">Correct</th>
+						<th style="width: 10%">Incorrect</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="question in c.data.question_ranking">
+							<td><input type="checkbox" ng-click="c.questionChange(question.sys_id)" /></td>
+							<td ng-click="c.answerListModal(question)">{{question.question}}</td>
+							<td
+								ng-class="{'passed-score' : (question.user_answers.correct.length / (question.user_answers.incorrect.length + question.user_answers.correct.length)) * 100 >= c.data.evaluation.scoring.passing_mark}"
+							>
+								{{((question.user_answers.correct.length / (question.user_answers.incorrect.length +
+								question.user_answers.correct.length)) * 100).toFixed()}}%
+							</td>
+							<td
+								ng-class="{'failed-score' : (question.user_answers.correct.length / (question.user_answers.incorrect.length + question.user_answers.correct.length)) * 100 < c.data.evaluation.scoring.passing_mark}"
+							>
+								{{((question.user_answers.incorrect.length / (question.user_answers.incorrect.length +
+								question.user_answers.correct.length)) * 100).toFixed()}}%
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</uib-tab>
+	</uib-tabset>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

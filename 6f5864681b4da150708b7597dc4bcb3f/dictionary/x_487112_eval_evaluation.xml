@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="b759e0e81b4da150708b7597dc4bcb0c" label="Evaluations" max_length="40" name="x_487112_eval_evaluation" type="collection">
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element label="Metric Type" mandatory="true" max_length="32" name="metric_type" reference="asmt_metric_type" reference_qual="evaluation_method=quiz" reference_qual_condition="evaluation_method=quiz" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Passing Mark" max_length="40" name="passing_mark" type="float"/>
+        <element label="Score Measured" max_length="40" name="score_measured" type="boolean"/>
+        <index name="index">
+            <element name="metric_type"/>
+        </index>
+    </element>
+</database>

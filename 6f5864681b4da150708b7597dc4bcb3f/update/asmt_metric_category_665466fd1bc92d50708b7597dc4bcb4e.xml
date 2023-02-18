@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category">
+    <asmt_metric_category action="INSERT_OR_UPDATE">
+        <create_stakeholders>false</create_stakeholders>
+        <description/>
+        <details/>
+        <filter/>
+        <metric_type display_value="">8c4422fd1bc92d50708b7597dc4bcb4a</metric_type>
+        <name>Intro to Scripting &amp;  Application Tools</name>
+        <order>1</order>
+        <qb_evaluation_method/>
+        <roles/>
+        <scoring_type>percent</scoring_type>
+        <sys_class_name>asmt_metric_category</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:35:35</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>665466fd1bc92d50708b7597dc4bcb4e</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Intro to Scripting &amp;  Application Tools</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_category_665466fd1bc92d50708b7597dc4bcb4e</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:35:39</sys_updated_on>
+        <table/>
+        <total_metrics>6</total_metrics>
+        <u_client/>
+        <u_journey/>
+        <u_personas/>
+        <u_phases/>
+        <u_stakeholders/>
+        <u_survey>false</u_survey>
+        <weight>10</weight>
+    </asmt_metric_category>
+    <sys_translated_text action="delete_multiple" query="documentkey=665466fd1bc92d50708b7597dc4bcb4e"/>
+</record_update>

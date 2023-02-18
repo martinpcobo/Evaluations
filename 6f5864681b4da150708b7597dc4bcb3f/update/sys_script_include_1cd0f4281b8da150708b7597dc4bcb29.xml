@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_487112_eval.EvaluationsUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>EvaluationsUtils</name>
+        <script><![CDATA[var EvaluationsUtils = Class.create();
+EvaluationsUtils.prototype = {
+	initialize: function () {},
+	isEvaluationMetricType: function (metric_type /*sys_id*/) {
+		var eval_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+		return eval_gr.get('metric_type', metric_type);
+	},
+	createEvaluationInstance: function (asmt_instance /*sys_id*/) {
+		var asmt_instance_gr = new GlideRecord('asmt_assessment_instance');
+		if (!asmt_instance_gr.get(asmt_instance)) {
+			gs.warn('[Evaluations] Could not create an Evaluation Instance, Assessment Instance not found');
+			return null;
+		}
+
+		var evaluation_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+		if (!evaluation_gr.get('metric_type', asmt_instance_gr.getValue('metric_type'))) {
+			gs.warn('[Evaluations] Could not create an Evaluation Instance, Evaluation Record not found');
+			return null;
+		}
+
+		var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+		eval_instance_gr.initialize();
+		eval_instance_gr.setValue('assessment_instance', asmt_instance_gr.getUniqueValue());
+		eval_instance_gr.setValue('evaluation', evaluation_gr.getUniqueValue());
+		var eval_instance_sys_id = eval_instance_gr.insert();
+
+		var eval_instance_score = this.getEvaluationInstanceScore(eval_instance_sys_id);
+		eval_instance_gr.setValue('score', eval_instance_score.score);
+		eval_instance_gr.setValue('correct_answers', eval_instance_score.correct.amount);
+		eval_instance_gr.setValue('incorrect_answers', eval_instance_score.incorrect.amount);
+		eval_instance_gr.setValue('unanswered_questions', eval_instance_score.unanswered.amount);
+		eval_instance_gr.update();
+
+		return eval_instance_sys_id;
+	},
+	getEvaluationInstanceScore: function (eval_instance /*sys_id*/) {
+		var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+		if (!eval_instance_gr.get(eval_instance)) {
+			gs.warn('[Evaluations] Could not get Evaluation Instance Score, Evaluation Instance not found');
+			return null;
+		}
+
+		if (
+			!eval_instance_gr.evaluation.getRefRecord().getValue('score_measured') ||
+			eval_instance_gr.evaluation.getRefRecord().getValue('passing_mark') == '' ||
+			eval_instance_gr.evaluation.metric_type.evaluation_method.toString() != 'quiz'
+		) {
+			gs.warn(
+				'[Evaluations] Could not get Evaluation Instance Score, because of the following item(s): \n 1. Score is not measured.\n 2. Passing Mark is not set.\n 3. Metric Type is not Quiz'
+			);
+			return null;
+		}
+
+		var questions = this.getEvaluationAnswers(eval_instance_gr.getValue('assessment_instance'));
+
+		var payload = {
+			score: 0,
+			correct: {
+				amount: 0,
+				questions: [],
+			},
+			incorrect: {
+				amount: 0,
+				questions: [],
+			},
+			unanswered: {
+				amount: 0,
+				questions: [],
+			},
+		};
+
+		questions.forEach(function (q) {
+			if (!q.user_answer.answered) {
+				payload.unanswered.questions.push({
+					sys_id: q.sys_id,
+				});
+				payload.unanswered.amount++;
+			} else if (q.user_answer.correct) {
+				payload.correct.questions.push({
+					sys_id: q.sys_id,
+				});
+				payload.correct.amount++;
+			} else {
+				payload.incorrect.questions.push({
+					sys_id: q.sys_id,
+				});
+				payload.incorrect.amount++;
+			}
+		});
+
+		if (gs.getProperty('x_487112_eval.evaluations.scoring.unanswered').toString() == 'true') {
+			payload.score =
+				(payload.correct.amount /
+					(payload.correct.amount + payload.incorrect.amount + payload.unanswered.amount)) *
+				100;
+			payload.score = payload.score.toFixed(2);
+		} else {
+			payload.score = (payload.correct.amount / (payload.correct.amount + payload.incorrect.amount)) * 100;
+			payload.score = payload.score.toFixed(2);
+		}
+
+		if (isNaN(payload.score)) {
+			payload.score = 0;
+		}
+
+		return payload;
+	},
+	getEvaluationAnswers: function (asmt_instance_sys_id /*String*/) {
+		var asmt_instance_gr = new GlideRecord('asmt_assessment_instance');
+		if (!asmt_instance_gr.get(asmt_instance_sys_id)) {
+			return;
+		}
+
+		var questions = this.getMetricQuestions(asmt_instance_gr.getValue('metric_type'));
+
+		var supported_data_types = {
+			ind_types: ['choice', 'boolean', 'checkbox'],
+			multiple_types: ['multiplecheckbox'],
+		};
+
+		questions.forEach(function (q) {
+			// Queries for User answers for Metric's questions
+			var asmt_question_gr = new GlideRecord('asmt_assessment_instance_question');
+			asmt_question_gr.addQuery('instance', asmt_instance_gr.getUniqueValue());
+			asmt_question_gr.addQuery('metric', q.sys_id);
+			asmt_question_gr.query();
+
+			q.user_answer = {
+				value: [],
+				correct: false,
+				answered: true,
+				display: [],
+			};
+
+			if (!asmt_question_gr.hasNext()) {
+				q.user_answer.correct = false;
+				q.user_answer.answered = false;
+				q.user_answer.display = 'Not answered';
+				return;
+			}
+
+			if (supported_data_types.ind_types.indexOf(q.datatype) != -1) {
+				if (asmt_question_gr.getRowCount() == 1) {
+					asmt_question_gr.next();
+
+					if (!asmt_question_gr.getValue('value')) {
+						q.user_answer.correct = false;
+						q.user_answer.answered = false;
+						q.user_answer.display = 'Not answered';
+						return;
+					}
+
+					// Choice Datatype
+					if (q.datatype == 'choice') {
+						q.user_answer.value = asmt_question_gr.getValue('value');
+
+						if (
+							q.correct_answer.correct_answer_choice.choice_value.indexOf(
+								asmt_question_gr.getValue('value')
+							) != -1
+						) {
+							q.user_answer.correct = true;
+							q.definitions
+								.filter(function (def) {
+									return q.user_answer.value.indexOf(def.value) != -1;
+								})
+								.forEach(function (def) {
+									q.user_answer.display.push(def.display);
+								});
+						}
+					}
+					// Boolean Datatype
+					if (
+						q.datatype == 'boolean' &&
+						q.correct_answer.correct_answer_yesno == asmt_question_gr.getValue('value')
+					) {
+						q.user_answer.correct = true;
+						q.user_answer.value = asmt_question_gr.getValue('value');
+					}
+					// Checkbox Datatype
+					if (q.datatype == 'checkbox') {
+						q.user_answer.value = asmt_question_gr.getValue('value');
+						if (q.correct_answer.correct_answer == asmt_question_gr.getValue('value')) {
+							q.user_answer.correct = true;
+						}
+					}
+				} else {
+					gs.warn(
+						'[Evaluations] Assessment metric scoring script failing for Assessment Instance (' +
+							asmt_instance_gr.getUniqueValue() +
+							') with Metric (' +
+							q.sys_id +
+							')'
+					);
+				}
+			} else if (supported_data_types.multiple_types.indexOf(q.datatype) != -1) {
+				// Set the user's answer for the multiple types
+				while (asmt_question_gr.next()) {
+					// Multiple Choice
+					if (q.datatype == 'multiplecheckbox') {
+						if (asmt_question_gr.getValue('value')) {
+							q.user_answer.value.push(asmt_question_gr.getValue('value'));
+						}
+					}
+				}
+
+				if (q.user_answer.value.length == 0) {
+					q.user_answer.correct = false;
+					q.user_answer.answered = false;
+					q.user_answer.display = 'Not answered';
+					return;
+				}
+
+				// Check if the user's answer is correct for the multiple types
+				if (
+					q.datatype == 'multiplecheckbox' &&
+					q.user_answer.value.length === q.correct_answer.correct_answer_choice.choice_value.length
+				) {
+					q.user_answer.correct = true;
+
+					q.user_answer.value.forEach(function (element) {
+						if (q.correct_answer.correct_answer_choice.choice_value.indexOf(element) == -1) {
+							q.user_answer.correct = false;
+							q.definitions
+								.filter(function (def) {
+									return q.user_answer.value.indexOf(def.value) != -1;
+								})
+								.forEach(function (def) {
+									q.user_answer.display.push(def.display);
+								});
+						}
+					});
+				}
+			}
+		});
+
+		return questions;
+	},
+	getMetricQuestions: function (metric_type /*sys_id*/) {
+		var questions = [];
+
+		// Queries for all Metrics (questions) and their respective answers
+		var asmt_metric_gr = new GlideRecord('asmt_metric');
+		asmt_metric_gr.addQuery('category.metric_type', metric_type);
+		asmt_metric_gr.orderBy('category');
+		asmt_metric_gr.query();
+
+		while (asmt_metric_gr.next()) {
+			var question = {
+				sys_id: asmt_metric_gr.getUniqueValue(),
+				question: asmt_metric_gr.getValue('question'),
+				datatype: asmt_metric_gr.getValue('datatype'),
+				category: asmt_metric_gr.getValue('category'),
+				correct_answer: {
+					correct_answer: asmt_metric_gr.getValue('correct_answer'),
+					correct_answer_yesno: asmt_metric_gr.getValue('correct_answer_yesno'),
+					correct_answer_choice: {
+						sys_id: [],
+						choice_value: [],
+						display: [],
+					},
+				},
+				definitions: [],
+			};
+
+			if (asmt_metric_gr.getValue('correct_answer_choice')) {
+				question.correct_answer.correct_answer_choice.sys_id = asmt_metric_gr
+					.getValue('correct_answer_choice')
+					.split(',');
+			}
+
+			var asmt_metric_def_gr = new GlideRecord('asmt_metric_definition');
+			asmt_metric_def_gr.addQuery('metric', asmt_metric_gr.getUniqueValue());
+			asmt_metric_def_gr.query();
+			while (asmt_metric_def_gr.next()) {
+				if (
+					question.correct_answer.correct_answer_choice.sys_id.indexOf(asmt_metric_def_gr.getUniqueValue()) !=
+					-1
+				) {
+					question.correct_answer.correct_answer_choice.choice_value.push(
+						asmt_metric_def_gr.getValue('value')
+					);
+				}
+				question.definitions.push({
+					sys_id: asmt_metric_def_gr.getUniqueValue(),
+					display: asmt_metric_def_gr.getValue('display'),
+					value: asmt_metric_def_gr.getValue('value'),
+				});
+			}
+			question.correct_answer.correct_answer_choice.sys_id.forEach(function (choice_sys_id) {
+				var def = question.definitions.filter(function (d) {
+					return d.sys_id == choice_sys_id;
+				})[0];
+				question.correct_answer.correct_answer_choice.display.push(def.display);
+			});
+
+			questions.push(question);
+		}
+
+		return questions;
+	},
+	getEvaluationDetails: function (evaluation /*sys_id*/) {
+		var evaluation_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+		if (!evaluation_gr.get(evaluation)) {
+			return;
+		}
+
+		// Get the amount of questions contained in the Evaluation
+		var metric_gr = new GlideAggregate('asmt_metric');
+		metric_gr.addQuery('metric_type', evaluation_gr.getValue('metric_type'));
+		metric_gr.addAggregate('COUNT');
+		metric_gr.query();
+
+		// * Gather information of instances
+		var asmt_instances = {
+			closed: [],
+			open: [],
+		};
+
+		// Gether information of Open/Work in Progress instances
+		var metric_instances_gr = new GlideRecord('asmt_assessment_instance');
+		metric_instances_gr.addQuery('metric_type', evaluation_gr.getValue('metric_type'));
+		metric_instances_gr.addQuery('state', 'IN', 'ready,wip');
+		metric_instances_gr.query();
+
+		while (metric_instances_gr.next()) {
+			asmt_instances.open.push({
+				sys_id: metric_instances_gr.getUniqueValue(),
+				state: metric_instances_gr.getValue('state'),
+				user: metric_instances_gr.getValue('user'),
+			});
+		}
+
+		// Gather information of Completed instances
+		var eval_instances_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+		eval_instances_gr.addQuery('evaluation', evaluation_gr.getUniqueValue());
+		eval_instances_gr.query();
+
+		while (eval_instances_gr.next()) {
+			asmt_instances.closed.push({
+				score: eval_instances_gr.getValue('score'),
+				correct: eval_instances_gr.getValue('correct_answers'),
+				incorrect: eval_instances_gr.getValue('incorrect_answers'),
+				unanswered: eval_instances_gr.getValue('unanswered_questions'),
+				sys_id: eval_instances_gr.getValue('assessment_instance'),
+				state: eval_instances_gr.assessment_instance.state.toString(),
+				user: eval_instances_gr.assessment_instance.user.toString(),
+			});
+		}
+
+		var metric_type_avg_score = 0;
+
+		asmt_instances.closed.forEach(function (instance) {
+			metric_type_avg_score += parseFloat(instance.score);
+		});
+
+		if (metric_type_avg_score == 0) {
+			metric_type_avg_score = null;
+		} else {
+			metric_type_avg_score = (metric_type_avg_score / asmt_instances.closed.length).toFixed(2);
+		}
+
+		var metric_type_stats = {
+			name: evaluation_gr.metric_type.name.toString(),
+			questions: metric_gr.next() ? metric_gr.getAggregate('COUNT') : 0,
+			owners: evaluation_gr.metric_type.getRefRecord().getDisplayValue('survey_owners'),
+			instances: asmt_instances,
+			publish_state: evaluation_gr.metric_type.publish_state.getDisplayValue(),
+			scoring: {
+				score_measured: evaluation_gr.getValue('score_measured'),
+				passing_mark: evaluation_gr.getValue('passing_mark'),
+				avg_score: metric_type_avg_score,
+			},
+		};
+
+		return metric_type_stats;
+	},
+	getEvaluationInstanceCategories: function (eval_instance /*sys_id*/) {
+		var categories = []; // {sys_id, name, questions, score}
+
+		this.getEvaluationAnswers(eval_instance).forEach(function (q) {
+			if (categories.length != 0 && categories[categories.length - 1].sys_id == q.category) {
+				categories[categories.length - 1].questions.push(q);
+			} else {
+				var category_gr = new GlideRecord('asmt_metric_category');
+				if (!category_gr.get(q.category)) {
+					throw new Error('Metric Category not found');
+				}
+				categories.push({
+					sys_id: q.category,
+					name: category_gr.getValue('name'),
+					description: category_gr.getValue('description'),
+					score: 0,
+					questions: [q],
+				});
+			}
+		});
+
+		categories.forEach(function (category) {
+			category.questions.forEach(function (q) {
+				category.score += q.user_answer.correct ? 1 : 0;
+			});
+			category.score = ((category.score / category.questions.length) * 100).toFixed();
+		});
+
+		return { categories: categories };
+	},
+	/**
+	 *
+	 * @param {string[]} questions Array of Questions/Metrics Sys_id
+	 * @param {object} quiz Information for the creation of the new Quiz
+	 *
+	 * @param {string} quiz.name Name of the new Quiz
+	 * @param {string} quiz.owners Sys_ids of the Quiz owners
+	 * @param {string} quiz.manager Sys_id of the Quiz manage
+	 * @param {string} quiz.quiz_creation_type Option to choose from creating a new quiz from scratch ('new_quiz') and using an existing one ('existing_quiz')
+	 * @param {string} quiz.existing_quiz Sys_id of the existing quiz
+	 * @param {string} quiz.original_quiz Sys_id of the original quiz from where the questions are pulled from
+	 *
+	 * @return {undefined}
+	 *
+	 */
+	createNewQuiz: function (questions, quiz) {
+		// * Input Validations
+		if (!questions || questions.length == 0) {
+			gs.info(
+				"[Evaluations] Reusing an existing quiz's questions could not be executed properly due to the lack of required parameters (questions)"
+			);
+			return null;
+		}
+		if (!quiz) {
+			gs.info(
+				"[Evaluations] Reusing an existing quiz's questions could not be executed properly due to the lack of required parameters (quiz_details)"
+			);
+			return null;
+		}
+
+		var original_asmt_metric_type_gr = new GlideRecord('asmt_metric_type');
+		if (!original_asmt_metric_type_gr.get(quiz.original_quiz)) {
+			gs.info(
+				"[Evaluations] Reusing an existing quiz's questions could not be executed properly due to the lack of a valid original quiz"
+			);
+			return null;
+		}
+
+		// * Metric type creation or query
+		var asmt_metric_type_gr = new GlideRecord('asmt_metric_type');
+		if (quiz.quiz_creation_type == 'new_quiz') {
+			asmt_metric_type.initialize();
+			asmt_metric_type.setValue(
+				'name',
+				quiz.name ? quiz.name : 'New Quiz created for ' + gs.getUserDisplayName()
+			);
+			asmt_metric_type.setValue('evaluation_method', 'quiz');
+			asmt_metric_type.setValue('overdue_notify_user', quiz.manager ? quiz.manager : gs.getUserID());
+			asmt_metric_type.setValue('duration', quiz.duration ? quiz.duration : '1970-01-01 01:00:00'); // 1 hs
+			asmt_metric_type.setValue('survey_owners', quiz.owners ? quiz.owners : gs.getUserID());
+			asmt_metric_type.insert();
+		} else if (quiz.quiz_creation_type == 'existing_quiz') {
+			if (!asmt_metric_type.get(quiz.existing_quiz)) {
+				gs.info(
+					"[Evaluations] Reusing an existing quiz's questions could not be executed properly due to the existing quiz sys_id not being valid"
+				);
+				return null;
+			}
+		}
+
+		// * Metric category creation
+		var asmt_metric_category_gr = new GlideRecord('asmt_metric_category');
+		asmt_metric_category_gr.initialize();
+		asmt_metric_category_gr.setValue('name', original_asmt_metric_type_gr.getValue('name'));
+		asmt_metric_category_gr.setValue('metric_type', asmt_metric_type_gr.getUniqueValue());
+		asmt_metric_category_gr.setValue('weight', 10);
+		asmt_metric_category_gr.insert();
+
+		// * Metric creation
+		var metrics_gr = new GlideRecord('asmt_metric');
+		metrics_gr.addQuery('sys_id', 'IN', questions.join(','));
+		metrics_gr.query();
+
+		while (metrics_gr.next()) {
+
+			var new_metric_gr = new GlideRecord('asmt_metric');
+			new_metric_gr.initialize();
+			new_metric_gr.get(metrics_gr.getUniqueValue());
+			new_metric_gr.setValue('category', asmt_metric_category_gr.getUniqueValue());
+			new_metric_gr.setValue('metric_type', asmt_metric_type.getUniqueValue());
+			new_metric_gr.insert();
+
+			// * Metric Definition creation (Possible answers)
+			var correct_choices_sys_id = [];
+
+			var metric_def_gr = new GlideRecord('asmt_metric_definition');
+			metric_def_gr.addQuery('metric', metrics_gr.getUniqueValue());
+			metric_def_gr.query();
+
+			while (metric_def_gr.next()) {
+				var new_metric_def_gr = new GlideRecord('asmt_metric_definition');
+				new_metric_def_gr.initialize();
+				new_metric_def_gr.get(metric_def_gr.getUniqueValue())
+				new_metric_def_gr.setValue('metric', new_metric_gr.getUniqueValue());
+				var new_metric_def_sys_id = new_metric_def_gr.insert();
+
+				if (
+					metrics_gr.getValue('correct_answer_choice').toString().indexOf(metric_def_gr.getUniqueValue()) !=
+					-1
+				) {
+					correct_choices_sys_id.push(new_metric_def_sys_id);
+				}
+			}
+
+			new_metric_gr = new GlideRecord('asmt_metric');
+			new_metric_gr.get(new_metric_gr.getUniqueValue());
+			new_metric_gr.setValue('correct_answer_choice', correct_choices_sys_id.join(','));
+			new_metric_gr.update();
+		}
+		return asmt_metric_type.getUniqueValue();
+	},
+	/**
+	 *
+	 * @param {string} category_sys_id Sys_id of the category to be duplicated
+	 * @param {string} new_metric_type Sys_id of the Metric type to duplicate the category on
+	 * @return {{old_sys_id: string, new_sys_id: string}} Object containing the sys_id of the old category and the new one
+	 *
+	 */
+	createQuizCategory: function (category_sys_id, new_metric_type) {
+		var category_gr = new GlideRecord('asmt_metric_category');
+		if (!category_gr.get(category_sys_id)) {
+			return;
+		}
+
+		var new_category_gr = new GlideRecord('asmt_metric_category');
+		new_category_gr.initialize();
+		new_category_gr.setValue('name', category_gr.getValue('name'));
+		new_category_gr.setValue('metric_type', new_metric_type);
+		var new_category_sys_id = new_category_gr.insert();
+
+		return {
+			old_sys_id: category_sys_id,
+			new_sys_id: new_category_sys_id,
+		};
+	},
+	sendGroupQuiz: function (group_sys_id, quiz_sys_id) {
+		var group_member_gr = new GlideRecord('sys_user_grmember');
+		group_member_gr.addQuery('group', group_sys_id);
+		group_member_gr.query();
+
+		if (group_member_gr.getRowCount() == 0) {
+			return;
+		}
+
+		while (group_member_gr.next()) {
+			this.sendUsersQuiz(group_member_gr.getValue('user'), quiz_sys_id);
+		}
+	},
+	sendUsersQuiz: function (users_sys_ids, quiz_sys_id) {
+		var metric_type_gr = new GlideRecord('asmt_metric_type');
+		if (!metric_type_gr.get(quiz_sys_id)) {
+			return;
+		}
+
+		var users_gr = new GlideRecord('sys_user');
+		users_gr.addQuery('sys_id', 'IN', users_sys_ids);
+		users_gr.query();
+
+		if (users_gr.getRowCount == 0) {
+			return false;
+		}
+
+		while (users_gr.next()) {
+			var category_gr = new GlideRecord('asmt_metric_category');
+			category_gr.addQuery('metric_type', metric_type_gr.getUniqueValue());
+			category_gr.query();
+
+			while (category_gr.next()) {
+				var m2m_gr = new GlideRecord('asmt_m2m_category_user');
+				m2m_gr.addQuery('metric_category', category_gr.getUniqueValue());
+				m2m_gr.addQuery('user', users_gr.getUniqueValue());
+				m2m_gr.query();
+
+				if (m2m_gr.getRowCount() == 0) {
+					m2m_gr.initialize();
+					m2m_gr.metric_category = category_gr.getUniqueValue();
+					m2m_gr.user = users_gr.getUniqueValue();
+					m2m_gr.name = users_gr.getValue('name') + ' (' + category_gr.getValue('name') + ')';
+					m2m_gr.insert();
+				}
+			}
+			new global.AssessmentUtils().createAssessments(
+				metric_type_gr.getUniqueValue(),
+				'',
+				users_gr.getUniqueValue()
+			);
+		}
+	},
+	getEvaluationQuestionRanking: function (eval_sys_id /*sys_id*/) {
+		var eval_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+		if (!eval_gr.get(eval_sys_id)) {
+			return;
+		}
+		// Queries for all Metrics (questions) and their respective answers
+		var questions = this.getMetricQuestions(eval_gr.getValue('metric_type'));
+
+		questions.forEach(function (q) {
+			q.user_answers = {
+				correct: [],
+				incorrect: [],
+				unanswered: [],
+			}; // user: {sys_id, first_name, last_name}
+		});
+
+		// Get User responses
+		var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+		eval_instance_gr.addQuery('evaluation', eval_gr.getUniqueValue());
+		eval_instance_gr.query();
+
+		if (eval_instance_gr.getRowCount() >= 1) {
+			var user_answers = [];
+
+			while (eval_instance_gr.next()) {
+				var user_answer = this.getEvaluationInstanceScore(eval_instance_gr.getUniqueValue());
+				user_answer.user = {
+					sys_id: eval_instance_gr.assessment_instance.user.toString()
+						? eval_instance_gr.assessment_instance.user.toString()
+						: null,
+					name: eval_instance_gr.assessment_instance.user.toString()
+						? eval_instance_gr.assessment_instance.user.name.toString()
+						: null,
+				};
+
+				user_answers.push(user_answer);
+			}
+
+			// Based on user answers, sets average scores for the quiz questions
+			user_answers.forEach(function (answer) {
+				questions.forEach(function (q) {
+					if (
+						answer.correct.questions.filter(function (user_ans) {
+							return user_ans.sys_id == q.sys_id;
+						}).length > 0
+					) {
+						q.user_answers.correct.push(answer.user);
+					} else if (
+						answer.incorrect.questions.filter(function (user_ans) {
+							return user_ans.sys_id == q.sys_id;
+						}).length > 0
+					) {
+						q.user_answers.incorrect.push(answer.user);
+					} else if (
+						answer.unanswered.questions.filter(function (user_ans) {
+							return user_ans.sys_id == q.sys_id;
+						}).length > 0
+					) {
+						q.user_answers.unanswered.push(answer.user);
+					}
+				});
+			});
+
+			// Sort questions where incorrect ones go first
+			questions.sort(function (a, b) {
+				// Average Score
+				if (
+					a.user_answers.incorrect.length /
+						(a.user_answers.incorrect.length + a.user_answers.correct.length) <
+					b.user_answers.incorrect.length / (b.user_answers.incorrect.length + b.user_answers.correct.length)
+				) {
+					return 1;
+				}
+				if (
+					a.user_answers.incorrect.length /
+						(a.user_answers.incorrect.length + a.user_answers.correct.length) >
+					b.user_answers.incorrect.length / (b.user_answers.incorrect.length + b.user_answers.correct.length)
+				) {
+					return -1;
+				}
+				// Amount of incorrect
+				if (a.user_answers.incorrect.length < b.user_answers.incorrect.length) {
+					return 1;
+				}
+				if (a.user_answers.incorrect.length > b.user_answers.incorrect.length) {
+					return -1;
+				}
+				// Same
+				return 0;
+			});
+		}
+
+		return questions;
+	},
+
+	type: 'EvaluationsUtils',
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 22:15:20</sys_created_on>
+        <sys_id>1cd0f4281b8da150708b7597dc4bcb29</sys_id>
+        <sys_mod_count>31</sys_mod_count>
+        <sys_name>EvaluationsUtils</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sys_script_include_1cd0f4281b8da150708b7597dc4bcb29</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 05:37:12</sys_updated_on>
+    </sys_script_include>
+</record_update>

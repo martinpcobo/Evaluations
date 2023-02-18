@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function ($scope, spUtil) {
+	/* widget controller */
+	var c = this;
+	c.data.shared_object = c.widget.options.shared;
+
+	$scope.quiz_name_change = function () {
+		c.data.shared_object.name = c.data.new_quiz_name.length > 0 ? c.data.new_quiz_name : null;
+	};
+
+	$scope.$on('field.change', function (evt, parms) {
+		if (parms.field.name == 'quiz_owner') {
+			c.data.shared_object.owners = parms.newValue.length > 0 ? parms.newValue : null;
+		} else if (parms.field.name == 'quiz_manager') {
+			c.data.shared_object.manager = parms.newValue.length > 0 ? parms.newValue : null;
+		} else if(parms.field.name == 'existing_quiz') {
+			c.data.shared_object.existing_quiz = parms.newValue.length > 0 ? parms.newValue : null;
+		}
+	});
+};
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.widget_container {&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  justify-content: flex-start;&#13;
+  align-items: flex-start;&#13;
+  row-gap: 1.25rem;&#13;
+&#13;
+  padding: 1rem;&#13;
+}&#13;
+&#13;
+.quiz_creation_type {&#13;
+  display: flex;&#13;
+  flex-flow: column nowrap;&#13;
+  justify-content: center;&#13;
+  align-items: flex-start;&#13;
+&#13;
+  .input-group {&#13;
+    display: grid;&#13;
+    grid-template-columns: min-content 1fr;&#13;
+    column-gap: 3px;&#13;
+    justify-content: flex-start;&#13;
+    align-items: center;&#13;
+&#13;
+    label {&#13;
+      margin: 0;&#13;
+      padding: 0;&#13;
+    }&#13;
+&#13;
+    input {&#13;
+      margin: 0;&#13;
+      padding: 0;&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+form {&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  row-gap: 1rem;&#13;
+}&#13;
+&#13;
+label {&#13;
+  font-size: 1.5rem;&#13;
+}&#13;
+&#13;
+label.required::before {&#13;
+  content: '*';&#13;
+  margin-right: 4px;&#13;
+  color: red;&#13;
+}&#13;
+&#13;
+label.notrequired::before {&#13;
+  content: '*';&#13;
+  margin-right: 4px;&#13;
+  color: grey;&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>create_new_evaluation</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+}
+]]></link>
+        <name>Create new Evaluation</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+
+	// ! Constants
+	data.render_form = true;
+
+	data.new_quiz = {
+		name: null,
+		manager: null,
+		owners: null,
+		duration: null,
+	}
+
+	// ! Input Parameters
+	if(!input || !input.original_metric) {
+		data.render_form = false;
+		return;
+	}
+
+	var metric_type_gr = new GlideRecord('asmt_metric_type');
+	if(!metric_type_gr.get(input.original_metric)){
+		data.render_form = false;
+		return;
+	}
+
+	data.metric_type = {
+		value: input.original_metric,
+		displayValue: metric_type_gr.getValue('name'),
+		name: 'metric_type',
+	};
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 01:22:23</sys_created_on>
+        <sys_id>dc8f5da41b05e150708b7597dc4bcb09</sys_id>
+        <sys_mod_count>63</sys_mod_count>
+        <sys_name>Create new Evaluation</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_dc8f5da41b05e150708b7597dc4bcb09</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 05:37:37</sys_updated_on>
+        <template><![CDATA[<div class="widget_container" ng-if="c.data.submitted.success">
+	<div class="widget_response_container">
+		<i class="glyphicon glyphicon-ok"></i>
+		<p>Quiz created successfully</p>
+	</div>
+</div>
+<div ng-if="c.data.render_form" class="widget_container">
+	<div class="input-group">
+		<label for="quiz" style="font-weight: bold">Original Quiz</label>
+		<sn-record-picker
+			field="c.data.metric_type"
+			sn-disabled="true"
+			table="'asmt_metric_type'"
+			display-field="'name'"
+			value-field="'sys_id'"
+			search-fields="'name'"
+			page-size="100"
+			field="c.data.metric_type"
+		></sn-record-picker>
+	</div>
+	<form action="">
+		<div class="quiz_creation_type">
+			<label
+				ng-class="c.data.shared_object.quiz_creation_type == null ? 'required' : 'not_required'"
+				style="font-weight: bold"
+				>Quiz creation type</label
+			>
+			<div class="input-group" ng-click="c.data.shared_object.quiz_creation_type = 'new_quiz'">
+				<input
+					type="radio"
+					name="quiz_creation_type"
+					value="new_quiz"
+					ng-checked="c.data.shared_object.quiz_creation_type == 'new_quiz'"
+				/>
+				<label for="quiz_creation_type">New Quiz</label>
+			</div>
+			<div class="input-group" ng-click="c.data.shared_object.quiz_creation_type = 'existing_quiz'">
+				<input
+					type="radio"
+					name="quiz_creation_type"
+					value="existing_quiz"
+					ng-checked="c.data.shared_object.quiz_creation_type == 'existing_quiz'"
+				/>
+				<label for="quiz_creation_type">Existing Quiz</label>
+			</div>
+		</div>
+	</form>
+	<!-- ! New Quiz -->
+	<form action="" ng-if="c.data.shared_object.quiz_creation_type == 'new_quiz'">
+		<div class="input-group">
+			<label
+				for="quiz_name"
+				ng-class="c.data.shared_object.name == null ? 'required' : 'not_required'"
+				style="font-weight: bold"
+				>Name of quiz</label
+			>
+			<input
+				type="text"
+				id="quiz_name"
+				class="form-control"
+				ng-model="c.data.new_quiz_name"
+				ng-change="quiz_name_change()"
+			/>
+		</div>
+		<div class="input-group">
+			<label
+				for="manager"
+				ng-class="c.data.shared_object.manager == null ? 'required' : 'not_required'"
+				style="font-weight: bold"
+				>Quiz Manager</label
+			>
+			<sn-record-picker
+				multiple="false"
+				table="'sys_user'"
+				display-field="'name'"
+				value-field="'sys_id'"
+				search-fields="'name'"
+				default-query="'active=true'"
+				page-size="100"
+				field="{displayValue: '',value: '',name: 'quiz_manager'}"
+			></sn-record-picker>
+		</div>
+		<div class="input-group">
+			<label
+				for="owners"
+				ng-class="c.data.shared_object.owners == null ? 'required' : 'not_required'"
+				style="font-weight: bold"
+				>Quiz Owners</label
+			>
+			<sn-record-picker
+				multiple="true"
+				table="'sys_user'"
+				display-field="'name'"
+				value-field="'sys_id'"
+				search-fields="'name'"
+				default-query="'active=true'"
+				page-size="100"
+				field="{displayValue: '',value: '',name: 'quiz_owner'}"
+			></sn-record-picker>
+		</div>
+	</form>
+	<!-- ! Existing Quiz -->
+	<form action="" ng-if="c.data.shared_object.quiz_creation_type == 'existing_quiz'">
+		<div class="input-group">
+			<label
+				for="existing_quiz"
+				ng-class="c.data.shared_object.existing_quiz == null ? 'required' : 'not_required'"
+				style="font-weight: bold"
+				>Existing Quiz</label
+			>
+			<sn-record-picker
+				multiple="false"
+				table="'asmt_metric_type'"
+				display-field="'name'"
+				value-field="'sys_id'"
+				search-fields="'name'"
+				default-query="'active=true^publish_state=published'"
+				page-size="100"
+				field="{displayValue: '',value: '',name: 'existing_quiz'}"
+			></sn-record-picker>
+		</div>
+	</form>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

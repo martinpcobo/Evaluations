@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function (spModal, spUtil, $rootScope, $scope) {
+	/* widget controller */
+	var c = this;
+
+	c.openInPlatform = function (sys_id) {
+		window.location.href = c.data.instance_url + 'asmt_metric_type.do?sys_id=' + c.data.evaluation.metric_type;
+	};
+	c.provisionQuiz = function () {
+		spModal.open({
+			title: 'Provision Quiz',
+			widget: 'assign_evaluation',
+			widgetInput: {
+				quiz_sys_id: c.data.evaluation.metric_type,
+			},
+			buttons: [],
+		});
+	};
+	c.closeQuizzes = function (sys_id) {
+		spModal.confirm('Are you sure you want to close all open quizzes?').then(function (confirmed) {
+			if (confirmed) {
+				c.server.get({
+					action: 'close_quizzes',
+					metric_type_sys_id: c.data.evaluation.metric_type,
+				});
+				location.reload();
+			}
+		});
+	};
+
+	$rootScope.$on('quizQuestionSelected', function (event, data) {
+		if (data) {
+			c.data.selected_metrics = data;
+		}
+	});
+
+	c.createNewQuiz = function () {
+		var new_quiz_details = {
+			name: null,
+			owners: null,
+			manager: null,
+			quiz_creation_type: null,
+			existing_quiz: null,
+			original_quiz: c.data.evaluation.metric_type
+		};
+		spModal.open({
+			title: 'Create new Quiz',
+			widget: 'create_new_evaluation',
+			widgetInput: {
+				original_metric: c.data.evaluation.metric_type,
+			},
+			shared: new_quiz_details
+		}).then(function(confirmed) {
+			if(confirmed) {
+				c.server.get({
+					action: 'create_quiz',
+					new_quiz_details: new_quiz_details,
+					selected_metrics: c.data.selected_metric
+				});
+			} else {
+				quizNotCreated();
+			}
+		});
+	};
+
+	c.quizNotCreated = function () {
+		spModal.confirm('A new Evaluation could not be created at this moment, please try again later.');
+	};
+};
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.failed-score {&#13;
+  color: #FF0000 !important;&#13;
+  font-weight: 600;&#13;
+}&#13;
+.passed-score {&#13;
+  color: #4C9A2A !important;&#13;
+  font-weight: 600;&#13;
+}&#13;
+&#13;
+$font-size-large : 20px !default;&#13;
+$font-size-small : 12px !default;&#13;
+$font-size-h3 : 20px !default;&#13;
+$font-size-h2 : 24px !default;&#13;
+$font-size-base : 16px !default;&#13;
+$font-size-xs : 12px !default;&#13;
+$headings-font-weight : 600 !default;&#13;
+&#13;
+$sp-space--xxs: 2px !default;&#13;
+$sp-space--sm : 8px !default;&#13;
+$sp-space--xs : 4px !default;&#13;
+$sp-space--xl : 24px !default;&#13;
+&#13;
+$padding-small-horizontal : 12px !default;&#13;
+$padding-base-vertical : 6px !default;&#13;
+$padding-large-vertical : 8px !default;&#13;
+$padding-xs-horizontal : 8px !default;&#13;
+$padding-base-horizontal : 16px !default;&#13;
+$padding-small-vertical : 4px !default;&#13;
+&#13;
+$link-color : #3c59e7 !default;&#13;
+$link-hover-color : #263994 !default;&#13;
+&#13;
+$border-radius-base : 4px !default;&#13;
+$border-radius-small: 2px !default;&#13;
+&#13;
+$label-margin-bottom : 4px !default;&#13;
+&#13;
+$text-primary : #181A1F !default;&#13;
+$text-secondary : #474D5A !default;&#13;
+$text-tertiary : #656E81 !default;&#13;
+&#13;
+$background-primary : #ffffff !default;&#13;
+$background-secondary : #f6f6f8 !default; &#13;
+$background-tertiary : #F0F1F5 !default;&#13;
+&#13;
+$border-secondary : #ACB2BE !default;&#13;
+$border-tertiary : #DADDE2 !default;&#13;
+$color-sp-separator: #EAEAEA;&#13;
+&#13;
+$sp-panel-box-shadow : 0 4px 8px 0 rgba(23,40,52,0.08) !default;&#13;
+&#13;
+.widget-container {&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  row-gap: 1rem;&#13;
+  &#13;
+  min-height: 20rem;&#13;
+&#13;
+  margin: 1rem;&#13;
+}&#13;
+&#13;
+.actions-container {&#13;
+  display: grid;&#13;
+  grid-template-columns: min-content min-content;&#13;
+  padding: 2rem;&#13;
+&#13;
+  box-shadow: $sp-panel-box-shadow;&#13;
+  background-color: white;&#13;
+&#13;
+  column-gap: 1rem;&#13;
+  row-gap: 1rem;&#13;
+&#13;
+  border: 1px solid $color-sp-separator;&#13;
+&#13;
+  .actions-container__action {&#13;
+    display: grid;&#13;
+    grid-template-columns: 16px 1fr;&#13;
+    column-gap: .5rem;&#13;
+    width: 100%;&#13;
+    border-radius: 0;&#13;
+&#13;
+    i {&#13;
+      grid-column: 1 / 2;&#13;
+      margin: 0;&#13;
+    }&#13;
+    p {&#13;
+      grid-column: 2 / 3;&#13;
+      margin: 0;&#13;
+      text-align: left;&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.quiz-details-container {&#13;
+  box-shadow: $sp-panel-box-shadow;&#13;
+  min-height: 20rem;&#13;
+  background-color: $background-primary;&#13;
+  border: 1px solid $color-sp-separator;&#13;
+  .widget-header {&#13;
+    border-bottom: 1px solid $color-sp-separator;&#13;
+    padding: $padding-small-horizontal;&#13;
+    .title {&#13;
+      font-weight: 600;&#13;
+      font-size: $font-size-large;&#13;
+      color: $text-primary;&#13;
+      margin-top: $padding-small-horizontal;&#13;
+      margin-left: $padding-small-horizontal;&#13;
+    }&#13;
+    .header_details {&#13;
+      margin-top: $padding-small-horizontal;&#13;
+      margin-left: $padding-small-horizontal;&#13;
+    }&#13;
+  }&#13;
+  .no-primary-activity {&#13;
+    margin-top: $padding-small-horizontal !important;&#13;
+  }&#13;
+  .my-items-body {&#13;
+    display: flex;&#13;
+    flex-wrap: wrap;&#13;
+    margin-top: $sp-space--xl;&#13;
+    padding-right: $sp-space--xl;&#13;
+    padding-top: 0px;&#13;
+    .text-grey {&#13;
+      * {&#13;
+        color: $text-tertiary !important;&#13;
+      }&#13;
+    }&#13;
+    .activity-check {&#13;
+      text-align: center;&#13;
+      width: 100%;&#13;
+      margin-right: $sp-space--xl;&#13;
+    }&#13;
+    .no-items {&#13;
+      font-size: $font-size-small;&#13;
+      color: $text-primary;&#13;
+    }&#13;
+    .summary-view {&#13;
+      display: flex;&#13;
+      flex-direction: column;&#13;
+      margin-bottom: 1.8rem;&#13;
+      padding-left: $sp-space--xl;&#13;
+      .primary:hover {&#13;
+        box-shadow: $sp-panel-box-shadow;&#13;
+      }&#13;
+      .primary {&#13;
+        padding: $padding-base-vertical;&#13;
+        background: $background-primary;&#13;
+        border: 1px solid $border-tertiary;&#13;
+        border-radius: $border-radius-base;&#13;
+        height: 7.6rem;&#13;
+        min-width: 218px;&#13;
+        align-items: center;&#13;
+        justify-content: center;&#13;
+      }&#13;
+      .primary-activity {&#13;
+        display: flex;&#13;
+        flex-direction: column;&#13;
+        align-items: center;&#13;
+        justify-content: center;&#13;
+        height: 100%;&#13;
+      }&#13;
+      .primary-item-count {&#13;
+        margin: 0rem;&#13;
+        font-size: $font-size-h2;&#13;
+        color: $link-color;&#13;
+      }&#13;
+      .primary-item-name {&#13;
+        color: $text-primary;&#13;
+        font-size: $font-size-base;&#13;
+        overflow: hidden;&#13;
+        line-height: 1.68rem;&#13;
+        margin: 0rem;&#13;
+        white-space: nowrap;&#13;
+        max-width:240px;&#13;
+        text-overflow:ellipsis&#13;
+      }&#13;
+      .secondary-width {&#13;
+        width: none;&#13;
+      }&#13;
+    }&#13;
+    .secondary {&#13;
+      display: grid;&#13;
+      grid-template-columns: repeat(2,minmax(104px,1fr));&#13;
+      grid-gap: 10px;&#13;
+      padding-top: 10px;&#13;
+      .activity-container {	&#13;
+        .secondary-activity:hover {&#13;
+          box-shadow: $sp-panel-box-shadow;&#13;
+        }&#13;
+        .secondary-activity {&#13;
+          background: $background-primary;&#13;
+          border: 1px solid $border-tertiary;&#13;
+          border-radius: $border-radius-base;&#13;
+          height: 3.4rem;&#13;
+          padding-left: $padding-small-horizontal;&#13;
+          padding-right: $padding-small-vertical;&#13;
+          display: flex;&#13;
+          align-items: center;&#13;
+          min-width: 104px;&#13;
+        }&#13;
+        .secondary-item-count {&#13;
+          margin: 0rem;&#13;
+          font-size: $font-size-base;&#13;
+          color: $link-color;&#13;
+          padding-right: $padding-base-vertical;&#13;
+        }&#13;
+        .secondary-item-name {&#13;
+          color: $text-primary;&#13;
+          font-size: $font-size-small;&#13;
+          overflow: hidden;&#13;
+          text-overflow: ellipsis;&#13;
+          height: 2rem;&#13;
+          line-height: 2rem;&#13;
+          margin: 0rem;&#13;
+          white-space: nowrap;&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+    .divider {&#13;
+      height: 0;&#13;
+      border: $border-radius-small solid #F6F6F6;&#13;
+      margin-right: $sp-space--xl;&#13;
+      margin-bottom: 1.8rem;&#13;
+      width: 100%;&#13;
+    }&#13;
+    .list-view {&#13;
+      flex: 1 0 242px;&#13;
+      padding-left: $sp-space--xl;&#13;
+      .view-all {&#13;
+        color: $link-color;&#13;
+        justify-items: flex-end;&#13;
+        font-size: $font-size-small;&#13;
+        height: fit-content;&#13;
+        height: -moz-fit-content;&#13;
+        padding: $sp-space--xxs;&#13;
+        min-width: 63px;&#13;
+      }&#13;
+      .view-all:hover {&#13;
+        color: $link-hover-color;&#13;
+      }&#13;
+      .header {&#13;
+        display: flex;&#13;
+        .list-header {&#13;
+          font-size: $font-size-large;&#13;
+          margin-top: 0rem;&#13;
+          color: $text-primary;&#13;
+          flex-grow: 1;&#13;
+          margin-bottom: 1.8rem;&#13;
+        }&#13;
+      }&#13;
+      .card-container {&#13;
+        display: grid;&#13;
+        grid-template-columns: repeat(auto-fit,minmax(218px,1fr));&#13;
+        grid-column-gap: 1.8rem;&#13;
+        .flex-item-card:hover {&#13;
+          box-shadow: $sp-panel-box-shadow;&#13;
+        }&#13;
+        .flex-item-card {&#13;
+          border: 1px solid $border-tertiary;&#13;
+          background: $background-primary;&#13;
+          border-radius: $border-radius-base;&#13;
+          min-height: 136px;&#13;
+          padding: $padding-base-horizontal;&#13;
+          margin-bottom: 1.8rem;&#13;
+          p {&#13;
+            margin-bottom: 0px;&#13;
+          }&#13;
+          .item-badge {&#13;
+            padding: $sp-space--xxs $sp-space--xs;&#13;
+            border-radius: $border-radius-small;&#13;
+            height: $font-size-large;&#13;
+            min-height: $font-size-large;&#13;
+            font-size: $font-size-xs;&#13;
+            font-weight: normal;&#13;
+          }&#13;
+          .item-title {&#13;
+            min-height: 2rem;&#13;
+            color: $text-primary;&#13;
+            font-size: $font-size-base;&#13;
+            font-weight: $headings-font-weight;&#13;
+            margin-bottom: $padding-base-vertical;&#13;
+            margin-top: -3px;&#13;
+          }&#13;
+          .item-description {&#13;
+            min-height: $font-size-large;&#13;
+            color: $text-secondary;&#13;
+            font-size: $font-size-xs;&#13;
+            font-weight: normal;&#13;
+          }&#13;
+          .item-field {&#13;
+            font-size: $font-size-xs;&#13;
+            color: $text-tertiary;&#13;
+          }&#13;
+          .item-value {&#13;
+            font-size: $font-size-xs;&#13;
+            color: $text-primary;&#13;
+          }&#13;
+          .text-ellipsis {&#13;
+            overflow: hidden;&#13;
+            text-overflow: ellipsis;&#13;
+            display: -webkit-box;&#13;
+            -webkit-box-orient: vertical;&#13;
+            word-break: break-word;&#13;
+          }&#13;
+          .text-ellipsis-two-line {&#13;
+            -webkit-line-clamp: 2;&#13;
+          }&#13;
+          .card-image {&#13;
+            display: flex;&#13;
+            justify-content: flex-start;&#13;
+            margin-top: $padding-base-horizontal;&#13;
+            .card-text-container {&#13;
+              padding-left: $padding-base-horizontal;&#13;
+            }&#13;
+            .image-item {&#13;
+              height: 70px;&#13;
+              width: 70px;&#13;
+              min-width: 70px;&#13;
+            }&#13;
+          }&#13;
+          .field-name {&#13;
+            display: flex;&#13;
+            margin-top: $padding-small-horizontal;&#13;
+          }&#13;
+          .field-value {&#13;
+            display: flex;&#13;
+            margin-top: $sp-space--xxs;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.fix-width {&#13;
+  width: 50%;	&#13;
+}	&#13;
+.full-fix-width {	&#13;
+  width: 100%;	&#13;
+}&#13;
+&#13;
+.field-container {&#13;
+  padding-right: 1.0rem;&#13;
+  word-break: break-word;&#13;
+  -webkit-line-clamp: 1;&#13;
+}&#13;
+&#13;
+/* IE specific Class to override */&#13;
+@media screen and (-ms-high-contrast: active),&#13;
+  (-ms-high-contrast: none) and (min-width: 992px, (max-width: 380px)){&#13;
+    .my-items-container{&#13;
+      min-width: auto !important;&#13;
+      .summary-view{&#13;
+        flex: 1 1 288px !important;&#13;
+        .primary{&#13;
+          min-width: 220px !important;&#13;
+        }&#13;
+        .secondary{&#13;
+          .activity-container{&#13;
+            flex: 1 1 110px !important;&#13;
+            .secondary-activity{&#13;
+              min-width: 110px !important;&#13;
+            }&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+      .list-view{&#13;
+        flex: 1 1 278px !important;&#13;
+        .card-container{&#13;
+          justify-content: flex-start !important;&#13;
+          .flex-item-card{&#13;
+            flex: 1 1 242px !important;&#13;
+            .card-image &gt; div{&#13;
+              width: 100% !important;&#13;
+            }&#13;
+            .text-ellipsis{&#13;
+              width: auto !important;&#13;
+            }&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+}&#13;
+@media screen and (-ms-high-contrast: active),&#13;
+  (-ms-high-contrast: none) {&#13;
+    .my-items-container{&#13;
+      min-width: 362px;&#13;
+      .summary-view{&#13;
+        .secondary{&#13;
+          display: inline-flex;&#13;
+          flex-flow: row wrap;&#13;
+          padding-top: 10px;&#13;
+          margin: -10px 0 0 -10px;&#13;
+          .activity-container{&#13;
+            margin: 10px 0 0 10px;&#13;
+            flex: 1 0 139px;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+      .list-view{&#13;
+        .view-all{&#13;
+          height: 22px;&#13;
+        }&#13;
+      }&#13;
+      .card-container{&#13;
+        display: flex;&#13;
+        flex-flow: row wrap;&#13;
+        justify-content: space-around;&#13;
+        .flex-item-card{&#13;
+          p {&#13;
+            display: inline;&#13;
+          }&#13;
+          width: 312px;&#13;
+          .card-text-container{&#13;
+            .text-ellipsis{&#13;
+              width: 203px;&#13;
+            }&#13;
+          }&#13;
+          .text-ellipsis{&#13;
+            white-space: nowrap;&#13;
+            width: 278px;&#13;
+          }&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>evaluation_details</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Evaluation Details</name>
+        <option_schema/>
+        <public>false</public>
+        <roles>admin</roles>
+        <script><![CDATA[(function () {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+
+	data.selected_metrics = [];
+	data.instance_url = gs.getProperty('glide.servlet.uri');
+
+	if (input && input.action == 'close_quizzes' && input.metric_type_sys_id) {
+		var quizzes_gr = new GlideRecord('asmt_assessment_instance');
+		quizzes_gr.addQuery('metric_type', input.metric_type_sys_id);
+		quizzes_gr.addQuery('state', 'IN', 'wip,ready');
+		quizzes_gr.query();
+
+		while (quizzes_gr.next()) {
+			quizzes_gr.setValue('state', 'complete');
+			quizzes_gr.update();
+		}
+	} else if(input && input.action == 'create_quiz') {
+		var created_quiz = new EvaluationsUtils().createNewQuiz(input.selected_metrics, input.new_quiz);
+		return {
+			sys_id: created_quiz,
+			success: created_quiz != undefined
+		};
+	}
+
+	var eval_sys_id = $sp.getParameter('sys_id');
+
+	data.evaluation = {};
+
+	var eval_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+	if (!eval_gr.get(eval_sys_id)) {
+		gs.addErrorMessage('Please provide a valid Evaluation SYS_ID');
+		data.evaluation.valid = false;
+		return;
+	}
+
+	data.evaluation = {
+		sys_id: eval_gr.getUniqueValue(),
+	};
+
+	var metric_type_details = new EvaluationsUtils().getEvaluationDetails(eval_gr.getUniqueValue());
+
+	data.evaluation.name = metric_type_details.name;
+	data.evaluation.questions = metric_type_details.questions;
+	data.evaluation.owners = metric_type_details.owners;
+	data.evaluation.instances = metric_type_details.instances;
+	data.evaluation.publish_state = metric_type_details.publish_state;
+	data.evaluation.scoring = metric_type_details.scoring;
+	data.evaluation.valid = true;
+	data.evaluation.metric_type = eval_gr.getValue('metric_type');
+
+	data.items = [
+		{
+			name: 'Completed',
+			count: data.evaluation.instances.closed.length,
+		},
+		{
+			name: 'Open',
+			count: data.evaluation.instances.open.length,
+		},
+		{
+			name: 'Questions',
+			count: data.evaluation.questions,
+		},
+	];
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 00:33:56</sys_created_on>
+        <sys_id>66641de01bc1e150708b7597dc4bcbb7</sys_id>
+        <sys_mod_count>40</sys_mod_count>
+        <sys_name>Evaluation Details</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_66641de01bc1e150708b7597dc4bcbb7</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 05:38:47</sys_updated_on>
+        <template><![CDATA[<div ng-if="c.data.evaluation.valid" class="widget-container" style="margin: 0 0 1rem 0">
+	<div class="quiz-details-container">
+		<div class="widget-header">
+			<div style="display: grid; grid-template-columns: auto 1fr; column-gap: 1rem; align-items: center">
+				<h3 class="title">{{c.data.evaluation.name}}</h3>
+				<i class="glyphicon glyphicon-share" ng-click="c.openInPlatform(c.data.evaluation.sys_id)"></i>
+			</div>
+			<p class="header_details">
+				State:
+				<i
+					>{{c.data.evaluation.publish_state == 'draft' ? 'Draft' : c.data.evaluation.publish_state ==
+					'published' ? 'Published' : c.data.evaluation.publish_state}}</i
+				>
+			</p>
+			<p class="header_details" ng-if="c.data.evaluation.owners.length > 0">
+				Owners: <i>{{c.data.evaluation.owners}}</i>
+			</p>
+		</div>
+		<div class="my-items-body">
+			<div class="summary-view" style="flex: 1 0 242px">
+				<div class="primary" ng-if="c.data.evaluation.instances.closed.length > 0">
+					<div class="primary-activity" ng-if="c.data.evaluation.scoring.score_measured">
+						<h3
+							class="primary-item-count"
+							ng-class="c.data.evaluation.scoring.avg_score >= c.data.evaluation.scoring.passing_mark ? 'passed-score' : 'failed-score'"
+						>
+							{{c.data.evaluation.scoring.avg_score ? c.data.evaluation.scoring.avg_score : 00}}%
+						</h3>
+						<span class="primary-item-name"> Average Score </span>
+					</div>
+				</div>
+				<div class="secondary" ng-class="true ? 'primary-width' : 'secondary-width'">
+					<div class="activity-container" ng-repeat="item in c.data.items">
+						<div class="secondary-activity" ng-class="item.items.length == 0 ? 'text-grey' : ''">
+							<span class="secondary-item-count">{{item.count}}</span>
+							<span
+								class="secondary-item-name"
+								ec-multiline-ellipsis-tooltip
+								ec-ellipsis-tooltip-title="{{item.name}}"
+								>{{item.name}}</span
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="actions-container" style="height: fit-content !important">
+		<button
+			class="actions-container__action btn btn-default btn-primary"
+			type="button"
+			ng-click="c.provisionQuiz(c.data.evaluation.sys_id)"
+			ng-disabled="c.data.evaluation.questions == 0"
+			ng-if="c.data.evaluation.publish_state != 'draft'"
+		>
+			<i class="glyphicon glyphicon-user"></i>
+			<p>Assign Quiz</p>
+		</button>
+		<button
+			class="actions-container__action btn btn-default btn-primary"
+			type="button"
+			ng-click="c.closeQuizzes(c.data.evaluation.sys_id)"
+			ng-disabled="c.data.evaluation.questions == 0"
+			ng-if="c.data.evaluation.instances.open.length > 0"
+		>
+			<i class="glyphicon glyphicon glyphicon-flag"></i>
+			<p>Close</p>
+		</button>
+		<button
+			class="actions-container__action btn btn-default btn-primary"
+			type="button"
+			ng-click="c.createNewQuiz()"
+			ng-disabled="c.data.evaluation.questions == 0"
+			ng-if="c.data.evaluation.instances.closed.length > 0 && c.data.selected_metrics.length > 0"
+		>
+			<i class="glyphicon glyphicon glyphicon-refresh"></i>
+			<p>Create new</p>
+		</button>
+	</div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

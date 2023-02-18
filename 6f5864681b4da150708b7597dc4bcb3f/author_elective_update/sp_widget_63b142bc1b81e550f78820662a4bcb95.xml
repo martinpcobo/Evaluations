@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="DELETE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function ($scope, $rootScope, spModal, spUtil) {
+	/* widget controller */
+	var c = this;
+
+	c.answerListModal = function (question) {
+		console.log('TESTING METRIC:');
+		console.log(question);
+		/*var incorrect_answers = '';
+		question.user_answers.incorrect.forEach(function(user) {
+			console.log(user);
+			incorrect_answers += '<p>' + '> ' + user.first_name + ' ' + user.last_name + '</p>';
+		});
+		var correct_answers = '';
+		question.user_answers.correct.forEach(function(user) {
+			correct_answers += '<p>' + '> ' + user.first_name + ' ' + user.last_name + '</p>';
+		});
+
+		var message = '';
+		message += '<table class="table" style="width: fit-content !important"><thead>';
+		message += correct_answers.length > 0 ? '<th>Answered Correctly</th>' : '';
+		message += incorrect_answers.length > 0 ? '<th>Answered Incorrectly</th>' : '';
+		message += '</thead><tbody><tr>';
+		message += correct_answers.length > 0 ? '<td>' + correct_answers + '</td>' : '';
+		message += incorrect_answers.length > 0 ? '<td>' + incorrect_answers + '</td>' : '';
+		message += '</tr></tbody></table>';
+
+		spModal
+			.open({
+			title: 'Question Answers',
+			message: message,
+		}).then(function () {});
+		*/
+	};
+	c.cancelQuiz = function(quiz_sys_id) {
+		spModal.confirm("Are you sure you want to cancel this quiz instance?").then(function(res) {
+			if(res) {
+				c.server.get({
+					action: 'cancel_quiz',
+					instance_sys_id: quiz_sys_id
+				}).then(function() {
+					spUtil.update($scope);
+				});
+			}
+		});
+	}
+	c.questionChange = function(sys_id) {
+		if(c.data.selected_metrics.indexOf(sys_id) != -1) {
+			c.data.selected_metrics = c.data.selected_metrics.filter(function(q) { return q != sys_id; });
+		} else {
+			c.data.selected_metrics.push(sys_id);
+		}
+		$rootScope.$broadcast('quizQuestionSelected', c.data.selected_metrics);
+	}
+};
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css>// ! Scores&#13;
+.failed-score {&#13;
+  color: #FF0000;&#13;
+  font-weight: 600;&#13;
+}&#13;
+.passed-score {&#13;
+  color: #4C9A2A;&#13;
+  font-weight: 600;&#13;
+}&#13;
+// ! Icons&#13;
+.glyphicon {&#13;
+  margin-right: 5px;&#13;
+}&#13;
+.glyphicon-cog {&#13;
+  color: black;&#13;
+}&#13;
+// ! Utils&#13;
+.text-muted {&#13;
+  color: #656E81 !important&#13;
+    .glyphicon-cog {&#13;
+      color: #656E81 !important&#13;
+        }&#13;
+}&#13;
+// ! Container&#13;
+.quiz_dashboard {&#13;
+  box-shadow: 0 4px 8px 0 rgba(23,40,52,0.08);&#13;
+  background-color: white;&#13;
+  border: 1px solid #EAEAEA;&#13;
+  padding: 2rem;&#13;
+  min-height: 50vh;&#13;
+}&#13;
+&#13;
+// ! Tabs&#13;
+.nav-tabs &gt; li.active &gt; a{&#13;
+  border: 0;&#13;
+  border-bottom: 3px solid $primary;&#13;
+  background-color: transparent;&#13;
+}&#13;
+&#13;
+.nav-tabs{&#13;
+  //border-bottom: none;&#13;
+  border-radius: 3px 3px 0 0;&#13;
+}&#13;
+&#13;
+.nav-tabs &gt; li &gt; a {&#13;
+  border-radius: 0;&#13;
+  border: none;&#13;
+  border-bottom: 3px solid transparent;&#13;
+  min-width: 124px;&#13;
+  text-align: center;&#13;
+  font-size: 1.6rem;&#13;
+  margin: 0;&#13;
+}&#13;
+&#13;
+.nav-tabs &gt; li.active &gt; a:hover {&#13;
+  border: 0;&#13;
+  border-bottom: 3px solid $primary;&#13;
+  color: inherit;&#13;
+}&#13;
+&#13;
+.nav-tabs &gt; li &gt; a:hover {&#13;
+  color: $primary;&#13;
+  border-bottom-color: $nav-tabs-justified-link-border-color;&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id/>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Evaluation Metric Type Results</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function () {
+	// ! Constant/Variable Definition & Parameter Gathering
+	var widget_constants = {
+		assessments: {
+			open_states: ['ready', 'wip'],
+		},
+	};
+
+	data.selected_metrics = [];
+	data.evaluation = {};
+
+	// ! Parameter Validation
+	var eval_sys_id = $sp.getParameter('sys_id');
+	var eval_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+	if (!eval_gr.get(eval_sys_id)) {
+		gs.addErrorMessage('Please provide a valid Evaluation SYS_ID');
+		data.evaluation.valid = false;
+		return;
+	}
+
+	// ! Input Validation
+	if (input && input.action == 'cancel_quiz' && input.instance_sys_id) {
+		var quiz_instance_gr = new GlideRecord('asmt_assessment_instance');
+		if (!quiz_instance_gr.get(input.instance_sys_id)) {
+			return;
+		}
+
+		quiz_instance_gr.setValue('state', 'cancelled');
+		quiz_instance_gr.update();
+	}
+
+	// ! Data Operations
+	var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+	eval_instance_gr.addQuery('evaluation', eval_gr.getUniqueValue());
+	eval_instance_gr.orderBy('assessment_instance.taken_on');
+	eval_instance_gr.query();
+
+	var completed_instances = [];
+
+	while (eval_instance_gr.next()) {
+		completed_instances.push({
+			sys_id: eval_instance_gr.getUniqueValue(),
+			user: {
+				assigned_to: eval_instance_gr.assessment_instance.user.toString(),
+				name: eval_instance_gr.assessment_instance.user.name.toString(),
+			},
+			number: eval_instance_gr.assessment_instance.number.toString(),
+			link:
+				Constants.SERVICE_PORTAL.PREFIX +
+				'?id=' +
+				Constants.SERVICE_PORTAL.PAGES.EVAL_RESULT +
+				'&sys_id=' +
+				eval_instance_gr.getUniqueValue(),
+			scoring: {
+				score_measured: eval_instance_gr.evaluation.getRefRecord().getValue('score_measured'),
+				passing_mark: eval_instance_gr.evaluation.getRefRecord().getValue('passing_mark'),
+				score: eval_instance_gr.getValue('score'),
+			},
+			correct_answers: eval_instance_gr.getValue('correct_answers'),
+			incorrect_answers: eval_instance_gr.getValue('incorrect_answers'),
+			unanswered_questions: eval_instance_gr.getValue('unanswered_questions'),
+			taken_on: eval_instance_gr.assessment_instance.getRefRecord().getValue('taken_on'),
+		});
+	}
+
+	var open_instances = [];
+
+	var asmt_instance_gr = new GlideRecord('asmt_assessment_instance');
+	asmt_instance_gr.addQuery('metric_type', eval_gr.getValue('metric_type'));
+	asmt_instance_gr.addQuery('state', 'IN', widget_constants.assessments.open_states.join(','));
+	asmt_instance_gr.orderByDesc('sys_created_on');
+	asmt_instance_gr.query();
+
+	while (asmt_instance_gr.next()) {
+		open_instances.push({
+			sys_id: asmt_instance_gr.getUniqueValue(),
+			user: {
+				assigned_to: asmt_instance_gr.getValue('assigned_to'),
+				name: asmt_instance_gr.user.name.toString(),
+			},
+			number: asmt_instance_gr.getValue('number'),
+			state: asmt_instance_gr.getDisplayValue('state'),
+			sys_created_on: asmt_instance_gr.getValue('sys_created_on'),
+		});
+	}
+
+	data.evaluation = {
+		name: eval_gr.getValue('name'),
+		valid: true,
+		completed_instances: completed_instances,
+		open_instances: open_instances,
+		scoring: {
+			passing_mark: eval_gr.getValue('passing_mark'),
+			score_measured: eval_gr.getValue('score_measured'),
+		},
+	};
+
+	data.question_ranking = new EvaluationsUtils().getEvaluationQuestionRanking(eval_gr.getUniqueValue());
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 22:30:27</sys_created_on>
+        <sys_id>63b142bc1b81e550f78820662a4bcb95</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>Evaluation Metric Type Results</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_63b142bc1b81e550f78820662a4bcb95</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 01:16:36</sys_updated_on>
+        <template><![CDATA[<div class="quiz_dashboard">
+	<uib-tabset ng-if="c.data.evaluation.valid">
+		<uib-tab index="0">
+			<uib-tab-heading><i class="glyphicon glyphicon-list-alt"></i>Evaluation Details</uib-tab-heading>
+			<div style="margin: 2rem">
+				<h4>Closed Evaluations</h4>
+				<div
+					ng-if="c.data.evaluation.completed_instances.length == 0"
+					ng-class="{'text-muted': c.data.evaluation.completed_instances.length == 0}"
+					class="text-muted"
+				>
+					<p>There are no completed instances of this Evaluation</p>
+				</div>
+				<div class="table-responsive" ng-if="c.data.evaluation.completed_instances.length > 0">
+					<table class="table table-hover">
+						<thead>
+							<th style="width: 5%"></th>
+							<th style="width: 15%">Number</th>
+							<th style="width: 25%">Assigned To</th>
+							<th style="width: 10%">Score</th>
+							<th style="width: 10%">Correct</th>
+							<th style="width: 10%">Incorrect</th>
+							<th style="width: 25%">Taken on</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="instance in c.data.evaluation.completed_instances">
+								<td>
+									<i
+										class="glyphicon glyphicon-remove-circle"
+										ng-click="c.cancelQuiz(instance.sys_id)"
+									></i>
+								</td>
+								<th><a href="{{instance.link}}">{{instance.number}}</a></th>
+								<td class="text-overflow-ellipsis">{{instance.user.name}}</td>
+								<td
+									ng-if="c.data.evaluation.scoring.score_measured"
+									ng-class="instance.scoring.score >= c.data.evaluation.scoring.passing_mark ? 'passed-score' : 'failed-score'"
+								>
+									{{instance.scoring.score}}%
+								</td>
+								<td>{{instance.correct_answers}}</td>
+								<td>{{instance.incorrect_answers}}</td>
+								<td>{{instance.taken_on}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div style="margin: 2rem">
+				<h4>Open Evaluations</h4>
+				<div
+					ng-if="c.data.evaluation.open_instances.length == 0"
+					ng-class="{'text-muted': c.data.evaluation.open_instances.length == 0}"
+				>
+					<p>There are no open instances of this Quiz</p>
+				</div>
+				<div class="table-responsive" ng-if="c.data.evaluation.open_instances.length > 0">
+					<table class="table table-hover">
+						<thead>
+							<th style="width: 5%"></th>
+							<th style="width: 15%">Number</th>
+							<th style="width: 25%">Assigned To</th>
+							<th style="width: 20%">State</th>
+							<th style="width: 20%">Created on</th>
+						</thead>
+						<tbody>
+							<tr
+								ng-repeat="instance in c.data.evaluation.open_instances"
+								ng-class="instance.state != 'Ready to take' ? '' : 'text-muted'"
+							>
+								<td>
+									<i
+										class="glyphicon glyphicon-remove-circle"
+										ng-click="c.cancelQuiz(instance.sys_id)"
+									></i>
+								</td>
+								<th>{{instance.number}}</th>
+								<td>{{instance.user.name}}</td>
+								<td>{{instance.state}}</td>
+								<td>{{instance.sys_created_on}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab index="1">
+			<uib-tab-heading>
+				<i class="glyphicon glyphicon-sort-by-attributes-alt"></i>Answers Ranking
+			</uib-tab-heading>
+			<div class="text-muted" style="margin: 2rem" ng-if="c.data.evaluation.completed_instances.length == 0">
+				<p>There are no completed instances of this quiz.</p>
+			</div>
+			<div class="table-responsive" ng-if="c.data.evaluation.completed_instances.length > 0">
+				<table class="table table-hover">
+					<thead>
+						<th style="width: 0%"></th>
+						<th style="width: 40%">Question Name</th>
+						<th style="width: 10%">Correct</th>
+						<th style="width: 10%">Incorrect</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="question in c.data.question_ranking">
+							<td><input type="checkbox" ng-click="c.questionChange(question.sys_id)" /></td>
+							<td ng-click="c.answerListModal(question)">{{question.question}}</td>
+							<td
+								ng-class="{'passed-score' : (question.user_answers.correct.length / (question.user_answers.incorrect.length + question.user_answers.correct.length)) * 100 >= c.data.evaluation.scoring.passing_mark}"
+							>
+								{{((question.user_answers.correct.length / (question.user_answers.incorrect.length +
+								question.user_answers.correct.length)) * 100).toFixed()}}%
+							</td>
+							<td
+								ng-class="{'failed-score' : (question.user_answers.correct.length / (question.user_answers.incorrect.length + question.user_answers.correct.length)) * 100 < c.data.evaluation.scoring.passing_mark}"
+							>
+								{{((question.user_answers.incorrect.length / (question.user_answers.incorrect.length +
+								question.user_answers.correct.length)) * 100).toFixed()}}%
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</uib-tab>
+	</uib-tabset>
+</div>
+]]></template>
+    </sp_widget>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>sp_widget_63b142bc1b81e550f78820662a4bcb95</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sp_widget"&gt;&lt;sp_widget action="INSERT_OR_UPDATE"&gt;&lt;category&gt;custom&lt;/category&gt;&lt;client_script&gt;&lt;![CDATA[api.controller = function ($scope, $rootScope, spModal, spUtil) {
+	/* widget controller */
+	var c = this;
+
+	c.answerListModal = function (question) {
+		console.log('TESTING METRIC:');
+		console.log(question);
+		/*var incorrect_answers = '';
+		question.user_answers.incorrect.forEach(function(user) {
+			console.log(user);
+			incorrect_answers += '&lt;p&gt;' + '&gt; ' + user.first_name + ' ' + user.last_name + '&lt;/p&gt;';
+		});
+		var correct_answers = '';
+		question.user_answers.correct.forEach(function(user) {
+			correct_answers += '&lt;p&gt;' + '&gt; ' + user.first_name + ' ' + user.last_name + '&lt;/p&gt;';
+		});
+
+		var message = '';
+		message += '&lt;table class="table" style="width: fit-content !important"&gt;&lt;thead&gt;';
+		message += correct_answers.length &gt; 0 ? '&lt;th&gt;Answered Correctly&lt;/th&gt;' : '';
+		message += incorrect_answers.length &gt; 0 ? '&lt;th&gt;Answered Incorrectly&lt;/th&gt;' : '';
+		message += '&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;';
+		message += correct_answers.length &gt; 0 ? '&lt;td&gt;' + correct_answers + '&lt;/td&gt;' : '';
+		message += incorrect_answers.length &gt; 0 ? '&lt;td&gt;' + incorrect_answers + '&lt;/td&gt;' : '';
+		message += '&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;';
+
+		spModal
+			.open({
+			title: 'Question Answers',
+			message: message,
+		}).then(function () {});
+		*/
+	};
+	c.cancelQuiz = function(quiz_sys_id) {
+		spModal.confirm("Are you sure you want to cancel this quiz instance?").then(function(res) {
+			if(res) {
+				c.server.get({
+					action: 'cancel_quiz',
+					instance_sys_id: quiz_sys_id
+				}).then(function() {
+					spUtil.update($scope);
+				});
+			}
+		});
+	}
+	c.questionChange = function(sys_id) {
+		if(c.data.selected_metrics.indexOf(sys_id) != -1) {
+			c.data.selected_metrics = c.data.selected_metrics.filter(function(q) { return q != sys_id; });
+		} else {
+			c.data.selected_metrics.push(sys_id);
+		}
+		$rootScope.$broadcast('quizQuestionSelected', c.data.selected_metrics);
+	}
+};
+]]&gt;&lt;/client_script&gt;&lt;controller_as&gt;c&lt;/controller_as&gt;&lt;css&gt;// ! Scores&amp;#13;
+.failed-score {&amp;#13;
+  color: #FF0000;&amp;#13;
+  font-weight: 600;&amp;#13;
+}&amp;#13;
+.passed-score {&amp;#13;
+  color: #4C9A2A;&amp;#13;
+  font-weight: 600;&amp;#13;
+}&amp;#13;
+// ! Icons&amp;#13;
+.glyphicon {&amp;#13;
+  margin-right: 5px;&amp;#13;
+}&amp;#13;
+.glyphicon-cog {&amp;#13;
+  color: black;&amp;#13;
+}&amp;#13;
+// ! Utils&amp;#13;
+.text-muted {&amp;#13;
+  color: #656E81 !important&amp;#13;
+    .glyphicon-cog {&amp;#13;
+      color: #656E81 !important&amp;#13;
+        }&amp;#13;
+}&amp;#13;
+// ! Container&amp;#13;
+.quiz_dashboard {&amp;#13;
+  box-shadow: 0 4px 8px 0 rgba(23,40,52,0.08);&amp;#13;
+  background-color: white;&amp;#13;
+  border: 1px solid #EAEAEA;&amp;#13;
+  padding: 2rem;&amp;#13;
+  min-height: 50vh;&amp;#13;
+}&amp;#13;
+&amp;#13;
+// ! Tabs&amp;#13;
+.nav-tabs &amp;gt; li.active &amp;gt; a{&amp;#13;
+  border: 0;&amp;#13;
+  border-bottom: 3px solid $primary;&amp;#13;
+  background-color: transparent;&amp;#13;
+}&amp;#13;
+&amp;#13;
+.nav-tabs{&amp;#13;
+  //border-bottom: none;&amp;#13;
+  border-radius: 3px 3px 0 0;&amp;#13;
+}&amp;#13;
+&amp;#13;
+.nav-tabs &amp;gt; li &amp;gt; a {&amp;#13;
+  border-radius: 0;&amp;#13;
+  border: none;&amp;#13;
+  border-bottom: 3px solid transparent;&amp;#13;
+  min-width: 124px;&amp;#13;
+  text-align: center;&amp;#13;
+  font-size: 1.6rem;&amp;#13;
+  margin: 0;&amp;#13;
+}&amp;#13;
+&amp;#13;
+.nav-tabs &amp;gt; li.active &amp;gt; a:hover {&amp;#13;
+  border: 0;&amp;#13;
+  border-bottom: 3px solid $primary;&amp;#13;
+  color: inherit;&amp;#13;
+}&amp;#13;
+&amp;#13;
+.nav-tabs &amp;gt; li &amp;gt; a:hover {&amp;#13;
+  color: $primary;&amp;#13;
+  border-bottom-color: $nav-tabs-justified-link-border-color;&amp;#13;
+}&lt;/css&gt;&lt;data_table&gt;sp_instance&lt;/data_table&gt;&lt;demo_data/&gt;&lt;description/&gt;&lt;docs/&gt;&lt;field_list/&gt;&lt;has_preview&gt;false&lt;/has_preview&gt;&lt;id/&gt;&lt;internal&gt;false&lt;/internal&gt;&lt;link&gt;&lt;![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]&gt;&lt;/link&gt;&lt;name&gt;Evaluation Metric Type Results&lt;/name&gt;&lt;option_schema/&gt;&lt;public&gt;false&lt;/public&gt;&lt;roles/&gt;&lt;script&gt;&lt;![CDATA[(function () {
+	// ! Constant/Variable Definition &amp; Parameter Gathering
+	var widget_constants = {
+		assessments: {
+			open_states: ['ready', 'wip'],
+		},
+	};
+
+	data.selected_metrics = [];
+	data.evaluation = {};
+
+	// ! Parameter Validation
+	var eval_sys_id = $sp.getParameter('sys_id');
+	var eval_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATIONS);
+	if (!eval_gr.get(eval_sys_id)) {
+		gs.addErrorMessage('Please provide a valid Evaluation SYS_ID');
+		data.evaluation.valid = false;
+		return;
+	}
+
+	// ! Input Validation
+	if (input &amp;&amp; input.action == 'cancel_quiz' &amp;&amp; input.instance_sys_id) {
+		var quiz_instance_gr = new GlideRecord('asmt_assessment_instance');
+		if (!quiz_instance_gr.get(input.instance_sys_id)) {
+			return;
+		}
+
+		quiz_instance_gr.setValue('state', 'cancelled');
+		quiz_instance_gr.update();
+	}
+
+	// ! Data Operations
+	var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+	eval_instance_gr.addQuery('evaluation', eval_gr.getUniqueValue());
+	eval_instance_gr.orderBy('assessment_instance.taken_on');
+	eval_instance_gr.query();
+
+	var completed_instances = [];
+
+	while (eval_instance_gr.next()) {
+		completed_instances.push({
+			sys_id: eval_instance_gr.getUniqueValue(),
+			user: {
+				assigned_to: eval_instance_gr.assessment_instance.user.toString(),
+				name: eval_instance_gr.assessment_instance.user.name.toString(),
+			},
+			number: eval_instance_gr.assessment_instance.number.toString(),
+			link:
+				Constants.SERVICE_PORTAL.PREFIX +
+				'?id=' +
+				Constants.SERVICE_PORTAL.PAGES.EVAL_RESULT +
+				'&amp;sys_id=' +
+				eval_instance_gr.getUniqueValue(),
+			scoring: {
+				score_measured: eval_instance_gr.evaluation.getRefRecord().getValue('score_measured'),
+				passing_mark: eval_instance_gr.evaluation.getRefRecord().getValue('passing_mark'),
+				score: eval_instance_gr.getValue('score'),
+			},
+			correct_answers: eval_instance_gr.getValue('correct_answers'),
+			incorrect_answers: eval_instance_gr.getValue('incorrect_answers'),
+			unanswered_questions: eval_instance_gr.getValue('unanswered_questions'),
+			taken_on: eval_instance_gr.assessment_instance.getRefRecord().getValue('taken_on'),
+		});
+	}
+
+	var open_instances = [];
+
+	var asmt_instance_gr = new GlideRecord('asmt_assessment_instance');
+	asmt_instance_gr.addQuery('metric_type', eval_gr.getValue('metric_type'));
+	asmt_instance_gr.addQuery('state', 'IN', widget_constants.assessments.open_states.join(','));
+	asmt_instance_gr.orderByDesc('sys_created_on');
+	asmt_instance_gr.query();
+
+	while (asmt_instance_gr.next()) {
+		open_instances.push({
+			sys_id: asmt_instance_gr.getUniqueValue(),
+			user: {
+				assigned_to: asmt_instance_gr.getValue('assigned_to'),
+				name: asmt_instance_gr.user.name.toString(),
+			},
+			number: asmt_instance_gr.getValue('number'),
+			state: asmt_instance_gr.getDisplayValue('state'),
+			sys_created_on: asmt_instance_gr.getValue('sys_created_on'),
+		});
+	}
+
+	data.evaluation = {
+		name: eval_gr.getValue('name'),
+		valid: true,
+		completed_instances: completed_instances,
+		open_instances: open_instances,
+		scoring: {
+			passing_mark: eval_gr.getValue('passing_mark'),
+			score_measured: eval_gr.getValue('score_measured'),
+		},
+	};
+
+	data.question_ranking = new EvaluationsUtils().getEvaluationQuestionRanking(eval_gr.getUniqueValue());
+})();
+]]&gt;&lt;/script&gt;&lt;servicenow&gt;false&lt;/servicenow&gt;&lt;sys_class_name&gt;sp_widget&lt;/sys_class_name&gt;&lt;sys_created_by&gt;martin.perez.cobo@pwc.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-02-13 22:30:27&lt;/sys_created_on&gt;&lt;sys_id&gt;63b142bc1b81e550f78820662a4bcb95&lt;/sys_id&gt;&lt;sys_mod_count&gt;5&lt;/sys_mod_count&gt;&lt;sys_name&gt;Evaluation Metric Type Results&lt;/sys_name&gt;&lt;sys_package display_value="Evaluations" source="x_487112_eval"&gt;6f5864681b4da150708b7597dc4bcb3f&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Evaluations"&gt;6f5864681b4da150708b7597dc4bcb3f&lt;/sys_scope&gt;&lt;sys_update_name&gt;sp_widget_63b142bc1b81e550f78820662a4bcb95&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;martin.perez.cobo@pwc.com&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-02-18 01:16:36&lt;/sys_updated_on&gt;&lt;template&gt;&lt;![CDATA[&lt;div class="quiz_dashboard"&gt;
+	&lt;uib-tabset ng-if="c.data.evaluation.valid"&gt;
+		&lt;uib-tab index="0"&gt;
+			&lt;uib-tab-heading&gt;&lt;i class="glyphicon glyphicon-list-alt"&gt;&lt;/i&gt;Evaluation Details&lt;/uib-tab-heading&gt;
+			&lt;div style="margin: 2rem"&gt;
+				&lt;h4&gt;Closed Evaluations&lt;/h4&gt;
+				&lt;div
+					ng-if="c.data.evaluation.completed_instances.length == 0"
+					ng-class="{'text-muted': c.data.evaluation.completed_instances.length == 0}"
+					class="text-muted"
+				&gt;
+					&lt;p&gt;There are no completed instances of this Evaluation&lt;/p&gt;
+				&lt;/div&gt;
+				&lt;div class="table-responsive" ng-if="c.data.evaluation.completed_instances.length &gt; 0"&gt;
+					&lt;table class="table table-hover"&gt;
+						&lt;thead&gt;
+							&lt;th style="width: 5%"&gt;&lt;/th&gt;
+							&lt;th style="width: 15%"&gt;Number&lt;/th&gt;
+							&lt;th style="width: 25%"&gt;Assigned To&lt;/th&gt;
+							&lt;th style="width: 10%"&gt;Score&lt;/th&gt;
+							&lt;th style="width: 10%"&gt;Correct&lt;/th&gt;
+							&lt;th style="width: 10%"&gt;Incorrect&lt;/th&gt;
+							&lt;th style="width: 25%"&gt;Taken on&lt;/th&gt;
+						&lt;/thead&gt;
+						&lt;tbody&gt;
+							&lt;tr ng-repeat="instance in c.data.evaluation.completed_instances"&gt;
+								&lt;td&gt;
+									&lt;i
+										class="glyphicon glyphicon-remove-circle"
+										ng-click="c.cancelQuiz(instance.sys_id)"
+									&gt;&lt;/i&gt;
+								&lt;/td&gt;
+								&lt;th&gt;&lt;a href="{{instance.link}}"&gt;{{instance.number}}&lt;/a&gt;&lt;/th&gt;
+								&lt;td class="text-overflow-ellipsis"&gt;{{instance.user.name}}&lt;/td&gt;
+								&lt;td
+									ng-if="c.data.evaluation.scoring.score_measured"
+									ng-class="instance.scoring.score &gt;= c.data.evaluation.scoring.passing_mark ? 'passed-score' : 'failed-score'"
+								&gt;
+									{{instance.scoring.score}}%
+								&lt;/td&gt;
+								&lt;td&gt;{{instance.correct_answers}}&lt;/td&gt;
+								&lt;td&gt;{{instance.incorrect_answers}}&lt;/td&gt;
+								&lt;td&gt;{{instance.taken_on}}&lt;/td&gt;
+							&lt;/tr&gt;
+						&lt;/tbody&gt;
+					&lt;/table&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div style="margin: 2rem"&gt;
+				&lt;h4&gt;Open Evaluations&lt;/h4&gt;
+				&lt;div
+					ng-if="c.data.evaluation.open_instances.length == 0"
+					ng-class="{'text-muted': c.data.evaluation.open_instances.length == 0}"
+				&gt;
+					&lt;p&gt;There are no open instances of this Quiz&lt;/p&gt;
+				&lt;/div&gt;
+				&lt;div class="table-responsive" ng-if="c.data.evaluation.open_instances.length &gt; 0"&gt;
+					&lt;table class="table table-hover"&gt;
+						&lt;thead&gt;
+							&lt;th style="width: 5%"&gt;&lt;/th&gt;
+							&lt;th style="width: 15%"&gt;Number&lt;/th&gt;
+							&lt;th style="width: 25%"&gt;Assigned To&lt;/th&gt;
+							&lt;th style="width: 20%"&gt;State&lt;/th&gt;
+							&lt;th style="width: 20%"&gt;Created on&lt;/th&gt;
+						&lt;/thead&gt;
+						&lt;tbody&gt;
+							&lt;tr
+								ng-repeat="instance in c.data.evaluation.open_instances"
+								ng-class="instance.state != 'Ready to take' ? '' : 'text-muted'"
+							&gt;
+								&lt;td&gt;
+									&lt;i
+										class="glyphicon glyphicon-remove-circle"
+										ng-click="c.cancelQuiz(instance.sys_id)"
+									&gt;&lt;/i&gt;
+								&lt;/td&gt;
+								&lt;th&gt;{{instance.number}}&lt;/th&gt;
+								&lt;td&gt;{{instance.user.name}}&lt;/td&gt;
+								&lt;td&gt;{{instance.state}}&lt;/td&gt;
+								&lt;td&gt;{{instance.sys_created_on}}&lt;/td&gt;
+							&lt;/tr&gt;
+						&lt;/tbody&gt;
+					&lt;/table&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/uib-tab&gt;
+		&lt;uib-tab index="1"&gt;
+			&lt;uib-tab-heading&gt;
+				&lt;i class="glyphicon glyphicon-sort-by-attributes-alt"&gt;&lt;/i&gt;Answers Ranking
+			&lt;/uib-tab-heading&gt;
+			&lt;div class="text-muted" style="margin: 2rem" ng-if="c.data.evaluation.completed_instances.length == 0"&gt;
+				&lt;p&gt;There are no completed instances of this quiz.&lt;/p&gt;
+			&lt;/div&gt;
+			&lt;div class="table-responsive" ng-if="c.data.evaluation.completed_instances.length &gt; 0"&gt;
+				&lt;table class="table table-hover"&gt;
+					&lt;thead&gt;
+						&lt;th style="width: 0%"&gt;&lt;/th&gt;
+						&lt;th style="width: 40%"&gt;Question Name&lt;/th&gt;
+						&lt;th style="width: 10%"&gt;Correct&lt;/th&gt;
+						&lt;th style="width: 10%"&gt;Incorrect&lt;/th&gt;
+					&lt;/thead&gt;
+					&lt;tbody&gt;
+						&lt;tr ng-repeat="question in c.data.question_ranking"&gt;
+							&lt;td&gt;&lt;input type="checkbox" ng-click="c.questionChange(question.sys_id)" /&gt;&lt;/td&gt;
+							&lt;td ng-click="c.answerListModal(question)"&gt;{{question.question}}&lt;/td&gt;
+							&lt;td
+								ng-class="{'passed-score' : (question.user_answers.correct.length / (question.user_answers.incorrect.length + question.user_answers.correct.length)) * 100 &gt;= c.data.evaluation.scoring.passing_mark}"
+							&gt;
+								{{((question.user_answers.correct.length / (question.user_answers.incorrect.length +
+								question.user_answers.correct.length)) * 100).toFixed()}}%
+							&lt;/td&gt;
+							&lt;td
+								ng-class="{'failed-score' : (question.user_answers.correct.length / (question.user_answers.incorrect.length + question.user_answers.correct.length)) * 100 &lt; c.data.evaluation.scoring.passing_mark}"
+							&gt;
+								{{((question.user_answers.incorrect.length / (question.user_answers.incorrect.length +
+								question.user_answers.correct.length)) * 100).toFixed()}}%
+							&lt;/td&gt;
+						&lt;/tr&gt;
+					&lt;/tbody&gt;
+				&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/uib-tab&gt;
+	&lt;/uib-tabset&gt;
+&lt;/div&gt;
+]]&gt;&lt;/template&gt;&lt;/sp_widget&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>2016762497</payload_hash>
+        <record_name>Evaluation Metric Type Results</record_name>
+        <reverted_from/>
+        <source>361dec601b8da150708b7597dc4bcba3</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-18 01:16:36</sys_created_on>
+        <sys_id>982e4f8a1b056190f78820662a4bcb5c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18662182a7d0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 01:16:36</sys_updated_on>
+        <type>Widget</type>
+        <update_guid>502e4f8a12056190ee5e2a10d9579a5c</update_guid>
+        <update_guid_history>502e4f8a12056190ee5e2a10d9579a5c:2016762497,a3dd0b8a5b0561906153c45fa69eb627:-666445865,248d8b0a64056190e3cba1d20cc6687d:-147528706,4b8b0f8690056190e140f460160a4687:-491633259,d54bc386560561908e0f98986e0b7a25:242201923,6fb10abc1b81e550e0a9a4bf9d81274b:-308124716</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Evaluation Metric Type Results">144f4fce1b056190f78820662a4bcb04</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-18 01:21:31</sys_created_on>
+        <sys_db_object display_value="" name="sp_widget">sp_widget</sys_db_object>
+        <sys_id>0073b297b37849d080013ea67e414290</sys_id>
+        <sys_metadata>63b142bc1b81e550f78820662a4bcb95</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Evaluation Metric Type Results</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>sp_widget_63b142bc1b81e550f78820662a4bcb95</sys_update_name>
+        <sys_update_version display_value="sp_widget_63b142bc1b81e550f78820662a4bcb95">982e4f8a1b056190f78820662a4bcb5c</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 01:21:31</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category">
+    <asmt_metric_category action="DELETE">
+        <create_stakeholders>false</create_stakeholders>
+        <description/>
+        <details/>
+        <filter table="asmt_metric_type">sys_id=0d74de701b45e550f78820662a4bcbd8^EQ<item endquery="false" field="sys_id" goto="false" newquery="false" operator="=" or="false" value="0d74de701b45e550f78820662a4bcbd8"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter>
+        <metric_type display_value="CSA Tokyo - Exam 02">0d74de701b45e550f78820662a4bcbd8</metric_type>
+        <name>Instance Configuration</name>
+        <order>1</order>
+        <qb_evaluation_method/>
+        <roles/>
+        <scoring_type>percent</scoring_type>
+        <sys_class_name>asmt_metric_category</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:52:39</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>1b84d2f01b45e550f78820662a4bcbbb</sys_id>
+        <sys_mod_count>17</sys_mod_count>
+        <sys_name>Instance Configuration</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_category_1b84d2f01b45e550f78820662a4bcbbb</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:04:28</sys_updated_on>
+        <table>asmt_metric_type</table>
+        <total_metrics>1</total_metrics>
+        <u_client/>
+        <u_journey/>
+        <u_personas/>
+        <u_phases/>
+        <u_stakeholders/>
+        <u_survey>false</u_survey>
+        <weight>10</weight>
+    </asmt_metric_category>
+    <sys_translated_text action="DELETE" query="documentkey=1b84d2f01b45e550f78820662a4bcbbb"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_category_1b84d2f01b45e550f78820662a4bcbbb</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category"><asmt_metric_category action="INSERT_OR_UPDATE"><create_stakeholders>false</create_stakeholders><description/><details/><filter table="asmt_metric_type">sys_id=0d74de701b45e550f78820662a4bcbd8^EQ<item endquery="false" field="sys_id" goto="false" newquery="false" operator="=" or="false" value="0d74de701b45e550f78820662a4bcbd8"/><item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/></filter><metric_type display_value="CSA Tokyo - Exam 02">0d74de701b45e550f78820662a4bcbd8</metric_type><name>Instance Configuration</name><order>1</order><qb_evaluation_method/><roles/><scoring_type>percent</scoring_type><sys_class_name>asmt_metric_category</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-13 23:52:39</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>1b84d2f01b45e550f78820662a4bcbbb</sys_id><sys_mod_count>17</sys_mod_count><sys_name>Instance Configuration</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_category_1b84d2f01b45e550f78820662a4bcbbb</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-17 03:04:28</sys_updated_on><table>asmt_metric_type</table><total_metrics>1</total_metrics><u_client/><u_journey/><u_personas/><u_phases/><u_stakeholders/><u_survey>false</u_survey><weight>10</weight></asmt_metric_category><sys_translated_text action="delete_multiple" query="documentkey=1b84d2f01b45e550f78820662a4bcbbb"/></record_update>]]></payload>
+        <payload_hash>2074235112</payload_hash>
+        <record_name>Instance Configuration</record_name>
+        <reverted_from/>
+        <source>b99cdab51b892d50708b7597dc4bcbae</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:04:28</sys_created_on>
+        <sys_id>723d16791b892d50708b7597dc4bcb04</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1865d5491ba0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:04:28</sys_updated_on>
+        <type>Metric Category</type>
+        <update_guid>3a3d16796b892d5042c55906f5fed903</update_guid>
+        <update_guid_history>3a3d16796b892d5042c55906f5fed903:2074235112,f03d527912892d50d33be2355cffbfd1:1112609897,d62dde39d6892d50aa4bc73e55e34311:150984682,321dda394b892d50fa04e4d3d8b90827:-810640533,550d563909892d507f43dd536b3d2203:-1772265748,1efc52395d892d5045986092c9700706:1561076333,21fc123996892d501ccae649f464140c:599451118,40ec5af50c892d501aace4aea57667c7:-362174097,b49416f08145e5502d81403e7994bdbd:-1323799312,209416f06845e55001486b4a87781b98:-362174097,509416f0db45e550346d8ba2e9eb7a70:599451118,489416f0ff45e55020089d7a4092ca55:1561076333,c89416f02145e55035a119e7f020753d:-1772265748,f38416f01545e550617e61bb866cd823:-810640533,3b8416f07845e550d434725ffae41601:150984682,e384d2f0e845e5500356dc206c5c7edc:1112609897,eb84d2f00545e550d4ba98dc9c01c2c1:2074235112,2f84d2f0f445e5509ad37efeb4d9f9bd:1220271355</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Instance Configuration">27ae127d1b892d50708b7597dc4bcb27</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:10:49</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_category">asmt_metric_category</sys_db_object>
+        <sys_id>e2bbe1df8da543d0bcea7d9607d4dc90</sys_id>
+        <sys_metadata>1b84d2f01b45e550f78820662a4bcbbb</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Instance Configuration</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_category_1b84d2f01b45e550f78820662a4bcbbb</sys_update_name>
+        <sys_update_version display_value="asmt_metric_category_1b84d2f01b45e550f78820662a4bcbbb">723d16791b892d50708b7597dc4bcb04</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:10:49</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

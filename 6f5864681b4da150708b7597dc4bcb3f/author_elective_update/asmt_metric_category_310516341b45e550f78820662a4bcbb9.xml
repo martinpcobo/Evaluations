@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category">
+    <asmt_metric_category action="DELETE">
+        <create_stakeholders>false</create_stakeholders>
+        <description/>
+        <details/>
+        <filter table="asmt_metric_type">sys_id=290512301b45e550f78820662a4bcbd9^EQ<item endquery="false" field="sys_id" goto="false" newquery="false" operator="=" or="false" value="290512301b45e550f78820662a4bcbd9"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter>
+        <metric_type display_value="CSA Tokyo - Exam 02">290512301b45e550f78820662a4bcbd9</metric_type>
+        <name>Configuring Applications for Collaboration</name>
+        <order>1</order>
+        <qb_evaluation_method/>
+        <roles/>
+        <scoring_type>percent</scoring_type>
+        <sys_class_name>asmt_metric_category</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:54:43</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>310516341b45e550f78820662a4bcbb9</sys_id>
+        <sys_mod_count>29</sys_mod_count>
+        <sys_name>Configuring Applications for Collaboration</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_category_310516341b45e550f78820662a4bcbb9</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:04:52</sys_updated_on>
+        <table>asmt_metric_type</table>
+        <total_metrics>3</total_metrics>
+        <u_client/>
+        <u_journey/>
+        <u_personas/>
+        <u_phases/>
+        <u_stakeholders/>
+        <u_survey>false</u_survey>
+        <weight>10</weight>
+    </asmt_metric_category>
+    <sys_translated_text action="DELETE" query="documentkey=310516341b45e550f78820662a4bcbb9"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_category_310516341b45e550f78820662a4bcbb9</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category"><asmt_metric_category action="INSERT_OR_UPDATE"><create_stakeholders>false</create_stakeholders><description/><details/><filter table="asmt_metric_type">sys_id=290512301b45e550f78820662a4bcbd9^EQ<item endquery="false" field="sys_id" goto="false" newquery="false" operator="=" or="false" value="290512301b45e550f78820662a4bcbd9"/><item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/></filter><metric_type display_value="CSA Tokyo - Exam 02">290512301b45e550f78820662a4bcbd9</metric_type><name>Configuring Applications for Collaboration</name><order>1</order><qb_evaluation_method/><roles/><scoring_type>percent</scoring_type><sys_class_name>asmt_metric_category</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-13 23:54:43</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>310516341b45e550f78820662a4bcbb9</sys_id><sys_mod_count>29</sys_mod_count><sys_name>Configuring Applications for Collaboration</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_category_310516341b45e550f78820662a4bcbb9</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-17 03:04:52</sys_updated_on><table>asmt_metric_type</table><total_metrics>3</total_metrics><u_client/><u_journey/><u_personas/><u_phases/><u_stakeholders/><u_survey>false</u_survey><weight>10</weight></asmt_metric_category><sys_translated_text action="delete_multiple" query="documentkey=310516341b45e550f78820662a4bcbb9"/></record_update>]]></payload>
+        <payload_hash>-2002823920</payload_hash>
+        <record_name>Configuring Applications for Collaboration</record_name>
+        <reverted_from/>
+        <source>b99cdab51b892d50708b7597dc4bcbae</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:04:52</sys_created_on>
+        <sys_id>205d9a791b892d50708b7597dc4bcb13</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1865d54ed5f0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:04:52</sys_updated_on>
+        <type>Metric Category</type>
+        <update_guid>e45d9a79b8892d5054c87acc8fc04712</update_guid>
+        <update_guid_history>e45d9a79b8892d5054c87acc8fc04712:-2002823920,253d92795e892d508f2cedaed72018fc:1330518161,693d9279c5892d5063d56cb8db2ee591:368892946,483d52794c892d505585263c45a69d24:-592732269,b12d9e392c892d509b5c3d0f857ad18f:-1554357484,ab1d1e39fb892d5023188187a9b35412:1778984597,041d1a394d892d5055cf0cb95008d67f:817359382,d30dd639b2892d504f9347092cdec37d:141791504,5f0dd639da892d50a1886a04c5e6a437:-819833711,870dd639b8892d5002cd032950c08e12:-1781458926,5c0dd2398d892d50788052aa79706d47:1551883155,880d923909892d50f2010833ce2f86e9:590257940,abec5ef5ec892d50ee88f723eef361d7:-371367275,130596349745e550c9c405286cb0ac84:-1332992490,5b059634b545e550991f3c15415f6b67:-371367275,4b0596349045e5505c5568faebb44c57:590257940,07059634b945e550cc65a5d394eb2722:1551883155,fe0556343b45e550732433c1da7628ec:-1781458926,3a0556348045e55093508e6c9c105ad0:-819833711,2a055634a245e550e37e00d35fe044c0:141791504,a6055634ce45e5506ca48c48205bee92:817359382,a6055634ec45e5504426b0cc31b9af82:1778984597,96055634ec45e550dc1486d61fbbb972:-1554357484,de0556347f45e550e71e1656c24f7d55:-592732269,de0556348c45e550f63c99a17f7af745:368892946,0a0556343245e5500579a06a1d389729:1330518161,460516343c45e550aa02692ce4c588ec:-2002823920,710516340e45e5502ffa0d5986be4dd7:-1041198705,350516345845e55029cd31848569e0c0:-79573490,f10516342145e55040413af3351700bb:1532388897</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Configuring Applications for Collaboration">7bae127d1b892d50708b7597dc4bcb5e</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:10:49</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_category">asmt_metric_category</sys_db_object>
+        <sys_id>cd22b89ea8d44ad895b0b259c5b143e4</sys_id>
+        <sys_metadata>310516341b45e550f78820662a4bcbb9</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Configuring Applications for Collaboration</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_category_310516341b45e550f78820662a4bcbb9</sys_update_name>
+        <sys_update_version display_value="asmt_metric_category_310516341b45e550f78820662a4bcbb9">205d9a791b892d50708b7597dc4bcb13</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:10:49</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

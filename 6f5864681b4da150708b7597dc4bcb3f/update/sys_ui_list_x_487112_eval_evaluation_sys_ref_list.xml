@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_list parent="" relationship="" sys_domain="global" table="x_487112_eval_evaluation" version="2" view="sys_ref_list">
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>number</element>
+            <list_id display_value="x_487112_eval_evaluation" element="NULL" name="x_487112_eval_evaluation" parent="NULL" relationship="NULL" sys_domain="global" view="cb83a0433d2230100acbff3420d737c0">af54ad601b45e150708b7597dc4bcb06</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>0</position>
+            <sum>false</sum>
+            <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+            <sys_created_on>2023-02-13 01:43:38</sys_created_on>
+            <sys_id>ef54ad601b45e150708b7597dc4bcbce</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+            <sys_updated_on>2023-02-13 01:43:38</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element/>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <name>x_487112_eval_evaluation</name>
+            <parent/>
+            <position/>
+            <relationship/>
+            <sum>false</sum>
+            <sys_class_name>sys_ui_list</sys_class_name>
+            <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+            <sys_created_on>2023-02-13 01:43:38</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>af54ad601b45e150708b7597dc4bcb06</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_487112_eval_evaluation</sys_name>
+            <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+            <sys_update_name>sys_ui_list_x_487112_eval_evaluation_sys_ref_list</sys_update_name>
+            <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+            <sys_updated_on>2023-02-13 01:43:38</sys_updated_on>
+            <sys_user/>
+            <view display_value="Reference List" name="sys_ref_list">cb83a0433d2230100acbff3420d737c0</view>
+            <view_name/>
+        </sys_ui_list>
+    </sys_ui_list>
+</record_update>

@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {
+  /* widget controller */
+  var c = this;
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.text-success {&#13;
+  color: #4C9A2A !important&#13;
+}&#13;
+&#13;
+.text-danger {&#13;
+  color: #e25d3f !important&#13;
+}&#13;
+&#13;
+.correct-answer {&#13;
+  //background-color: #90ff90 !important;&#13;
+  background-color: hsla(101.786, 57%, 38%, .60) !important;&#13;
+}&#13;
+&#13;
+.incorrect-answer {&#13;
+  //background-color: #ff9f9f !important;&#13;
+  background-color: hsl(0, 100%, 50%, .60) !important;&#13;
+}&#13;
+&#13;
+.missed-answer {&#13;
+  background-color: #f7ec8b !important;&#13;
+  //background-color: hsl(60, 100%, 50%, .45) !important;&#13;
+}&#13;
+&#13;
+.question_container {&#13;
+  padding: 2rem;&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  row-gap: 2rem;&#13;
+}&#13;
+&#13;
+.question {&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  grid-template-rows: 2fr;&#13;
+  align-items: flex-start;&#13;
+  justify-content: center;&#13;
+  &#13;
+  border: 0;&#13;
+  border-radius: 0px;&#13;
+&#13;
+  .question__header {&#13;
+    background-color: white;&#13;
+    border: 0;&#13;
+&#13;
+    display: flex;&#13;
+    flex-flow: column nowrap;&#13;
+    justify-content: center;&#13;
+    align-items: flex-start;&#13;
+&#13;
+    p {&#13;
+      font-size: 1.6rem;&#13;
+      margin: 0;&#13;
+      padding: 0;&#13;
+    }&#13;
+&#13;
+    .question__header__name {&#13;
+      font-weight: bold;&#13;
+    }&#13;
+  }&#13;
+&#13;
+  .question__answers_container {&#13;
+    padding: 1rem;&#13;
+&#13;
+    grid-column: 1 / 2;&#13;
+    grid-row: 2 / 3;&#13;
+&#13;
+    font-size: var(--now-global-font-size--md);&#13;
+&#13;
+    display: grid;&#13;
+    grid-template-columns: 1fr;&#13;
+    row-gap: 2px;&#13;
+&#13;
+    .question__answers {&#13;
+      width: 100%;&#13;
+&#13;
+      display: grid;&#13;
+      grid-template-columns: 1fr;&#13;
+      row-gap: 5px;&#13;
+      justify-content: flex-start;&#13;
+      align-items: center;&#13;
+&#13;
+      .question__answers__ans {&#13;
+        display: grid;&#13;
+        grid-template-rows: 1fr;&#13;
+        justify-content: flex-start;&#13;
+        align-items: center;&#13;
+        column-gap: 5px;&#13;
+&#13;
+        font-style: italic;&#13;
+        p {&#13;
+          margin: 0;&#13;
+        }&#13;
+      }&#13;
+&#13;
+      .question__answers__ind {&#13;
+        padding-right: .5rem;&#13;
+        padding-left: .5rem;&#13;
+&#13;
+        border: black 1px solid;&#13;
+        border-radius: 0px;&#13;
+        padding: 10px 15px;&#13;
+&#13;
+        // Display&#13;
+        display: grid;&#13;
+        grid-template-columns: 25px 1fr auto;&#13;
+        grid-template-rows: 1fr;&#13;
+        column-gap: 3px;&#13;
+        justify-content: flex-start;&#13;
+        align-items: center;&#13;
+        column-gap: 1.3rem;&#13;
+&#13;
+        .question__answers__ind__value {&#13;
+          grid-column: 2 / 3;&#13;
+          grid-row: 1 / 2;&#13;
+          margin: 0;&#13;
+          padding: 0;&#13;
+&#13;
+          font-size: 1.6rem;&#13;
+          font-weight: bold;&#13;
+        }&#13;
+&#13;
+        .question__answers__ind__checkbox {          &#13;
+          grid-column: 1 / 2;&#13;
+          grid-row: 1 / 2;&#13;
+          margin: 0;&#13;
+          padding: 0;&#13;
+        }&#13;
+        &#13;
+        .question__answers__ind__user_answer {&#13;
+          grid-column: 3 / 4;&#13;
+          grid-row: 1 / 2;&#13;
+          margin: 0;&#13;
+          padding: 0;&#13;
+          font-weight: bold;&#13;
+        }&#13;
+      }&#13;
+    }&#13;
+  }&#13;
+}&#13;
+&#13;
+.category {&#13;
+  border-radius: 0px;&#13;
+  cursor: pointer;&#13;
+&#13;
+  .category__heading {&#13;
+    background-color: white;&#13;
+    border-bottom-width: 0;&#13;
+    // Display&#13;
+    display: flex;&#13;
+    justify-content: space-between;&#13;
+    align-items: center;&#13;
+&#13;
+    .category__heading__name {&#13;
+      margin: 0;&#13;
+      font-weight: 400;&#13;
+    }&#13;
+&#13;
+    .category__heading__score {&#13;
+      font-size: 1.6rem;&#13;
+      font-weight: 700;&#13;
+    }&#13;
+  }&#13;
+&#13;
+  .category__questions {&#13;
+  }&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id/>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Evaluation Instance Overview</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function () {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+	data.valid = true;
+
+	var eval_instance_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+	if (!eval_instance_gr.get($sp.getParameter('sys_id'))) {
+		data.valid = false;
+		return;
+	}
+	
+	data.categories = new EvaluationsUtils().getEvaluationInstanceCategories(eval_instance_gr.getValue('assessment_instance')).categories;
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 22:30:27</sys_created_on>
+        <sys_id>63b1ce7c1b81e550f78820662a4bcb66</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Evaluation Instance Overview</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_63b1ce7c1b81e550f78820662a4bcb66</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:26:17</sys_updated_on>
+        <template><![CDATA[<div ng-if="c.data.valid">
+	<div class="panel panel-collapsable panel-default category" ng-repeat="category in c.data.categories">
+		<div class="panel-heading category__heading" data-toggle="collapse" data-target="#panel-body-{{category.sys_id}}" aria-expanded="true">
+			<h3 class="category__heading__name">{{category.name}}</h3>
+			<div>
+				<span ng-if="category.score >= 75" class="text-success category__heading__score"
+					>Passed: {{category.score}}%</span
+				>
+				<span ng-if="category.score < 75" class="text-danger category__heading__score"
+					>Failed: {{category.score}}%</span
+				>
+			</div>
+		</div>
+		<div class="panel-body category__questions collapse" id="panel-body-{{category.sys_id}}">
+			<div
+				class="question panel"
+				ng-repeat="question in category.questions"
+				ng-class="{'text-muted': !question.user_answer.answered}"
+			>
+				<div class="panel-heading question__header">
+					<div class="question__header__number">
+						<p>
+							Question {{category.questions.indexOf(question) + 1}}:
+							<span
+								ng-if="question.user_answer.answered && question.user_answer.correct"
+								class="text-success"
+								style="font-weight: bold"
+								>Correct</span
+							>
+							<span
+								ng-if="question.user_answer.answered && !question.user_answer.correct"
+								class="text-danger"
+								style="font-weight: bold"
+								>Incorrect</span
+							>
+							<span ng-if="!question.user_answer.answered" style="font-weight: bold">Unanswered</span>
+						</p>
+					</div>
+					<div class="question__header__name">
+						<p>{{question.question}}</p>
+					</div>
+				</div>
+				<div class="panel-body question__answers_container">
+					<div
+						class="question__answers"
+						ng-if="question.datatype == 'multiplecheckbox' || question.datatype == 'choice'"
+					>
+						<div
+							class="question__answers__ind"
+							ng-repeat="def in question.definitions"
+							ng-class="{
+                             'correct-answer': question.user_answer.value.indexOf(def.value) != -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1,
+                             'incorrect-answer': question.user_answer.value.indexOf(def.value) != -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) == -1,
+                             'missed-answer': question.user_answer.value.indexOf(def.value) == -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1
+                             }"
+						>
+							<svg
+								ng-if="question.user_answer.value.indexOf(def.value) != -1"
+								class="question__answers__ind__checkbox"
+								width="25"
+								height="25"
+								viewBox="0 0 25 25"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<rect x="1" y="1" width="23" height="23" fill="black" stroke="black" stroke-width="2" />
+								<line
+									x1="5.64018"
+									y1="12.2318"
+									x2="11.6402"
+									y2="17.2318"
+									stroke="white"
+									stroke-width="2"
+								/>
+								<line
+									x1="10.2567"
+									y1="17.331"
+									x2="19.2567"
+									y2="7.33104"
+									stroke="white"
+									stroke-width="2"
+								/>
+							</svg>
+							<svg
+								ng-if="question.user_answer.value.indexOf(def.value) == -1"
+								class="question__answers__ind__checkbox"
+								width="25"
+								height="25"
+								viewBox="0 0 25 25"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<rect x="1" y="1" width="23" height="23" stroke="black" stroke-width="2" />
+							</svg>
+							<p class="question__answers__ind__value">{{def.display}}</p>
+							<p
+								class="question__answers__ind__user_answer text-success"
+								ng-if="question.user_answer.value.indexOf(def.value) != -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1"
+							>
+								(Correct)
+							</p>
+							<p
+								class="question__answers__ind__user_answer text-danger"
+								ng-if="question.user_answer.value.indexOf(def.value) != -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) == -1"
+							>
+								(Incorrect)
+							</p>
+							<p
+								class="question__answers__ind__user_answer text-muted"
+								ng-if="question.user_answer.value.indexOf(def.value) == -1 && question.correct_answer.correct_answer_choice.choice_value.indexOf(def.value) != -1"
+							>
+								(Missed)
+							</p>
+						</div>
+						<div class="question__answers__ans">
+							<p>
+								<u>Correct Answer(s)</u>:
+								{{question.correct_answer.correct_answer_choice.display.join(', ')}}
+							</p>
+						</div>
+					</div>
+					<div
+						class="question__answers"
+						ng-if="question.datatype == 'boolean' || question.datatype == 'checkbox'"
+					>
+						<div
+							class="question__answers__ind"
+							ng-class="{
+                             'correct-answer': ((question.user_answer.value == question.correct_answer.correct_answer_yesno && question.datatype == 'boolean' && question.correct_answer.correct_answer_yesno == true) || (question.user_answer.value == question.correct_answer.correct_answer && question.datatype == 'checkbox' && question.correct_answer.correct_answer == true)),
+                             'incorrect-answer': ((question.user_answer.value != question.correct_answer.correct_answer_yesno && question.datatype == 'boolean' && question.correct_answer.correct_answer_yesno == true) || (question.user_answer.value != question.correct_answer.correct_answer && question.datatype == 'checkbox' && question.correct_answer.correct_answer == true))
+                             }"
+						>
+							<input
+								type="checkbox"
+								name="checkbox-{{question.sys_id}}"
+								disabled="disabled"
+								ng-checked="question.user_answer.value == true"
+							/>
+							<label for="checkbox-{{question.sys_id}}">True</label>
+						</div>
+						<div
+							class="question__answers__ind"
+							ng-class="{
+                    'correct-answer': ((question.user_answer.value == question.correct_answer.correct_answer_yesno && question.datatype == 'boolean' && question.correct_answer.correct_answer_yesno == false) || (question.user_answer.value == question.correct_answer.correct_answer && question.datatype == 'checkbox' && question.correct_answer.correct_answer == false)),
+                             'incorrect-answer': ((question.user_answer.value != question.correct_answer.correct_answer_yesno && question.datatype == 'boolean' && question.correct_answer.correct_answer_yesno == false) || (question.user_answer.value != question.correct_answer.correct_answer && question.datatype == 'checkbox' && question.correct_answer.correct_answer == false))
+                             }"
+						>
+							<input
+								type="checkbox"
+								name="checkbox-{{question.sys_id}}"
+								disabled="disabled"
+								ng-checked="question.user_answer.value == false"
+							/>
+							<label for="checkbox-{{question.sys_id}}">False</label>
+						</div>
+						<div class="question__answers__ans">
+							<p>
+								<u>Correct Answer</u>: {{(question.datatype == 'boolean' &&
+								question.correct_answer.correct_answer_yesno == true || question.datatype == 'checkbox'
+								&& question.correct_answer.correct_answer == true).toString()}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

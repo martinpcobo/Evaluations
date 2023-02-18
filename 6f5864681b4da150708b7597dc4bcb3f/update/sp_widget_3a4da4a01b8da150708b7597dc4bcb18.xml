@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {
+  /* widget controller */
+  var c = this;
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.parent_container {&#13;
+  // Display: Prent Grid&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  row-gap: 2rem;&#13;
+}&#13;
+.text-success {&#13;
+  color: #28a745!important&#13;
+}&#13;
+.text-danger {&#13;
+  color: #dc3545!important&#13;
+}&#13;
+.primary-color {&#13;
+  color: $primary;&#13;
+}&#13;
+&#13;
+.quizzes_container {&#13;
+  // Display&#13;
+  display: grid;&#13;
+  justify-content: center;&#13;
+  align-items: center;&#13;
+  row-gap: 2rem;&#13;
+  column-gap: 2rem;&#13;
+  // Sizing&#13;
+  padding: 4rem;&#13;
+  // Background &amp; Shadows &amp; Border&#13;
+  background-color: white;&#13;
+  border: 1px solid #EAEAEA;&#13;
+  box-shadow: 0 .4rem .8rem 0 rgba(23, 40, 52, .08);&#13;
+}&#13;
+&#13;
+// Everything less than Small&#13;
+@media screen and (max-width: 576px) {&#13;
+  .quizzes_container {&#13;
+    grid-template-columns: 1fr;&#13;
+  }&#13;
+}&#13;
+// Small to Medium&#13;
+@media screen and (min-width: 576px) {&#13;
+  .quizzes_container {&#13;
+    grid-template-columns: 1fr 1fr;&#13;
+  }&#13;
+}&#13;
+// Everything more than Medium&#13;
+@media screen and (min-width: 992px) {&#13;
+  .quizzes_container {&#13;
+    grid-template-columns: 1fr 1fr 1fr;&#13;
+  }&#13;
+}&#13;
+&#13;
+.quiz {&#13;
+  // Border &amp; Background &amp; Shadows&#13;
+  border: .1rem solid #eeeeee;&#13;
+  // Sizing&#13;
+  height: fit-content;&#13;
+  padding: 2rem;&#13;
+  // Display: Grid Parent&#13;
+  display: grid;&#13;
+  grid-template-rows: 1fr 1fr 1fr;&#13;
+  grid-template-columns: 1fr;&#13;
+  // Styling&#13;
+  color: black;&#13;
+&#13;
+  .quiz__header {&#13;
+    // Grid Child&#13;
+    grid-row: 1 / 2;&#13;
+&#13;
+    p {&#13;
+      font-size: medium;&#13;
+      font-weight: 600;&#13;
+    }&#13;
+  }&#13;
+&#13;
+  .quiz__body {&#13;
+    // Grid Child&#13;
+    grid-row: 2 / 3;&#13;
+&#13;
+    p {&#13;
+      font-size: medium;&#13;
+      font-weight: 600;&#13;
+    }&#13;
+  }&#13;
+&#13;
+  .quiz__footer {&#13;
+    // Grid Child&#13;
+    grid-row: 3 / 4;&#13;
+  }&#13;
+&#13;
+  .quiz__component {&#13;
+    // Display&#13;
+    display: flex;&#13;
+    flex-flow: row nowrap;&#13;
+    align-items: center;&#13;
+    justify-content: space-between;&#13;
+&#13;
+    p {&#13;
+      margin: 0;&#13;
+    }&#13;
+  }&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>my_evaluations</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>My Evaluations</name>
+        <option_schema/>
+        <public>false</public>
+        <roles>x_487112_newjoiner.admin,x_487112_newjoiner.user</roles>
+        <script><![CDATA[(function () {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+	
+	var Widget_Constants = {
+		assessment_states: {
+			open: ['ready', 'wip'],
+			closed: ['complete']
+		}
+	}
+
+	var asmt_instance_gr = new GlideRecord('asmt_assessment_instance');
+	asmt_instance_gr.addQuery('user', gs.getUserID());
+	asmt_instance_gr.addQuery('metric_type.sys_scope', Constants.APP.SYS_ID);
+	asmt_instance_gr.addQuery('state', '!=', 'canceled');
+	asmt_instance_gr.query();
+
+	data.open_quizzes = [];
+	data.closed_quizzes = [];
+
+	while (asmt_instance_gr.next()) {
+		var quiz = {
+			sys_id: asmt_instance_gr.getUniqueValue(),
+			number: asmt_instance_gr.getValue('number'),
+			state: asmt_instance_gr.getDisplayValue('state'),
+			metric_type: {
+				sys_id: asmt_instance_gr.getValue('metric_type'),
+				name: asmt_instance_gr.metric_type.name.toString()
+			},
+			due_date: asmt_instance_gr.getValue('due_date'),
+			taken_on: asmt_instance_gr.getValue('taken_on'),
+		}
+		if(Widget_Constants.assessment_states.open.indexOf(asmt_instance_gr.getValue('state')) != -1) {
+			quiz.link = Constants.SERVICE_PORTAL.PREFIX + '?id=take_survey' + '&instance_id=' + asmt_instance_gr.getUniqueValue();
+			data.open_quizzes.push(quiz);
+		} else if (Widget_Constants.assessment_states.closed.indexOf(asmt_instance_gr.getValue('state')) != -1) {
+			var eval_gr = new GlideRecord(Constants.DATA_MODEL.TABLES.EVALUATION_INSTANCES);
+			
+			// If no Evaluation Instance record is found, create one manually.
+			if(!eval_gr.get('assessment_instance', asmt_instance_gr.getUniqueValue())) {
+				gs.error('[Evaluations] Evaluation Instance was not created automatically');
+				var eval_sys_id = new EvaluationsUtils().createEvaluationInstance(asmt_instance_gr.getUniqueValue());
+				if(!eval_gr.get(eval_sys_id)) {
+					gs.error('[Evaluations] Could not create an Evaluation Instance from the My Evaluations Widget');
+					continue;
+				}
+			}
+			
+			quiz.link = Constants.SERVICE_PORTAL.PREFIX + '?id=' + Constants.SERVICE_PORTAL.PAGES.EVAL_RESULT + '&sys_id=' + asmt_instance_gr.getUniqueValue();
+			quiz.scoring = {
+				score: eval_gr.getValue('score'),
+				score_measured: eval_gr.getValue('score_measured'),
+				passing_mark: eval_gr.evaluation.passing_mark.toString()
+			};
+			quiz.pass = eval_gr.getValue('passing_mark');
+			data.closed_quizzes.push(quiz);
+		}
+	}
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 21:43:00</sys_created_on>
+        <sys_id>3a4da4a01b8da150708b7597dc4bcb18</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>My Evaluations</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_3a4da4a01b8da150708b7597dc4bcb18</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 22:02:46</sys_updated_on>
+        <template><![CDATA[<div class="parent_container">
+	<h3>Open Evaluations</h3>
+	<div class="quizzes_container">
+		<div class="text-muted" style="padding: 2rem" ng-if="c.data.open_quizzes.length == 0">
+			<p>You have no open Evaluations</p>
+		</div>
+		<div ng-if="c.data.open_quizzes.length > 0">
+			<a class="quiz" ng-repeat="quiz in c.data.open_quizzes" href="{{quiz.link}}">
+				<div class="quiz__header quiz__component">
+					<p class="primary-color">{{quiz.number}}</p>
+					<p class="text-muted">{{quiz.metric_type.name}}</p>
+				</div>
+				<div class="quiz__footer quiz__component">
+					<p><i>{{quiz.state}}</i></p>
+					<p>{{quiz.due_date}}</p>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<h3>Closed Evaluations</h3>
+	<div class="quizzes_container text-muted">
+		<div class="text-muted" style="padding: 2rem" ng-if="c.data.closed_quizzes.length == 0">
+			<p>You have no closed Evaluations</p>
+		</div>
+		<div class="quiz" ng-repeat="quiz in c.data.closed_quizzes" ng-if="c.data.closed_quizzes.length > 0">
+			<div class="quiz__header quiz__component">
+				<p><a href="{{quiz.link}}">{{quiz.number}}</a></p>
+				<p>{{quiz.metric_type.name}}</p>
+			</div>
+			<div class="quiz__body quiz__component" style="justify-content: flex-end">
+				<p ng-if="quiz.scoring.score_measured" ng-class="quiz.scoring.score >= quiz.scoring.passing_mark ? 'text-success' : 'text-danger'">{{quiz.score}}%</p>
+			</div>
+			<div class="quiz__footer quiz__component">
+				<p><i>{{quiz.state}}</i></p>
+				<p>{{quiz.taken_on}}</p>
+			</div>
+		</div>
+	</div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

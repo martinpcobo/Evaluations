@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_restricted_caller_access">
+    <sys_restricted_caller_access action="DELETE">
+        <description/>
+        <operation>delete</operation>
+        <rca_type>requested</rca_type>
+        <source/>
+        <source_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</source_scope>
+        <source_table/>
+        <source_type>5</source_type>
+        <status>2</status>
+        <sys_class_name>sys_restricted_caller_access</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-18 06:13:50</sys_created_on>
+        <sys_id>4f9150d21b4d6190f78820662a4bcbb5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>6f5864681b4da150708b7597dc4bcb3f</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sys_restricted_caller_access_4f9150d21b4d6190f78820662a4bcbb5</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 06:13:50</sys_updated_on>
+        <target/>
+        <target_scope display_value="@devsnc/sn-assessment">9a3424f5bdd610f550a3e95f2ceb9bb0</target_scope>
+        <target_table>asmt_assessment_instance</target_table>
+        <target_type>1</target_type>
+    </sys_restricted_caller_access>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>sys_restricted_caller_access_4f9150d21b4d6190f78820662a4bcbb5</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_restricted_caller_access"><sys_restricted_caller_access action="INSERT_OR_UPDATE"><description/><operation>delete</operation><rca_type>requested</rca_type><source/><source_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</source_scope><source_table/><source_type>5</source_type><status>2</status><sys_class_name>sys_restricted_caller_access</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-18 06:13:50</sys_created_on><sys_id>4f9150d21b4d6190f78820662a4bcbb5</sys_id><sys_mod_count>0</sys_mod_count><sys_name>6f5864681b4da150708b7597dc4bcb3f</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>sys_restricted_caller_access_4f9150d21b4d6190f78820662a4bcbb5</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-18 06:13:50</sys_updated_on><target/><target_scope display_value="@devsnc/sn-assessment">9a3424f5bdd610f550a3e95f2ceb9bb0</target_scope><target_table>asmt_assessment_instance</target_table><target_type>1</target_type></sys_restricted_caller_access></record_update>]]></payload>
+        <payload_hash>1557114436</payload_hash>
+        <record_name>6f5864681b4da150708b7597dc4bcb3f</record_name>
+        <reverted_from/>
+        <source>0692e2b91bc92d50708b7597dc4bcbaf</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-18 06:13:50</sys_created_on>
+        <sys_id>de2250161b4d6190f78820662a4bcb50</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18663284c0f0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 06:13:50</sys_updated_on>
+        <type>Restricted Caller Access Privilege</type>
+        <update_guid>96225016fc4d6190f3b8248de392fe50</update_guid>
+        <update_guid_history>96225016fc4d6190f3b8248de392fe50:1557114436</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-18 06:16:50</sys_created_on>
+        <sys_db_object display_value="" name="sys_restricted_caller_access">sys_restricted_caller_access</sys_db_object>
+        <sys_id>2a40222b0de24b73bf841182270e0921</sys_id>
+        <sys_metadata>4f9150d21b4d6190f78820662a4bcbb5</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>6f5864681b4da150708b7597dc4bcb3f</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>sys_restricted_caller_access_4f9150d21b4d6190f78820662a4bcbb5</sys_update_name>
+        <sys_update_version display_value="sys_restricted_caller_access_4f9150d21b4d6190f78820662a4bcbb5">de2250161b4d6190f78820662a4bcb50</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 06:16:50</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

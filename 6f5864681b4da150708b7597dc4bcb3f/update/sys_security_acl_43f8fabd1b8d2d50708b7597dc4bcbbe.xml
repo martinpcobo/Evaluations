@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl">
+    <sys_security_acl action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <admin_overrides>false</admin_overrides>
+        <advanced>true</advanced>
+        <condition/>
+        <description>Allow read for records in x_487112_eval_evaluation, for users with role snc_internal, and if the ACL script returns true.</description>
+        <name>x_487112_eval_evaluation</name>
+        <operation display_value="read">read</operation>
+        <script><![CDATA[var asmt_assessment_instance_gr = new GlideAggregate('asmt_assessment_instance');
+asmt_assessment_instance_gr.addQuery('metric_type.evaluation_method', 'quiz');
+asmt_assessment_instance_gr.addQuery('metric_type', current.getValue('metric_type'));
+asmt_assessment_instance_gr.addQuery('user', gs.getUserID());
+asmt_assessment_instance_gr.addAggregate('COUNT');
+asmt_assessment_instance_gr.query();
+
+answer = (asmt_assessment_instance_gr.next() && asmt_assessment_instance_gr.getAggregate('COUNT') == 0) || gs.hasRole('x_487112_eval.admin');]]></script>
+        <sys_class_name>sys_security_acl</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 05:10:22</sys_created_on>
+        <sys_id>43f8fabd1b8d2d50708b7597dc4bcbbe</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>x_487112_eval_evaluation</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sys_security_acl_43f8fabd1b8d2d50708b7597dc4bcbbe</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 18:25:45</sys_updated_on>
+        <type display_value="record">record</type>
+    </sys_security_acl>
+</record_update>

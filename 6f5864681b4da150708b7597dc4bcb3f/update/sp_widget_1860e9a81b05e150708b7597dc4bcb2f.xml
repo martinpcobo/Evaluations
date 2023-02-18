@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function($scope, spUtil) {
+	/* widget controller */
+	var c = this;
+
+	$scope.$on("field.change", function(evt, parms) {
+		if(parms.field.picker_id == 'user_picker') {
+			c.data.user_picker_parms = parms.newValue ? parms : null;
+		} else if (parms.field.picker_id == 'group_picker') {
+			c.data.group_picker_parms = parms.newValue ? parms : null;
+		}
+	});
+
+	c.provisionQuiz = function() {
+		c.server.get({
+			quiz_sys_id : c.data.quiz_sys_id,
+			submit: true,
+			user_picker_parms: c.data.user_picker_parms,
+			group_picker_parms: c.data.group_picker_parms
+		}).then(function(res) {
+			c.data.submitted = res;
+			setTimeout(function() {
+				location.reload()
+			}, 500);
+		});
+	};
+
+	c.refreshWidget = function() {
+		spUtil.update($scope);
+	};
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.widget_container {&#13;
+  display: grid;&#13;
+  grid-template-columns: 1fr;&#13;
+  justify-content: flex-start;&#13;
+  align-items: flex-start;&#13;
+  row-gap: 1.25rem;&#13;
+  &#13;
+  padding: 1rem;&#13;
+&#13;
+  .selection {&#13;
+    display: grid;&#13;
+    grid-template-column: 1fr;&#13;
+    row-gap: 1rem;&#13;
+    .selection__input {&#13;
+      padding: 0 1.5rem 0 1.5rem;&#13;
+      width: 100%;&#13;
+&#13;
+      display: grid;&#13;
+      grid-template-columns: min-content 1fr;&#13;
+      align-items: center;&#13;
+      justify-items: flex-start;&#13;
+      column-gap: 5px;&#13;
+&#13;
+      input {&#13;
+        padding: 0;&#13;
+        margin: 0;&#13;
+      }&#13;
+      label {&#13;
+        padding: 0;&#13;
+        margin: 0;&#13;
+      }&#13;
+    }&#13;
+    .selection__reference {&#13;
+    	padding: 0 1.5rem 0 1.5rem;&#13;
+    }&#13;
+  }&#13;
+  .submit {&#13;
+    display: flex;&#13;
+    flex-flow: row nowrap;&#13;
+    justify-content: flex-end;&#13;
+  }&#13;
+  // Response&#13;
+  .widget_response_container {&#13;
+  	display: grid;&#13;
+    grid-template-columns: 1fr;&#13;
+    justify-items: center;&#13;
+    row-gap: 1rem;&#13;
+    i {&#13;
+    	font-size: 3rem;&#13;
+      color: #4C9A2A !important;&#13;
+    }&#13;
+    p {&#13;
+    	font-size: 1.75rem;&#13;
+    }&#13;
+  }&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>assign_evaluation</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Assign Evaluation</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+
+	if(data.submitted) {
+		return;
+	}
+
+	data.valid = true;
+	data.submitted = false;
+
+	if(data.quiz_sys_id == undefined && input && input.quiz_sys_id) {
+		data.quiz_sys_id = input.quiz_sys_id;
+	}
+
+	var quiz_gr = new GlideRecord('asmt_metric_type');
+	if(!quiz_gr.get(data.quiz_sys_id)) {
+		data.valid = false;
+		return null;
+	}
+
+	if(data.states == undefined) {
+		data.users_selected = false;
+		data.group_selected = false;
+	}
+
+	if(input.submit == true) {		
+		if(input.user_picker_parms && input.user_picker_parms.field.picker_id == 'user_picker') {
+			data.user_selected = false;
+			var users = input.user_picker_parms.newValue.split(',');
+
+			var user_gr = new GlideRecord('sys_user');
+			user_gr.addQuery('sys_id', 'IN', users);
+			user_gr.query();
+
+			if(user_gr.getRowCount() == 0) {
+				return;
+			}
+
+			while(user_gr.next()){
+				new EvaluationsUtils().sendUsersQuiz(user_gr.getUniqueValue(), data.quiz_sys_id);
+				data.submitted = true;
+
+			}
+		}
+		if(input.group_picker_parms && input.group_picker_parms.field.picker_id == 'group_picker') {
+			data.group_selected = false;
+
+			var group_gr = new GlideRecord('sys_user_group');
+			if(!group_gr.get(input.group_picker_parms.newValue)) {
+				return null;
+			}
+
+			new EvaluationsUtils().sendGroupQuiz(group_gr.getUniqueValue(), data.quiz_sys_id);
+			data.submitted = true;
+		}
+
+		c.data.submit = false;
+
+		return data.submitted;
+	}
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 01:26:12</sys_created_on>
+        <sys_id>1860e9a81b05e150708b7597dc4bcb2f</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>Assign Evaluation</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>sp_widget_1860e9a81b05e150708b7597dc4bcb2f</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-18 00:44:12</sys_updated_on>
+        <template><![CDATA[<div class="widget_container" ng-if="c.data.valid && !c.data.submitted">
+  <div class="selection">
+    <div class="selection__input">
+      <input
+             type="checkbox"
+             id="send_user"
+             ng-click="c.data.users_selected = !c.data.users_selected"
+             ng-checked="c.data.users_selected"
+             />
+      <label for="send_user">Individual User</label>
+    </div>
+    <div class="selection__reference" ng-if="c.data.users_selected">
+      <sn-record-picker multiple="true" field="{picker_id: 'user_picker'}" table="'sys_user'" default-query="'active=true'" display-field="'name'" value-field="'sys_id'" search-fields="'name'" page-size="10"></sn-record-picker>
+    </div>
+  </div>
+
+  <div class="selection">
+    <div class="selection__input">
+      <input
+             type="checkbox"
+             id="send_group"
+             ng-click="c.data.group_selected = !c.data.group_selected"
+             ng-checked="c.data.group_selected"
+             />
+      <label for="send_group">Group</label>
+    </div>
+    <div class="selection__reference" ng-if="c.data.group_selected">
+      <sn-record-picker field="{picker_id: 'group_picker'}" table="'sys_user_group'" default-query="'active=true'" display-field="'name'" value-field="'sys_id'" search-fields="'name'" page-size="10" ></sn-record-picker>
+    </div>
+  </div>
+  <div class="submit" ng-if="(c.data.group_selected && c.data.group_picker_parms) || (c.data.users_selected && c.data.user_picker_parms)">
+    <button type="button" class="btn btn-primary" ng-click="c.provisionQuiz()">Assign Quiz</button>
+  </div>
+</div>
+<div class="widget_container" ng-if="c.data.submitted">
+  <div class="widget_response_container">
+    <i class="glyphicon glyphicon-ok"></i>
+    <p>Quiz provisioned successfully</p>
+  </div>
+  <div class="submit">
+    <button type="button" class="btn btn-primary" ng-click="c.refreshWidget()">Assign another</button>
+  </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

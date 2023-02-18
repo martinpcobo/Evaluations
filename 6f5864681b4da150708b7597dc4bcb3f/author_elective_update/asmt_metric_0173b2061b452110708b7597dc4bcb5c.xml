@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric">
+    <asmt_metric action="DELETE">
+        <active>true</active>
+        <add_info_label>Additional Information</add_info_label>
+        <allow_add_info>false</allow_add_info>
+        <allow_not_applicable>false</allow_not_applicable>
+        <allow_sentiment_analysis>false</allow_sentiment_analysis>
+        <auto_gen>false</auto_gen>
+        <category/>
+        <cond_question>always</cond_question>
+        <condition/>
+        <context/>
+        <correct_answer/>
+        <correct_answer_checkbox>1</correct_answer_checkbox>
+        <correct_answer_choice/>
+        <correct_answer_template/>
+        <correct_answer_yesno>1</correct_answer_yesno>
+        <custom_metric/>
+        <datatype>long</datatype>
+        <default_value_field/>
+        <depends_on/>
+        <description/>
+        <details/>
+        <displayed_when/>
+        <displayed_when_checkbox>1</displayed_when_checkbox>
+        <displayed_when_template/>
+        <displayed_when_yesno>1</displayed_when_yesno>
+        <duration/>
+        <field_validation/>
+        <is_default>false</is_default>
+        <mandatory>false</mandatory>
+        <max>10</max>
+        <max_weight/>
+        <maximum_normalization_input>false</maximum_normalization_input>
+        <method>assessment</method>
+        <metric_type/>
+        <min>0</min>
+        <name>What allows users to see a time-stamped history of all actions taken within a record_</name>
+        <order>100</order>
+        <plugin/>
+        <processing_activity_field/>
+        <question/>
+        <randomize_answers>false</randomize_answers>
+        <read_only>false</read_only>
+        <reference_table/>
+        <scale>high</scale>
+        <scored>false</scored>
+        <script><![CDATA[// The following variables are available:  // - primary: contains the sys_id of the assessable object to be evaluated  // - string_result: the script sets the display string value for this metric to this variable  // - actual_result: the script sets the actual value for this metric to this variable  // - scaled_result: the script sets the scaled value (used in calculations) for this metric to this variable  //  // For example: // var gr = new GlideRecord('cmdb_ci'); // gr.addQuery('manufacturer', primary); // gr.query(); // actual_result = gr.getRowCount(); // string_result = actual_result + ''; // if (actual_result &gt; 100) scaled_result = 5; // else scaled_result = 1;]]></script>
+        <sn_lp_rating_option>star</sn_lp_rating_option>
+        <sn_sig_asmt_track_progress_in_portal>true</sn_sig_asmt_track_progress_in_portal>
+        <source_field/>
+        <string_option>short</string_option>
+        <sys_class_name>asmt_metric</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 23:20:03</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>0173b2061b452110708b7597dc4bcb5c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>What allows users to see a time-stamped history of all actions taken within a record_</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_0173b2061b452110708b7597dc4bcb5c</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 23:20:03</sys_updated_on>
+        <template/>
+        <u_audience/>
+        <u_client/>
+        <u_journey/>
+        <u_moment/>
+        <u_phases/>
+        <u_question_category/>
+        <u_stake_holders/>
+        <value_parameters/>
+        <weight>10</weight>
+    </asmt_metric>
+    <sys_translated_text action="DELETE" query="documentkey=0173b2061b452110708b7597dc4bcb5c"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_0173b2061b452110708b7597dc4bcb5c</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="asmt_metric"&gt;&lt;asmt_metric action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;add_info_label&gt;Additional Information&lt;/add_info_label&gt;&lt;allow_add_info&gt;false&lt;/allow_add_info&gt;&lt;allow_not_applicable&gt;false&lt;/allow_not_applicable&gt;&lt;allow_sentiment_analysis&gt;false&lt;/allow_sentiment_analysis&gt;&lt;auto_gen&gt;false&lt;/auto_gen&gt;&lt;category/&gt;&lt;cond_question&gt;always&lt;/cond_question&gt;&lt;condition/&gt;&lt;context/&gt;&lt;correct_answer/&gt;&lt;correct_answer_checkbox&gt;1&lt;/correct_answer_checkbox&gt;&lt;correct_answer_choice/&gt;&lt;correct_answer_template/&gt;&lt;correct_answer_yesno&gt;1&lt;/correct_answer_yesno&gt;&lt;custom_metric/&gt;&lt;datatype&gt;long&lt;/datatype&gt;&lt;default_value_field/&gt;&lt;depends_on/&gt;&lt;description/&gt;&lt;details/&gt;&lt;displayed_when/&gt;&lt;displayed_when_checkbox&gt;1&lt;/displayed_when_checkbox&gt;&lt;displayed_when_template/&gt;&lt;displayed_when_yesno&gt;1&lt;/displayed_when_yesno&gt;&lt;duration/&gt;&lt;field_validation/&gt;&lt;is_default&gt;false&lt;/is_default&gt;&lt;mandatory&gt;false&lt;/mandatory&gt;&lt;max&gt;10&lt;/max&gt;&lt;max_weight/&gt;&lt;maximum_normalization_input&gt;false&lt;/maximum_normalization_input&gt;&lt;method&gt;assessment&lt;/method&gt;&lt;metric_type/&gt;&lt;min&gt;0&lt;/min&gt;&lt;name&gt;What allows users to see a time-stamped history of all actions taken within a record_&lt;/name&gt;&lt;order&gt;100&lt;/order&gt;&lt;plugin/&gt;&lt;processing_activity_field/&gt;&lt;question/&gt;&lt;randomize_answers&gt;false&lt;/randomize_answers&gt;&lt;read_only&gt;false&lt;/read_only&gt;&lt;reference_table/&gt;&lt;scale&gt;high&lt;/scale&gt;&lt;scored&gt;false&lt;/scored&gt;&lt;script&gt;&lt;![CDATA[// The following variables are available:  // - primary: contains the sys_id of the assessable object to be evaluated  // - string_result: the script sets the display string value for this metric to this variable  // - actual_result: the script sets the actual value for this metric to this variable  // - scaled_result: the script sets the scaled value (used in calculations) for this metric to this variable  //  // For example: // var gr = new GlideRecord('cmdb_ci'); // gr.addQuery('manufacturer', primary); // gr.query(); // actual_result = gr.getRowCount(); // string_result = actual_result + ''; // if (actual_result &amp;gt; 100) scaled_result = 5; // else scaled_result = 1;]]&gt;&lt;/script&gt;&lt;sn_lp_rating_option&gt;star&lt;/sn_lp_rating_option&gt;&lt;sn_sig_asmt_track_progress_in_portal&gt;true&lt;/sn_sig_asmt_track_progress_in_portal&gt;&lt;source_field/&gt;&lt;string_option&gt;short&lt;/string_option&gt;&lt;sys_class_name&gt;asmt_metric&lt;/sys_class_name&gt;&lt;sys_created_by&gt;martin.perez.cobo@pwc.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-02-17 23:20:03&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;0173b2061b452110708b7597dc4bcb5c&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;What allows users to see a time-stamped history of all actions taken within a record_&lt;/sys_name&gt;&lt;sys_package display_value="Evaluations" source="x_487112_eval"&gt;6f5864681b4da150708b7597dc4bcb3f&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Evaluations"&gt;6f5864681b4da150708b7597dc4bcb3f&lt;/sys_scope&gt;&lt;sys_update_name&gt;asmt_metric_0173b2061b452110708b7597dc4bcb5c&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;martin.perez.cobo@pwc.com&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-02-17 23:20:03&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;u_audience/&gt;&lt;u_client/&gt;&lt;u_journey/&gt;&lt;u_moment/&gt;&lt;u_phases/&gt;&lt;u_question_category/&gt;&lt;u_stake_holders/&gt;&lt;value_parameters/&gt;&lt;weight&gt;10&lt;/weight&gt;&lt;/asmt_metric&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=0173b2061b452110708b7597dc4bcb5c"/&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>114869730</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>361dec601b8da150708b7597dc4bcba3</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 23:20:03</sys_created_on>
+        <sys_id>cd73b2061b452110708b7597dc4bcb5d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18661ad77df0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 23:20:03</sys_updated_on>
+        <type>Assessment Metric</type>
+        <update_guid>c573b206b1452110b6cb5b68a170db5d</update_guid>
+        <update_guid_history>c573b206b1452110b6cb5b68a170db5d:114869730</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">c148360e1b016190f78820662a4bcb23</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 23:41:05</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric">asmt_metric</sys_db_object>
+        <sys_id>1bed34a75a3c43e49a33ea1bea9e8fb1</sys_id>
+        <sys_metadata>0173b2061b452110708b7597dc4bcb5c</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>What allows users to see a time-stamped history of all actions taken within a record_</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_0173b2061b452110708b7597dc4bcb5c</sys_update_name>
+        <sys_update_version display_value="asmt_metric_0173b2061b452110708b7597dc4bcb5c">cd73b2061b452110708b7597dc4bcb5d</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 23:41:05</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

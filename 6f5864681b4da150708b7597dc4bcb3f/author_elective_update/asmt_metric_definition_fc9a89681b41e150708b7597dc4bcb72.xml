@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition">
+    <asmt_metric_definition action="DELETE">
+        <display>Select variables</display>
+        <metric display_value="">709a89681b41e150708b7597dc4bcb2d</metric>
+        <normalization_input>0</normalization_input>
+        <order/>
+        <selected_image/>
+        <sys_class_name>asmt_metric_definition</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:50:57</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>fc9a89681b41e150708b7597dc4bcb72</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Select variables</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_definition_fc9a89681b41e150708b7597dc4bcb72</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-12 23:50:57</sys_updated_on>
+        <unselected_image/>
+        <value>4</value>
+    </asmt_metric_definition>
+    <sys_translated_text action="DELETE" query="documentkey=fc9a89681b41e150708b7597dc4bcb72"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_definition_fc9a89681b41e150708b7597dc4bcb72</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition"><asmt_metric_definition action="INSERT_OR_UPDATE"><display>Select variables</display><metric display_value="">709a89681b41e150708b7597dc4bcb2d</metric><normalization_input>0</normalization_input><order/><selected_image/><sys_class_name>asmt_metric_definition</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-12 23:50:57</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>fc9a89681b41e150708b7597dc4bcb72</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Select variables</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_definition_fc9a89681b41e150708b7597dc4bcb72</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-12 23:50:57</sys_updated_on><unselected_image/><value>4</value></asmt_metric_definition><sys_translated_text action="delete_multiple" query="documentkey=fc9a89681b41e150708b7597dc4bcb72"/></record_update>]]></payload>
+        <payload_hash>635862528</payload_hash>
+        <record_name>Select variables</record_name>
+        <reverted_from/>
+        <source>896a4de41b41e150708b7597dc4bcbd9</source>
+        <source_table>sys_update_set</source_table>
+        <state>backedout</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:50:57</sys_created_on>
+        <sys_id>789a89681b41e150708b7597dc4bcb9e</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>1864809f4830000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:45:28</sys_updated_on>
+        <type>Assessment Metric Definition</type>
+        <update_guid>bc9a8968f941e15053cb961f8c8c2c9d</update_guid>
+        <update_guid_history>bc9a8968f941e15053cb961f8c8c2c9d:635862528</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Select variables">9ee2d6701b456550708b7597dc4bcb40</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:45:28</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_definition">asmt_metric_definition</sys_db_object>
+        <sys_id>029974608b2d4525a2240ca2c0c0cad1</sys_id>
+        <sys_metadata>fc9a89681b41e150708b7597dc4bcb72</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Select variables</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_definition_fc9a89681b41e150708b7597dc4bcb72</sys_update_name>
+        <sys_update_version display_value="asmt_metric_definition_fc9a89681b41e150708b7597dc4bcb72">789a89681b41e150708b7597dc4bcb9e</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:45:28</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

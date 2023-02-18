@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition">
+    <asmt_metric_definition action="DELETE">
+        <display>Use flow error handler</display>
+        <metric display_value="">50bacda81b41e150708b7597dc4bcb8d</metric>
+        <normalization_input>0</normalization_input>
+        <order/>
+        <selected_image/>
+        <sys_class_name>asmt_metric_definition</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:51:28</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>acba01e81b41e150708b7597dc4bcb17</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Use flow error handler</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_definition_acba01e81b41e150708b7597dc4bcb17</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-12 23:51:28</sys_updated_on>
+        <unselected_image/>
+        <value>2</value>
+    </asmt_metric_definition>
+    <sys_translated_text action="DELETE" query="documentkey=acba01e81b41e150708b7597dc4bcb17"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_definition_acba01e81b41e150708b7597dc4bcb17</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition"><asmt_metric_definition action="INSERT_OR_UPDATE"><display>Use flow error handler</display><metric display_value="">50bacda81b41e150708b7597dc4bcb8d</metric><normalization_input>0</normalization_input><order/><selected_image/><sys_class_name>asmt_metric_definition</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-12 23:51:28</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>acba01e81b41e150708b7597dc4bcb17</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Use flow error handler</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_definition_acba01e81b41e150708b7597dc4bcb17</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-12 23:51:28</sys_updated_on><unselected_image/><value>2</value></asmt_metric_definition><sys_translated_text action="delete_multiple" query="documentkey=acba01e81b41e150708b7597dc4bcb17"/></record_update>]]></payload>
+        <payload_hash>-924090374</payload_hash>
+        <record_name>Use flow error handler</record_name>
+        <reverted_from/>
+        <source>896a4de41b41e150708b7597dc4bcbd9</source>
+        <source_table>sys_update_set</source_table>
+        <state>backedout</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:51:28</sys_created_on>
+        <sys_id>e0ba01e81b41e150708b7597dc4bcb1e</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>186480a6eb70000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:45:00</sys_updated_on>
+        <type>Assessment Metric Definition</type>
+        <update_guid>28ba01e8d241e1505583b4f571d1cc1d</update_guid>
+        <update_guid_history>28ba01e8d241e1505583b4f571d1cc1d:-924090374</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Use flow error handler">93c21e301b456550708b7597dc4bcbc9</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:44:59</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_definition">asmt_metric_definition</sys_db_object>
+        <sys_id>4315a32a71d94868973ac507cdbd1284</sys_id>
+        <sys_metadata>acba01e81b41e150708b7597dc4bcb17</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Use flow error handler</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_definition_acba01e81b41e150708b7597dc4bcb17</sys_update_name>
+        <sys_update_version display_value="asmt_metric_definition_acba01e81b41e150708b7597dc4bcb17">e0ba01e81b41e150708b7597dc4bcb1e</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:44:59</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category">
+    <asmt_metric_category action="DELETE">
+        <create_stakeholders>false</create_stakeholders>
+        <description/>
+        <details/>
+        <filter table="asmt_metric_type">sys_id=fde5d2381b456550708b7597dc4bcb0d^EQ<item endquery="false" field="sys_id" goto="false" newquery="false" operator="=" or="false" value="fde5d2381b456550708b7597dc4bcb0d"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter>
+        <metric_type display_value="CSA Tokyo - Exam 02">fde5d2381b456550708b7597dc4bcb0d</metric_type>
+        <name>Self-Service &amp; Process Automation</name>
+        <order>1</order>
+        <qb_evaluation_method/>
+        <roles/>
+        <scoring_type>percent</scoring_type>
+        <sys_class_name>asmt_metric_category</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:59:09</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>f60616781b456550708b7597dc4bcb33</sys_id>
+        <sys_mod_count>11</sys_mod_count>
+        <sys_name>Self-Service &amp; Process Automation</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_category_f60616781b456550708b7597dc4bcb33</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:59:17</sys_updated_on>
+        <table>asmt_metric_type</table>
+        <total_metrics>11</total_metrics>
+        <u_client/>
+        <u_journey/>
+        <u_personas/>
+        <u_phases/>
+        <u_stakeholders/>
+        <u_survey>false</u_survey>
+        <weight>10</weight>
+    </asmt_metric_category>
+    <sys_translated_text action="DELETE" query="documentkey=f60616781b456550708b7597dc4bcb33"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_category_f60616781b456550708b7597dc4bcb33</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_category"><asmt_metric_category action="INSERT_OR_UPDATE"><create_stakeholders>false</create_stakeholders><description/><details/><filter table="asmt_metric_type">sys_id=fde5d2381b456550708b7597dc4bcb0d^EQ<item endquery="false" field="sys_id" goto="false" newquery="false" operator="=" or="false" value="fde5d2381b456550708b7597dc4bcb0d"/><item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/></filter><metric_type display_value="CSA Tokyo - Exam 02">fde5d2381b456550708b7597dc4bcb0d</metric_type><name>Self-Service &amp; Process Automation</name><order>1</order><qb_evaluation_method/><roles/><scoring_type>percent</scoring_type><sys_class_name>asmt_metric_category</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-13 23:59:09</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>f60616781b456550708b7597dc4bcb33</sys_id><sys_mod_count>11</sys_mod_count><sys_name>Self-Service &amp; Process Automation</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_category_f60616781b456550708b7597dc4bcb33</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-13 23:59:17</sys_updated_on><table>asmt_metric_type</table><total_metrics>11</total_metrics><u_client/><u_journey/><u_personas/><u_phases/><u_stakeholders/><u_survey>false</u_survey><weight>10</weight></asmt_metric_category><sys_translated_text action="delete_multiple" query="documentkey=f60616781b456550708b7597dc4bcb33"/></record_update>]]></payload>
+        <payload_hash>-1109540042</payload_hash>
+        <record_name>Self-Service &amp; Process Automation</record_name>
+        <reverted_from/>
+        <source>b35864681b4da150708b7597dc4bcb42</source>
+        <source_table>sys_update_set</source_table>
+        <state>backedout</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:59:18</sys_created_on>
+        <sys_id>341696781b456550708b7597dc4bcb10</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>1864d37f4020000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:11:03</sys_updated_on>
+        <type>Metric Category</type>
+        <update_guid>3816967881456550d7675d0e49b0210f</update_guid>
+        <update_guid_history>3816967881456550d7675d0e49b0210f:-1109540042,ac16567845456550ca303bab37a9b9ed:-147914827,5c165678d245655023c044e4ffea70d7:1362203345,8c165678914565504031213b0dccad90:-1971138736,0416567831456550675117241a32356f:-1009513521,3f065678f245655015654c4bbbe63934:-47888306,2706167801456550deb51d7b3814b8e5:913736909,1f061678a745655086144d21d5a2ebbf:1875362124,db061678c045655001ad88a034689da9:-1457979957,8b0616787e4565501d86508cb0853a66:-496354742,b60616785445655019109f4be752463a:465270473,fe06167828456550c65747ce06708835:880207068</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Self-Service &amp; Process Automation">83be167d1b892d50708b7597dc4bcb2c</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-17 03:11:02</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_category">asmt_metric_category</sys_db_object>
+        <sys_id>5bbe9265fffb45b4bcd569c731b037a4</sys_id>
+        <sys_metadata>f60616781b456550708b7597dc4bcb33</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Self-Service &amp; Process Automation</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_category_f60616781b456550708b7597dc4bcb33</sys_update_name>
+        <sys_update_version display_value="asmt_metric_category_f60616781b456550708b7597dc4bcb33">341696781b456550708b7597dc4bcb10</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-17 03:11:02</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

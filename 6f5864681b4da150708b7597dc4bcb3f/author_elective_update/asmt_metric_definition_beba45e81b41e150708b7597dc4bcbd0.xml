@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition">
+    <asmt_metric_definition action="DELETE">
+        <display>Tickets and Requests</display>
+        <metric display_value="">26ba45e81b41e150708b7597dc4bcb59</metric>
+        <normalization_input>0</normalization_input>
+        <order/>
+        <selected_image/>
+        <sys_class_name>asmt_metric_definition</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:51:37</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>beba45e81b41e150708b7597dc4bcbd0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Tickets and Requests</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_definition_beba45e81b41e150708b7597dc4bcbd0</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-12 23:51:37</sys_updated_on>
+        <unselected_image/>
+        <value>3</value>
+    </asmt_metric_definition>
+    <sys_translated_text action="DELETE" query="documentkey=beba45e81b41e150708b7597dc4bcbd0"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_definition_beba45e81b41e150708b7597dc4bcbd0</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition"><asmt_metric_definition action="INSERT_OR_UPDATE"><display>Tickets and Requests</display><metric display_value="">26ba45e81b41e150708b7597dc4bcb59</metric><normalization_input>0</normalization_input><order/><selected_image/><sys_class_name>asmt_metric_definition</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-12 23:51:37</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>beba45e81b41e150708b7597dc4bcbd0</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Tickets and Requests</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_definition_beba45e81b41e150708b7597dc4bcbd0</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-12 23:51:37</sys_updated_on><unselected_image/><value>3</value></asmt_metric_definition><sys_translated_text action="delete_multiple" query="documentkey=beba45e81b41e150708b7597dc4bcbd0"/></record_update>]]></payload>
+        <payload_hash>1284169372</payload_hash>
+        <record_name>Tickets and Requests</record_name>
+        <reverted_from/>
+        <source>896a4de41b41e150708b7597dc4bcbd9</source>
+        <source_table>sys_update_set</source_table>
+        <state>backedout</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:51:37</sys_created_on>
+        <sys_id>76ba45e81b41e150708b7597dc4bcbd3</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>186480a916a0000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:45:07</sys_updated_on>
+        <type>Assessment Metric Definition</type>
+        <update_guid>baba45e80c41e150a56981469f8188d2</update_guid>
+        <update_guid_history>baba45e80c41e150a56981469f8188d2:1284169372</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Tickets and Requests">1dd29e301b456550708b7597dc4bcb23</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-13 23:45:07</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_definition">asmt_metric_definition</sys_db_object>
+        <sys_id>057e697ac5fb405c9f1ae9a4eadcfc64</sys_id>
+        <sys_metadata>beba45e81b41e150708b7597dc4bcbd0</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Tickets and Requests</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_definition_beba45e81b41e150708b7597dc4bcbd0</sys_update_name>
+        <sys_update_version display_value="asmt_metric_definition_beba45e81b41e150708b7597dc4bcbd0">76ba45e81b41e150708b7597dc4bcbd3</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-13 23:45:07</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

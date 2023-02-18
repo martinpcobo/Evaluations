@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_list parent="" relationship="" sys_domain="global" table="x_487112_eval_evaluation" version="2" view="">
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>number</element>
+            <list_id display_value="x_487112_eval_evaluation" element="NULL" name="x_487112_eval_evaluation" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">d0eb59201b05e150708b7597dc4bcbc8</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>0</position>
+            <sum>false</sum>
+            <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+            <sys_created_on>2023-02-13 01:06:33</sys_created_on>
+            <sys_id>1ceb9d201b05e150708b7597dc4bcb5a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+            <sys_updated_on>2023-02-13 01:06:33</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>active</element>
+            <list_id display_value="x_487112_eval_evaluation" element="NULL" name="x_487112_eval_evaluation" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">d0eb59201b05e150708b7597dc4bcbc8</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>1</position>
+            <sum>false</sum>
+            <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+            <sys_created_on>2023-02-13 01:06:33</sys_created_on>
+            <sys_id>14eb9d201b05e150708b7597dc4bcb5b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+            <sys_updated_on>2023-02-13 01:06:33</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>metric_type</element>
+            <list_id display_value="x_487112_eval_evaluation" element="NULL" name="x_487112_eval_evaluation" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">d0eb59201b05e150708b7597dc4bcbc8</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>2</position>
+            <sum>false</sum>
+            <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+            <sys_created_on>2023-02-13 01:06:33</sys_created_on>
+            <sys_id>18eb9d201b05e150708b7597dc4bcb5b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+            <sys_updated_on>2023-02-13 01:06:33</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>passing_mark</element>
+            <list_id display_value="x_487112_eval_evaluation" element="NULL" name="x_487112_eval_evaluation" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">d0eb59201b05e150708b7597dc4bcbc8</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>3</position>
+            <sum>false</sum>
+            <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+            <sys_created_on>2023-02-13 01:06:33</sys_created_on>
+            <sys_id>1ceb9d201b05e150708b7597dc4bcb5b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+            <sys_updated_on>2023-02-13 01:06:33</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>score_measured</element>
+            <list_id display_value="x_487112_eval_evaluation" element="NULL" name="x_487112_eval_evaluation" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">d0eb59201b05e150708b7597dc4bcbc8</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>4</position>
+            <sum>false</sum>
+            <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+            <sys_created_on>2023-02-13 01:06:33</sys_created_on>
+            <sys_id>10eb9d201b05e150708b7597dc4bcb5c</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+            <sys_updated_on>2023-02-13 01:06:33</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element/>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <name>x_487112_eval_evaluation</name>
+            <parent/>
+            <position/>
+            <relationship/>
+            <sum>false</sum>
+            <sys_class_name>sys_ui_list</sys_class_name>
+            <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+            <sys_created_on>2023-02-13 01:06:33</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>d0eb59201b05e150708b7597dc4bcbc8</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_487112_eval_evaluation</sys_name>
+            <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+            <sys_update_name>sys_ui_list_x_487112_eval_evaluation_null</sys_update_name>
+            <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+            <sys_updated_on>2023-02-13 01:06:33</sys_updated_on>
+            <sys_user/>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_list>
+    </sys_ui_list>
+</record_update>

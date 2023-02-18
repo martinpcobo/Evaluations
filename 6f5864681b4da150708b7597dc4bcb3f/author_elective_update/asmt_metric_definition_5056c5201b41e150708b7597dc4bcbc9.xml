@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition">
+    <asmt_metric_definition action="DELETE">
+        <display>Via e-mail to a defined knowledge e-mail address</display>
+        <metric display_value="">5056c5201b41e150708b7597dc4bcb9d</metric>
+        <normalization_input>0</normalization_input>
+        <order/>
+        <selected_image/>
+        <sys_class_name>asmt_metric_definition</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:32:20</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>5056c5201b41e150708b7597dc4bcbc9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Via e-mail to a defined knowledge e-mail address</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_update_name>asmt_metric_definition_5056c5201b41e150708b7597dc4bcbc9</sys_update_name>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-12 23:32:20</sys_updated_on>
+        <unselected_image/>
+        <value>1</value>
+    </asmt_metric_definition>
+    <sys_translated_text action="DELETE" query="documentkey=5056c5201b41e150708b7597dc4bcbc9"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</application>
+        <file_path/>
+        <instance_id>697e42d2dbfcb2804065f0e5bf961975</instance_id>
+        <instance_name>cppitdemo3</instance_name>
+        <name>asmt_metric_definition_5056c5201b41e150708b7597dc4bcbc9</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="asmt_metric_definition"><asmt_metric_definition action="INSERT_OR_UPDATE"><display>Via e-mail to a defined knowledge e-mail address</display><metric display_value="">5056c5201b41e150708b7597dc4bcb9d</metric><normalization_input>0</normalization_input><order/><selected_image/><sys_class_name>asmt_metric_definition</sys_class_name><sys_created_by>martin.perez.cobo@pwc.com</sys_created_by><sys_created_on>2023-02-12 23:32:20</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>5056c5201b41e150708b7597dc4bcbc9</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Via e-mail to a defined knowledge e-mail address</sys_name><sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package><sys_policy/><sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope><sys_update_name>asmt_metric_definition_5056c5201b41e150708b7597dc4bcbc9</sys_update_name><sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by><sys_updated_on>2023-02-12 23:32:20</sys_updated_on><unselected_image/><value>1</value></asmt_metric_definition><sys_translated_text action="delete_multiple" query="documentkey=5056c5201b41e150708b7597dc4bcbc9"/></record_update>]]></payload>
+        <payload_hash>133526434</payload_hash>
+        <record_name>Via e-mail to a defined knowledge e-mail address</record_name>
+        <reverted_from/>
+        <source>a8c4092c1b01e150708b7597dc4bcbe7</source>
+        <source_table>sys_update_set</source_table>
+        <state>backedout</state>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:32:20</sys_created_on>
+        <sys_id>1856c5201b41e150708b7597dc4bcbcb</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_recorded_at>18647f8eb420000001</sys_recorded_at>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-12 23:56:57</sys_updated_on>
+        <type>Assessment Metric Definition</type>
+        <update_guid>5c56c520b641e150f4460bc70fcea5ca</update_guid>
+        <update_guid_history>5c56c520b641e150f4460bc70fcea5ca:133526434</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Via e-mail to a defined knowledge e-mail address">e87ac5281b41e150708b7597dc4bcb49</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>martin.perez.cobo@pwc.com</sys_created_by>
+        <sys_created_on>2023-02-12 23:50:23</sys_created_on>
+        <sys_db_object display_value="" name="asmt_metric_definition">asmt_metric_definition</sys_db_object>
+        <sys_id>0347522fb90b45a098a218519ca9a400</sys_id>
+        <sys_metadata>5056c5201b41e150708b7597dc4bcbc9</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Via e-mail to a defined knowledge e-mail address</sys_name>
+        <sys_package display_value="Evaluations" source="x_487112_eval">6f5864681b4da150708b7597dc4bcb3f</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Evaluations">6f5864681b4da150708b7597dc4bcb3f</sys_scope>
+        <sys_scope_delete display_value="">0e2f9218ab7d4784b27f603ba55e1644</sys_scope_delete>
+        <sys_update_name>asmt_metric_definition_5056c5201b41e150708b7597dc4bcbc9</sys_update_name>
+        <sys_update_version display_value="asmt_metric_definition_5056c5201b41e150708b7597dc4bcbc9">1856c5201b41e150708b7597dc4bcbcb</sys_update_version>
+        <sys_updated_by>martin.perez.cobo@pwc.com</sys_updated_by>
+        <sys_updated_on>2023-02-12 23:50:23</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
